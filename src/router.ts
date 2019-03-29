@@ -56,6 +56,7 @@ export default class Router {
     return {
       status: 200,
       headers: {
+        Allow: 'GET, POST, PUT, DELETE, PATCH'
       },
       body: representation
     } as IResponse

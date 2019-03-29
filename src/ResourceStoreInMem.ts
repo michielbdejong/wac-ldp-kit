@@ -4,6 +4,7 @@ import IRepresentation from './IRepresentation'
 import IResourceIdentifier from './IResourceIdentifier'
 import * as uuid from 'uuid/v4'
 import * as Stream from 'stream'
+import folderDescription from './folderDescription'
 
 function toRepresentation ( text: string ) : IRepresentation {
   const stream = new Stream.Readable()
@@ -31,9 +32,9 @@ export default class ResourceStoreInMem implements IResourceStore {
   getRepresentation(identifier: IResourceIdentifier): Promise<IRepresentation> {
     let body
     if (identifier.path.substr(-1) == '/') {
-       body = Object.keys(this.kv).filter(x => {
+       body = folderDescription(Object.keys(this.kv).filter(x => {
          return (x.substr(0, identifier.path.length) == identifier.path)
-       }).join('\r\n')
+       }))
     } else {
       body = this.kv[identifier.path]
     }
