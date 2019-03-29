@@ -2,6 +2,15 @@ import IResourceStore from './IResourceStore'
 import IResourceIdentifier from './IResourceIdentifier'
 import IRepresentation from './IRepresentation'
 import IResponse from './IResponse'
+import * as Stream from 'stream'
+
+function toRepresentation ( text: string ) : IRepresentation {
+  const stream = new Stream.Readable()
+  stream._read = () => {}
+  stream.push(text)
+  stream.push(null)
+  return stream as IRepresentation
+}
 
 export default class Router {
   resourceStore: IResourceStore | undefined
@@ -16,7 +25,7 @@ export default class Router {
       headers: {
         Location: identifier.path
       },
-      body: 'Created'
+      body: toRepresentation('Created')
     } as IResponse
   }
 

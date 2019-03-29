@@ -16,7 +16,7 @@ const server = http.createServer(async (req: any, res: any) => {
   const representation = req as IRepresentation
   const response = await router[req.method](identifier, representation)
   res.writeHead(response.status, response.headers)
-  res.end(response.body)
+  response.body.pipe(res)
 })
 
 // ...
