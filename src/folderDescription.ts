@@ -1,18 +1,18 @@
-export default function toTurtle(fileNames: Array<string>) : string {
-  return `@prefix : <#>.
-@prefix pub: <>.
-@prefix ldp: <http://www.w3.org/ns/ldp#>.
-@prefix terms: <http://purl.org/dc/terms/>.
-@prefix XML: <http://www.w3.org/2001/XMLSchema#>.
-@prefix test: <test/>.
-@prefix st: <http://www.w3.org/ns/posix/stat#>.
+const NEWLINE = '\r\n'
 
-`
-  fileNames.map(filename => `${filename}:
-    a ldp:BasicContainer, ldp:Container;
-    terms:modified "2018-11-02T11:42:41Z"^^XML:dateTime;
-    ldp:contains test:;
-    st:mtime 1541158961.318;
-    st:size 4096.
-`).join('\r\n')
+export default function toTurtle(fileNames: Array<string>) : string {
+  console.log('folderDescription', fileNames)
+
+  const prefixes = [
+    '@prefix ldp: <http://www.w3.org/ns/ldp#>.',
+  ]
+  const memberRefs = fileNames.map(filename => `<${filename}>`)
+  const containerItem = [
+    `<http://localhost:8080>`,
+    `    ldp:contains ${memberRefs.join(', ')};`
+  ].join(NEWLINE)
+  return [
+    prefixes.join(NEWLINE),
+    containerItem,
+  ].join(NEWLINE + NEWLINE) + NEWLINE
 }

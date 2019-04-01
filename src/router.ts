@@ -36,6 +36,7 @@ export default class Router {
     return {
       status: 200,
       headers: {
+        'Content-Type': 'text/plain',
       },
       body: toRepresentation('OK')
     } as IResponse
@@ -79,6 +80,18 @@ export default class Router {
         Allow: 'GET, POST, PUT, DELETE, PATCH'
       },
       body: representation
+    } as IResponse
+  }
+
+  async DELETE(identifier: IResourceIdentifier): Promise<IResponse> {
+    await this.resourceStore.deleteResource(identifier)
+    console.log('deleted', identifier)
+    return {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+      body: toRepresentation('Deleted')
     } as IResponse
   }
 }

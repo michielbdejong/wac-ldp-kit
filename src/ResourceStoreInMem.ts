@@ -29,9 +29,11 @@ export default class ResourceStoreInMem implements IResourceStore {
   * @returns - A list of member resources
   */
   getMembers(container: IResourceIdentifier): Promise<Array<string>> {
-    return Promise.resolve(Object.keys(this.kv).filter(x => {
+    const list = Object.keys(this.kv).filter(x => {
       return (x.substr(0, container.path.length) == container.path)
-    }))
+    }).map(x => x.substring(container.path.length))
+    console.log('getMembers', container.path, this.kv, list)
+    return Promise.resolve(list)
   }
 
   /**

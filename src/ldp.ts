@@ -5,7 +5,7 @@ import IRepresentation from './IRepresentation'
 import IResponse from './IResponse'
 import Router from './router'
 
-const port = 8000
+const port = 8080
 
 const resourceStore = new ResourceStoreInMem()
 const router = new Router(resourceStore)
