@@ -14,13 +14,27 @@ function toRepresentation ( text: string ) : IRepresentation {
   return stream as IRepresentation
 }
 
+function make412Response () {
+  return {
+    status: 412,
+    headers: {},
+    body: toRepresentation(''),
+  } as IResponse
+}
+
 export default class Router {
   resourceStore: IResourceStore | undefined
   constructor(resourceStore) {
     this.resourceStore = resourceStore
   }
 
-  async POST(container: IResourceIdentifier, representation: IRepresentation): Promise<IResponse> {
+  async getETag(identifier) {
+    const body = await this.resourceStore.getRepresentation(identifier)
+    const etag = sha256(body)
+    return `"${etag}"`
+  }
+
+  async POST(container: IResourceIdentifier, headers: any, representation: IRepresentation): Promise<IResponse> {
     const identifier = await this.resourceStore.addResource(container, representation)
     return {
       status: 201,
@@ -31,7 +45,15 @@ export default class Router {
     } as IResponse
   }
 
-  async PUT(identifier: IResourceIdentifier, representation: IRepresentation): Promise<IResponse> {
+  async PUT(identifier: IResourceIdentifier, headers: any, representation: IRepresentation): Promise<IResponse> {
+    console.log('checking headers', headers)
+    if (headers['if-match']) {
+      const etag = await this.getETag(identifier)
+      if (etag !== headers['if-match']) {
+        console.log(headers, etag, 'no! 412')
+        return make412Response()
+      }
+    }
     await this.resourceStore.setRepresentation(identifier, representation)
     return {
       status: 200,
@@ -42,9 +64,13 @@ export default class Router {
     } as IResponse
   }
 
-  async GET(identifier: IResourceIdentifier): Promise<IResponse> {
+  async GET(identifier: IResourceIdentifier, headers: any): Promise<IResponse> {
     let body: Stream
+    let types: Array<string> = [
+      '<http://www.w3.org/ns/ldp#Resource>; rel="type"',
+    ]
     if (identifier.path.substr(-1) == '/') {
+      types.push('<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"')
       const membersList: Array<string> = await this.resourceStore.getMembers(identifier)
       body = toRepresentation(folderDescription(membersList))
     } else {
@@ -55,35 +81,33 @@ export default class Router {
       status: 200,
       headers: {
         'Content-Type': 'text/turtle',
-        'Link': '<.acl>; rel="acl", <.meta>; rel="describedBy", <http://www.w3.org/ns/ldp#BasicContainer>; rel="type"',
+        'Link': `<.acl>; rel="acl", <.meta>; rel="describedBy", ${types.join(', ')}`,
+        'Allow': 'GET, HEAD, POST, PUT, DELETE, PATCH',
+        'Accept-Patch': 'application/sparql-update',
+        'Accept-Post': 'application/sparql-update',
         'ETag': `"${etag}"`,
       },
       body,
     } as IResponse
   }
 
-  async HEAD(identifier: IResourceIdentifier): Promise<IResponse> {
-    const representation = await this.resourceStore.getRepresentation(identifier)
+  async HEAD(identifier: IResourceIdentifier, headers): Promise<IResponse> {
+    const response = await this.GET(identifier, headers)
     return {
-      status: 200,
-      headers: {
-      },
-      body: representation
+      status: response.status,
+      headers: response.headers,
+      body: toRepresentation('')
     } as IResponse
   }
 
-  async OPTIONS(identifier: IResourceIdentifier): Promise<IResponse> {
-    const representation = await this.resourceStore.getRepresentation(identifier)
-    return {
-      status: 200,
-      headers: {
-        Allow: 'GET, POST, PUT, DELETE, PATCH'
-      },
-      body: representation
-    } as IResponse
+  async OPTIONS(identifier: IResourceIdentifier, headers: any): Promise<IResponse> {
+    return this.HEAD(identifier, headers)
   }
 
-  async DELETE(identifier: IResourceIdentifier): Promise<IResponse> {
+  async DELETE(identifier: IResourceIdentifier, headers: any): Promise<IResponse> {
+    if (headers['If-Match'] && this.getETag(identifier) !== headers['If-Match']) {
+      return make412Response()
+    }
     await this.resourceStore.deleteResource(identifier)
     console.log('deleted', identifier)
     return {
