@@ -4,7 +4,6 @@ import IRepresentation from './IRepresentation'
 import IResourceIdentifier from './IResourceIdentifier'
 import * as uuid from 'uuid/v4'
 import * as Stream from 'stream'
-import folderDescription from './folderDescription'
 
 function toRepresentation ( text: string ) : IRepresentation {
   const stream = new Stream.Readable()
@@ -23,22 +22,28 @@ export default class ResourceStoreInMem implements IResourceStore {
   }
 
   /**
-   * Obtains a representation of the given resource.
-   *
-   * @param identifier - The identifier of the resource
-   *
-   * @returns - A representation of the resource
-   */
+  * Obtains a list of members of the given container.
+  *
+  * @param container - The identifier of the resource container
+  *
+  * @returns - A list of member resources
+  */
+  getMembers(container: IResourceIdentifier): Promise<Array<string>> {
+    return Promise.resolve(Object.keys(this.kv).filter(x => {
+      return (x.substr(0, container.path.length) == container.path)
+    }))
+  }
+
+  /**
+  * Obtains a representation of the given resource.
+  *
+  * @param identifier - The identifier of the resource
+  *
+  * @returns - A representation of the resource
+  */
+
   getRepresentation(identifier: IResourceIdentifier): Promise<IRepresentation> {
-    let body
-    if (identifier.path.substr(-1) == '/') {
-       body = folderDescription(Object.keys(this.kv).filter(x => {
-         return (x.substr(0, identifier.path.length) == identifier.path)
-       }))
-    } else {
-      body = this.kv[identifier.path]
-    }
-    return Promise.resolve(toRepresentation(body))
+    return Promise.resolve(toRepresentation(this.kv[identifier.path]))
   }
 
   /**

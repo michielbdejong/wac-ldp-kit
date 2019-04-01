@@ -1,6 +1,7 @@
 import IResourceStore from './IResourceStore'
 import IResourceIdentifier from './IResourceIdentifier'
 import IRepresentation from './IRepresentation'
+import folderDescription from './folderDescription'
 import IResponse from './IResponse'
 import * as Stream from 'stream'
 
@@ -30,14 +31,20 @@ export default class Router {
   }
 
   async GET(identifier: IResourceIdentifier): Promise<IResponse> {
-    const representation = await this.resourceStore.getRepresentation(identifier)
+    let body: Stream
+    if (identifier.path.substr(-1) == '/') {
+      const membersList: Array<string> = await this.resourceStore.getMembers(identifier)
+      body = toRepresentation(folderDescription(membersList))
+    } else {
+      body = await this.resourceStore.getRepresentation(identifier)
+    }
     return {
       status: 200,
       headers: {
         'Content-Type': 'text/turtle',
         'Link': '<.acl>; rel="acl", <.meta>; rel="describedBy", <http://www.w3.org/ns/ldp#BasicContainer>; rel="type"'
       },
-      body: representation
+      body,
     } as IResponse
   }
 

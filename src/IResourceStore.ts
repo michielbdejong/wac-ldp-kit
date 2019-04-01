@@ -6,6 +6,15 @@ import IResourceIdentifier from './IResourceIdentifier'
 
 export default interface IResourceStore {
   /**
+  * Obtains a list of members of the given container.
+  *
+  * @param container - The identifier of the resource container
+  *
+  * @returns - A list of member resources
+  */
+  getMembers(container: IResourceIdentifier): Promise<Array<string>>
+
+  /**
    * Obtains a representation of the given resource.
    *
    * @param identifier - The identifier of the resource
