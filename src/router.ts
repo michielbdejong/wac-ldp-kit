@@ -1,24 +1,24 @@
 import IResourceStore from './IResourceStore'
 import IResourceIdentifier from './IResourceIdentifier'
 import IRepresentation from './IRepresentation'
-import folderDescription from './folderDescription'
+import toFolderDescription from './toFolderDescription'
 import IResponse from './IResponse'
 import * as Stream from 'stream'
 import sha256 from './sha256'
 
-function toRepresentation ( text: string ) : IRepresentation {
+function stringToStream ( text: string ) : Stream {
   const stream = new Stream.Readable()
   stream._read = () => {}
   stream.push(text)
   stream.push(null)
-  return stream as IRepresentation
+  return stream
 }
 
 function make412Response () {
   return {
     status: 412,
     headers: {},
-    body: toRepresentation(''),
+    body: stringToStream(''),
   } as IResponse
 }
 
@@ -29,8 +29,8 @@ export default class Router {
   }
 
   async getETag(identifier) {
-    const body = await this.resourceStore.getRepresentation(identifier)
-    const etag = sha256(body)
+    const representation = await this.resourceStore.getRepresentation(identifier)
+    const etag = sha256(representation.body)
     return `"${etag}"`
   }
 
@@ -41,7 +41,7 @@ export default class Router {
       headers: {
         Location: identifier.path
       },
-      body: toRepresentation('Created')
+      body: stringToStream('Created')
     } as IResponse
   }
 
@@ -60,34 +60,34 @@ export default class Router {
       headers: {
         'Content-Type': 'text/plain',
       },
-      body: toRepresentation('OK')
+      body: stringToStream('OK')
     } as IResponse
   }
 
   async GET(identifier: IResourceIdentifier, headers: any): Promise<IResponse> {
-    let body: Stream
     let types: Array<string> = [
       '<http://www.w3.org/ns/ldp#Resource>; rel="type"',
     ]
+    let representation
     if (identifier.path.substr(-1) == '/') {
       types.push('<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"')
       const membersList: Array<string> = await this.resourceStore.getMembers(identifier)
-      body = toRepresentation(folderDescription(membersList))
+      representation = toFolderDescription(identifier.domain + identifier.path, membersList, headers)
     } else {
-      body = await this.resourceStore.getRepresentation(identifier)
+      representation = await this.resourceStore.getRepresentation(identifier)
     }
-    const etag = sha256(body)
+    const etag = sha256(representation.body)
     return {
       status: 200,
       headers: {
-        'Content-Type': 'text/turtle',
+        'Content-Type': representation.contentType,
         'Link': `<.acl>; rel="acl", <.meta>; rel="describedBy", ${types.join(', ')}`,
         'Allow': 'GET, HEAD, POST, PUT, DELETE, PATCH',
         'Accept-Patch': 'application/sparql-update',
         'Accept-Post': 'application/sparql-update',
         'ETag': `"${etag}"`,
       },
-      body,
+      body: representation.body,
     } as IResponse
   }
 
@@ -96,7 +96,7 @@ export default class Router {
     return {
       status: response.status,
       headers: response.headers,
-      body: toRepresentation('')
+      body: stringToStream('')
     } as IResponse
   }
 
@@ -115,7 +115,7 @@ export default class Router {
       headers: {
         'Content-Type': 'text/plain',
       },
-      body: toRepresentation('Deleted')
+      body: stringToStream('Deleted')
     } as IResponse
   }
 }

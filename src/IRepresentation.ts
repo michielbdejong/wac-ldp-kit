@@ -5,5 +5,7 @@ import * as Stream from 'stream'
 /**
  * A representation of a resource.
  */
-export default interface IRepresentation extends Stream.Readable {
+export default interface IRepresentation {
+  body: Stream.Readable,
+  contentType: string
 }

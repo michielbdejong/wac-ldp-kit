@@ -10,7 +10,10 @@ function toRepresentation ( text: string ) : IRepresentation {
   stream._read = () => {}
   stream.push(text)
   stream.push(null)
-  return stream as IRepresentation
+  return {
+    body: stream,
+    contentType: 'text/turtle'
+  } as IRepresentation
 }
 
 export default class ResourceStoreInMem implements IResourceStore {
@@ -73,11 +76,11 @@ export default class ResourceStoreInMem implements IResourceStore {
   async setRepresentation(identifier: IResourceIdentifier,
                     representation: IRepresentation): Promise<void> {
     let body = ''
-    representation.on('data', chunk => {
+    representation.body.on('data', chunk => {
         body += chunk.toString(); // convert Buffer to string
     })
     await new Promise (resolve => {
-      representation.on('end', () => {
+      representation.body.on('end', () => {
         resolve()
       })
     })
