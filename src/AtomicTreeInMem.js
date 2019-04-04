@@ -1,130 +1,118 @@
-import AtomicTree from './AtomicTree'
-
-class ReadLockedNodeInMem implements ReadLockedNode {
-  constructor(path: string, tree: AtomicTreeInMem) {
-    this.path = path
-    this.tree = tree
-  }
-  release() {
-  }
-  exists() {
-    return (Object.keys(this.tree.kv).indexOf(this.path) !== -1)
-  }
-}
-
-class ReadLockedContainerInMem extends ReadLockedNodeInMem implements ReadLockedContainer {
-  getDescendents() {
-    return Object.keys(this.tree.kv).filter(x => {
-      return (x.substr(0, this.path.length) == this.path)
-    })
-  }
-  getMembers() {
-    const list = getDescendents()
-    // TODO: only report directly contained members
-    // but don't forget
-    console.log('getMembers', this.path, this.tree.kv, list)
-    return Promise.resolve(list)
-  }
-}
-
-class ReadWriteLockedContainerInMem extends ReadLockedContainerInMem implements ReadWriteLockedContainer {
-  delete() {
-    this.getDescendents().map(x => {
-      delete this.tree.kv[x]
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+exports.__esModule = true;
+var ReadLockedNodeInMem = /** @class */ (function () {
+    function ReadLockedNodeInMem(path, tree) {
+        this.path = path;
+        this.tree = tree;
     }
-    return Promise.resolve()
-  }
-  reset() {
-    this.tree.kv[this.path + '.placeholder'] = undefined // basically same trick git uses for empty folders
-    return Promise.resolve()
-  }
-}
-
-class ReadLockedResourceInMem extends ReadLockedNodeInMem implements ReadLockedResource {
-  getData() {
-    return Promise.resolve(this.tree[this.path])
-  }
-}
-
-class ReadWriteLockedResourceInMem extends ReadLockedResourceInMem implements ReadWriteLockedResource {
-  setData(data) {
-    this.tree[this.path] = data
-    return Promise.resolve()
-  }
-  delete() {
-    delete this.tree[this.path]
-    return Promise.resolve()
-  }
-  reset() {
-    this.tree.kv[this.path] = undefined
-    return Promise.resolve()
-  }
-}
-
-export default class AtomicTreeInMem {
-  kv: any
-
-  constructor () {
-    this.kv = {}
-    console.log('constructed in-mem store', this.kv)
-  }
-
-  getReadLockedContainer(path: string) {
-    return new ReadLockedContainerInMem(path, this)
-  }
-  getReadWriteLockedContainer(path: string) {
-    return new ReadWriteLockedContainerInMem(path, this)
-  }
-  getReadLockedResource(path: string) {
-    return new ReadLockedResourceInMem(path, this)
-  }
-  getReadWriteLockedResource(path: string) {
-    return new ReadWriteLockedResourceInMem(path, this)
-  }
-  on(eventName: string, eventHandler: (event: any) => void) {
-    //TODO: implement
-    console.log('adding event handler', eventName, eventHandler)
-  }
-}
-
-
-  /**
-   * Sets or replaces the representation of a resource.
-   *
-   * @param identifier - The identifier of the resource
-   * @param representation - A representation of the resource
-   */
-  async setRepresentation(identifier: IResourceIdentifier,
-                    representation: IRepresentation): Promise<void> {
-    let body = ''
-    representation.body.on('data', chunk => {
-        body += chunk.toString(); // convert Buffer to string
-    })
-    await new Promise (resolve => {
-      representation.body.on('end', () => {
-        resolve()
-      })
-    })
-    console.log('saving!', { body, identifier })
-    this.kv[identifier.path] = body
-  }
-
-  /**
-   * Deletes the given resource.
-   *
-   * @param identifier - The identifier of the resource
-   */
-  async deleteResource(identifier: IResourceIdentifier): Promise<void> {
-    delete this.kv[identifier.path]
-  }
-
-  /**
-   * Modifies the given resource.
-   *
-   * @param identifier - The identifier of the resource
-   * @param patch - The patch to be applied to the resource
-   */
-  async modifyResource(identifier: IResourceIdentifier, patch: IPatch): Promise<void> {
-    // TODO: implement
-  }
-}
+    ReadLockedNodeInMem.prototype.release = function () {
+    };
+    ReadLockedNodeInMem.prototype.exists = function () {
+        return (Object.keys(this.tree.kv).indexOf(this.path) !== -1);
+    };
+    return ReadLockedNodeInMem;
+}());
+var ReadLockedContainerInMem = /** @class */ (function (_super) {
+    __extends(ReadLockedContainerInMem, _super);
+    function ReadLockedContainerInMem() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ReadLockedContainerInMem.prototype.getDescendents = function () {
+        var _this = this;
+        return Object.keys(this.tree.kv).filter(function (x) {
+            return (x.substr(0, _this.path.length) == _this.path);
+        });
+    };
+    ReadLockedContainerInMem.prototype.getMembers = function () {
+        var list = this.getDescendents();
+        // TODO: only report directly contained members
+        // but don't forget
+        console.log('getMembers', this.path, this.tree.kv, list);
+        return Promise.resolve(list);
+    };
+    return ReadLockedContainerInMem;
+}(ReadLockedNodeInMem));
+var ReadWriteLockedContainerInMem = /** @class */ (function (_super) {
+    __extends(ReadWriteLockedContainerInMem, _super);
+    function ReadWriteLockedContainerInMem() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ReadWriteLockedContainerInMem.prototype["delete"] = function () {
+        var _this = this;
+        this.getDescendents().map(function (x) {
+            delete _this.tree.kv[x];
+        });
+        return Promise.resolve();
+    };
+    ReadWriteLockedContainerInMem.prototype.reset = function () {
+        this.tree.kv[this.path + '.placeholder'] = undefined; // basically same trick git uses for empty folders
+        return Promise.resolve();
+    };
+    return ReadWriteLockedContainerInMem;
+}(ReadLockedContainerInMem));
+var ReadLockedResourceInMem = /** @class */ (function (_super) {
+    __extends(ReadLockedResourceInMem, _super);
+    function ReadLockedResourceInMem() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ReadLockedResourceInMem.prototype.getData = function () {
+        return Promise.resolve(this.tree[this.path]);
+    };
+    return ReadLockedResourceInMem;
+}(ReadLockedNodeInMem));
+var ReadWriteLockedResourceInMem = /** @class */ (function (_super) {
+    __extends(ReadWriteLockedResourceInMem, _super);
+    function ReadWriteLockedResourceInMem() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ReadWriteLockedResourceInMem.prototype.setData = function (data) {
+        this.tree[this.path] = data;
+        return Promise.resolve();
+    };
+    ReadWriteLockedResourceInMem.prototype["delete"] = function () {
+        delete this.tree[this.path];
+        return Promise.resolve();
+    };
+    ReadWriteLockedResourceInMem.prototype.reset = function () {
+        this.tree.kv[this.path] = undefined;
+        return Promise.resolve();
+    };
+    return ReadWriteLockedResourceInMem;
+}(ReadLockedResourceInMem));
+var AtomicTreeInMem = /** @class */ (function () {
+    function AtomicTreeInMem() {
+        this.kv = {};
+        console.log('constructed in-mem store', this.kv);
+    }
+    AtomicTreeInMem.prototype.getReadLockedContainer = function (path) {
+        return new ReadLockedContainerInMem(path, this);
+    };
+    AtomicTreeInMem.prototype.getReadWriteLockedContainer = function (path) {
+        return new ReadWriteLockedContainerInMem(path, this);
+    };
+    AtomicTreeInMem.prototype.getReadLockedResource = function (path) {
+        return new ReadLockedResourceInMem(path, this);
+    };
+    AtomicTreeInMem.prototype.getReadWriteLockedResource = function (path) {
+        return new ReadWriteLockedResourceInMem(path, this);
+    };
+    AtomicTreeInMem.prototype.on = function (eventName, eventHandler) {
+        //TODO: implement
+        console.log('adding event handler', eventName, eventHandler);
+    };
+    return AtomicTreeInMem;
+}());
+exports["default"] = AtomicTreeInMem;
