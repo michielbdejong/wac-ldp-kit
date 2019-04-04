@@ -1,17 +1,24 @@
 import * as http from 'http'
 import ResourceStoreInMem from './ResourceStoreInMem'
-const resoureStore = new ResourceStoreInMem()
+import IResourceIdentifier from './IResourceIdentifier'
+import IRepresentation from './IRepresentation'
+import IResponse from './IResponse'
+import Router from './router'
 
-const server = http.createServer((req: any, res: any) => {
+const port = 8000
+
+const resourceStore = new ResourceStoreInMem()
+const router = new Router(resourceStore)
+
+const server = http.createServer(async (req: any, res: any) => {
   console.log(req.method, req.headers, req.url)
-  if (req.method === 'POST') {
-    res.writeHead(201, {
-      Location: '/1'
-    })
-    res.end('Yep')
-  } else {
-    res.writeHead(200, {})
-    res.end('Yep')
-  }
+  const identifier = { path: req.url } as IResourceIdentifier
+  const representation = req as IRepresentation
+  const response = await router[req.method](identifier, representation)
+  res.writeHead(response.status, response.headers)
+  res.end(response.body)
 })
-server.listen(8000)
+
+// ...
+server.listen(port)
+console.log('listening on port', port)

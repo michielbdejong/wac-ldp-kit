@@ -1,6 +1,6 @@
-import Patch from './Patch'
-import Representation from './Representation'
-import ResourceIdentifier from './ResourceIdentifier'
+import IPatch from './IPatch'
+import IRepresentation from './IRepresentation'
+import IResourceIdentifier from './IResourceIdentifier'
 
 // Based on Ruben Verborgh's https://github.com/RubenVerborgh/solid-server-ts/blob/master/src/ldp
 
@@ -12,7 +12,7 @@ export default interface IResourceStore {
    *
    * @returns - A representation of the resource
    */
-  getRepresentation(identifier: ResourceIdentifier): Promise<Representation>
+  getRepresentation(identifier: IResourceIdentifier): Promise<IRepresentation>
 
   /**
    * Adds a resource to the container.
@@ -22,8 +22,8 @@ export default interface IResourceStore {
    *
    * @returns - The identifier of the appended resource
    */
-  addResource(container: ResourceIdentifier,
-              representation: Representation): Promise<ResourceIdentifier>
+  addResource(container: IResourceIdentifier,
+              representation: IRepresentation): Promise<IResourceIdentifier>
 
   /**
    * Sets or replaces the representation of a resource.
@@ -31,8 +31,8 @@ export default interface IResourceStore {
    * @param identifier - The identifier of the resource
    * @param representation - A representation of the resource
    */
-  setRepresentation(identifier: ResourceIdentifier,
-                    representation: Representation): Promise<void>
+  setRepresentation(identifier: IResourceIdentifier,
+                    representation: IRepresentation): Promise<void>
 
   /**
    * Deletes the given resource.
@@ -40,7 +40,7 @@ export default interface IResourceStore {
    * @param identifier - The identifier of the resource
    * @param representation - A representation of the resource
    */
-  deleteResource(identifier: ResourceIdentifier): Promise<void>
+  deleteResource(identifier: IResourceIdentifier): Promise<void>
 
   /**
    * Modifies the given resource.
@@ -48,5 +48,5 @@ export default interface IResourceStore {
    * @param identifier - The identifier of the resource
    * @param patch - The patch to be applied to the resource
    */
-  modifyResource(identifier: ResourceIdentifier, patch: Patch): Promise<void>
+  modifyResource(identifier: IResourceIdentifier, patch: IPatch): Promise<void>
 }

@@ -1,10 +1,15 @@
-import IResourceStore from './IResourceStore';
-import Patch from './Patch';
-import Representation from './Representation';
-import ResourceIdentifier from './ResourceIdentifier';
+import IResourceStore from './IResourceStore'
+import IPatch from './IPatch'
+import IRepresentation from './IRepresentation'
+import IResourceIdentifier from './IResourceIdentifier'
 
 export default class ResourceStoreInMem implements IResourceStore {
-  kv: {}
+  kv: any
+
+  constructor () {
+    this.kv = {}
+    console.log('constructed in-mem store', this.kv)
+  }
 
   /**
    * Obtains a representation of the given resource.
@@ -13,8 +18,8 @@ export default class ResourceStoreInMem implements IResourceStore {
    *
    * @returns - A representation of the resource
    */
-  getRepresentation(identifier: ResourceIdentifier): Promise<Representation> {
-    return this.kv[identifier.path];
+  getRepresentation(identifier: IResourceIdentifier): Promise<IRepresentation> {
+    return this.kv[identifier.path]
   }
 
   /**
@@ -25,10 +30,20 @@ export default class ResourceStoreInMem implements IResourceStore {
    *
    * @returns - The identifier of the appended resource
    */
-  async addResource(container: ResourceIdentifier,
-              representation: Representation): Promise<ResourceIdentifier> {
+  async addResource(container: IResourceIdentifier,
+              representation: IRepresentation): Promise<IResourceIdentifier> {
     const path = container.path + '/1'
-    this.kv[path] = representation
+    let body = ''
+    representation.on('data', chunk => {
+        body += chunk.toString(); // convert Buffer to string
+    })
+    await new Promise (resolve => {
+      representation.on('end', () => {
+        resolve()
+      })
+    })
+    console.log('saving!', { body, path })
+    this.kv[path] = body
     return { ...container, path }
   };
 
@@ -38,8 +53,8 @@ export default class ResourceStoreInMem implements IResourceStore {
    * @param identifier - The identifier of the resource
    * @param representation - A representation of the resource
    */
-  async setRepresentation(identifier: ResourceIdentifier,
-                    representation: Representation): Promise<void> {
+  async setRepresentation(identifier: IResourceIdentifier,
+                    representation: IRepresentation): Promise<void> {
     this.kv[identifier.path] = representation
   };
 
@@ -49,7 +64,7 @@ export default class ResourceStoreInMem implements IResourceStore {
    * @param identifier - The identifier of the resource
    * @param representation - A representation of the resource
    */
-  async deleteResource(identifier: ResourceIdentifier): Promise<void> {
+  async deleteResource(identifier: IResourceIdentifier): Promise<void> {
     delete this.kv[identifier.path]
   };
 
@@ -59,7 +74,7 @@ export default class ResourceStoreInMem implements IResourceStore {
    * @param identifier - The identifier of the resource
    * @param patch - The patch to be applied to the resource
    */
-  async modifyResource(identifier: ResourceIdentifier, patch: Patch): Promise<void> {
+  async modifyResource(identifier: IResourceIdentifier, patch: IPatch): Promise<void> {
     // TODO: implement
   };
 }
