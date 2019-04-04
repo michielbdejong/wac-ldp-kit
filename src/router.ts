@@ -37,10 +37,10 @@ export default class Router {
     const resource = this.storage.getReadLockedResource(path)
     if (resource.exists()) {
       const resourceData = await resource.getData()
-      resource.release()
+      resource.releaseLock()
       return resourceData
     }
-    resource.release()
+    resource.releaseLock()
     return {
       contentType: 'application/octet-stream',
       body: '',

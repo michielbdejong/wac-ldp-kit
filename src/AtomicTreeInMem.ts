@@ -11,7 +11,7 @@ class ReadLockedNodeInMem implements ReadLockedNode {
     this.path = path
     this.tree = tree
   }
-  release() {
+  releaseLock() {
   }
   exists() {
     return (Object.keys(this.tree.kv).indexOf(this.path) !== -1)

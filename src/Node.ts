@@ -1,5 +1,5 @@
 export interface ReadLockedNode {
-  release(): void,
+  releaseLock(): void,
   exists(): boolean,
 }
 
