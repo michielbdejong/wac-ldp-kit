@@ -1,23 +1,24 @@
 import * as http from 'http'
-import ResourceStoreInMem from './ResourceStoreInMem'
-import IResourceIdentifier from './IResourceIdentifier'
-import IRepresentation from './IRepresentation'
-import IResponse from './IResponse'
+import Request from './Request'
+import Response from './Response'
 import Router from './router'
+import AtomicTreeInMem from './AtomicTreeInMem'
 
 const port = 8080
 
-const resourceStore = new ResourceStoreInMem()
-const router = new Router(resourceStore)
+const storage = new AtomicTreeInMem()
+const router = new Router(storage)
 
 const server = http.createServer(async (req: any, res: any) => {
   console.log(req.method, req.headers, req.url)
-  const identifier = { domain: `http://localhost:${port}`, path: req.url } as IResourceIdentifier
-  const representation = {
-    body: req,
-    contentType: 'text/turtle'
-  } as IRepresentation
-  const response = await router[req.method](identifier, req.headers, representation)
+  const request = {
+    domain: `http://localhost:${port}`,
+    path: req.url,
+    method: req.method,
+    headers: req.headers,
+    body: req
+  } as Request
+  const response = await router.handle(request)
   res.writeHead(response.status, response.headers)
   response.body.pipe(res)
 })

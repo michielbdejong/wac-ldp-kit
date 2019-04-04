@@ -42,7 +42,7 @@ function toJsonLd (containerUrl: string, fileNames: Array<string>) : string {
   })
 }
 
-export default function toFolderDescription (containerUrl, fileNames, headers): IRepresentation {
+export default function membersListAsResourceData (containerUrl, fileNames, headers): IRepresentation {
   console.log(headers)
   const contentType = 'application/ld+json'
   console.log('toFolderDescription', containerUrl, fileNames, contentType)
