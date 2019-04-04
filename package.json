@@ -1,0 +1,26 @@
+{
+  "name": "ldp-resource-store",
+  "version": "1.0.0",
+  "description": "A resource store for use in LDP-like servers such as Solid servers. Also usable as LDP server.",
+  "main": "src/index.js",
+  "dependencies": {
+    "http": "0.0.0",
+    "stream": "0.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/ldp.js",
+    "build": "tsc src/*.ts --lib ES2015",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michielbdejong/ldp-resource-store.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michielbdejong/ldp-resource-store/issues"
+  },
+  "homepage": "https://github.com/michielbdejong/ldp-resource-store#readme"
+}

@@ -5,6 +5,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# for now, compiling to .js files next to .ts files:
+*.js
+
 # Runtime data
 pids
 *.pid
