@@ -1,7 +1,9 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask } from './ResponderAndReleaser'
 import LdpTask from '../Task'
+import sha256 from './sha256'
 
+import storage from '../Storage'
 // Used as:
 //  * workers.resourceReader
 // Receives tasks from:
@@ -10,13 +12,31 @@ import LdpTask from '../Task'
 //  * the ResponderAndReleaser at workers.respondAndRelease
 
 export class ResourceReader extends Worker {
+  executeTask(task, resource): ResponderAndReleaserTask {
+    let result = {
+      httpRes: task.httpRes,
+      lock: resource,
+    }
+    if (!resource.exists()) {
+      result.resultType = ResultType.NotFound
+      return result
+    }
+    const data = resource.getData()
+    result.etag = sha256(data.body)
+    result.contentType = data.contentType
+    if (task.omitBody) {
+      result.resultType = ResultType.OkayWithoutBody
+      return result
+    }
+    result.resultType = ResultType.OkayWithBody
+    result.body = data.body
+    return result
+  }
+
   post(task: LdpTask) {
     console.log('LdpTask ResourceReader!')
-    // TODO: implement
-    const result = {
-      errorCode: null,
-      httpRes: task.httpRes,
-    } as ResponderAndReleaserTask
+    const resource = storage.getReadLockedResource(task.path)
+    const result = this.executeTask(task, resource)
     this.colleagues.respondAndRelease.post(result)
   }
 }
@@ -30,7 +50,6 @@ export class ResourceReader extends Worker {
 // // import Response from './Response'
 // import ResourceData from './ResourceData'
 // import * as Stream from 'stream'
-// import sha256 from './sha256'
 // import * as uuid from 'uuid/v4'
 //
 // function readStream(stream: Stream): Promise<string> {

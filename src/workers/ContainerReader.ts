@@ -14,7 +14,7 @@ export class ContainerReader extends Worker {
     console.log('LdpTask ContainerReader!')
     // TODO: implement
     const result = {
-      errorCode: null,
+      resultType: ResultType.OkayWithBody,
       httpRes: task.httpRes,
     } as ResponderAndReleaserTask
     this.colleagues.respondAndRelease.post(result)

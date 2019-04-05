@@ -7,7 +7,7 @@
 //  * the ResponderAndReleaser at workers.respondAndRelease
 
 import Worker from './Worker'
-import { ResponderAndReleaserTask } from './ResponderAndReleaser'
+import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 
 // import { HttpRequest, HttpResponse } from 'http'
 
@@ -75,11 +75,16 @@ export class LdpParser extends Worker {
     return (['OPTIONS', 'HEAD', 'GET', 'DELETE'].indexOf(httpReq.method) === -1)
   }
 
+  determineOmitBody(httpReq: any) {
+    return (['OPTIONS', 'HEAD'].indexOf(httpReq.method) !== -1)
+  }
+
   post(task: LdpParserTask) {
     console.log('LdpParserTask!')
     let errorCode = null // todo actually use this. maybe with try-catch?
     const parsedTask = {
       mayIncreaseDiskUsage: this.determineMayIncreaseDiskUsage(task.httpReq),
+      omitBody: this.determineOmitBody(task.httpReq),
       origin: this.determineOrigin(task.httpReq),
       ldpTaskName: this.determineLdpTaskName(task.httpReq),
       httpRes: task.httpRes, // passed on
@@ -89,7 +94,7 @@ export class LdpParser extends Worker {
       this.colleagues.determineIdentity.post(parsedTask)
     } else {
       const errorResponse = {
-        errorCode: 'could not parse request',
+        resultType: ResultType.CouldNotParse,
         httpRes: task.httpRes,
       } as ResponderAndReleaserTask
       this.colleagues.respondAndRelease.post(errorResponse)
