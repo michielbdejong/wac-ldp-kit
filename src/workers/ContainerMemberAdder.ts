@@ -11,6 +11,7 @@ import LdpTask from '../Task'
 
 export class ContainerMemberAdder extends Worker {
   post(task: LdpTask) {
+    console.log('LdpTask ContainerMemberAdder!')
     // TODO: implement
     const result = {
       errorCode: null,
@@ -20,7 +21,7 @@ export class ContainerMemberAdder extends Worker {
   }
 }
 
-  // 
+  //
   // async POST(containerPath: string, headers: any, body: Stream): Promise<Response> {
   //   const resourcePath = containerPath + uuid()
   //   const resource = this.storage.getReadWriteLockedResource(resourcePath)

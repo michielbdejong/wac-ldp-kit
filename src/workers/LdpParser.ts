@@ -32,6 +32,7 @@ export class LdpParser extends Worker {
   }
 
   post(task: LdpParserTask) {
+    console.log('LdpParserTask!')
     let errorCode = null // todo actually use this. maybe with try-catch?
     const parsedTask = {
       isContainer: this.determineIsContainer(task.httpReq),

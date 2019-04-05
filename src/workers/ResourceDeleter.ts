@@ -11,6 +11,7 @@ import LdpTask from '../Task'
 
 export class ResourceDeleter extends Worker {
   post(task: LdpTask) {
+    console.log('LdpTask ResourceDeleter!')
     // TODO: implement
     const result = {
       errorCode: null,
@@ -21,7 +22,7 @@ export class ResourceDeleter extends Worker {
 }
 
 
-  // 
+  //
   // async DELETE(path: string, headers: any): Promise<Response> {
   //   if (headers['If-Match'] && this.getETag(path) !== headers['If-Match']) {
   //     return new Response(412, {}, '')

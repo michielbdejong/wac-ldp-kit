@@ -11,6 +11,7 @@ import LdpTask from '../Task'
 
 export class ResourceUpdater extends Worker {
   post(task: LdpTask) {
+    console.log('LdpTask ResourceUpdater!')
     // TODO: implement
     const result = {
       errorCode: null,

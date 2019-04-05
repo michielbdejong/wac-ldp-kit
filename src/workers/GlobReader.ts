@@ -11,6 +11,7 @@ import LdpTask from '../Task'
 
 export class GlobReader extends Worker {
   post(task: LdpTask) {
+    console.log('LdpTask GlobReader!')
     // TODO: implement
     const result = {
       errorCode: null,

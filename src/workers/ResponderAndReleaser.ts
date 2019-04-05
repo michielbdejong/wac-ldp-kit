@@ -20,16 +20,30 @@ export class ResponderAndReleaserTask {
   errorCode: string
   // TODO: add in fields for successful responses
   httpRes: any
+  lock: any
 }
 
 export class ResponderAndReleaser extends Worker {
   post(task: ResponderAndReleaserTask) {
-    // task.httpRes.writeHead(task.responseStatus, task.responseHeaders)
-    // task.responseBody.pipe(task.httpRes)
-    // task.httpRes.on('end', () => {
-    //   if (task.lock) {
-    //     task.lock.release()
-    //   }
-    // })
+    console.log('ResponderAndReleaserTask!')
+    const responseHeaders = {
+
+    }
+    let responseStatus
+    if (task.errorCode) {
+      responseStatus = 500
+    } else {
+      responseStatus = 200
+    }
+    task.httpRes.writeHead(responseStatus, responseHeaders)
+    task.httpRes.end('No data')
+    // responseBody.pipe(task.httpRes)
+    task.httpRes.on('end', () => {
+      console.log('request completed')
+      if (task.lock) {
+        console.log('releasing lock')
+        // task.lock.release()
+      }
+    })
   }
 }

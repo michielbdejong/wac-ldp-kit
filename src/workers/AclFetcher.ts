@@ -18,6 +18,7 @@ export class AclFetcherResult extends AclFetcherTask {
 
 export class AclFetcher extends Worker {
   post(task: AclFetcherTask) {
+    console.log('AclFetcherTask!')
     const result = task as AclFetcherResult // this step just adds info
     result.aclGraph = 'this is where the AclFetcher would create the ACL graph'
     this.colleagues.determineTrustedApps.post(task as TrustedAppsListFetcherTask)

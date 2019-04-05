@@ -3,6 +3,7 @@ import Task from '../Task'
 export default class Worker {
   colleagues: any // how do I tell TypeScript that this should be an Object containing Workers?
   constructor(colleagues: any) {
+    console.log('worker instantiated')
     this.colleagues = colleagues
   }
 

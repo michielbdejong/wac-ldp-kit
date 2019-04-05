@@ -29,6 +29,7 @@ export class AclChecker extends Worker {
   }
 
   post(task: AclCheckerTask) {
+    console.log('AclCheckerTask!')
     const accessError = this.getAccessError(task.aclGraph, task.webId, task.trustedApps, task.origin)
     if (accessError === null) {
       this.colleagues[task.ldpTaskName].post(task as LdpTask)

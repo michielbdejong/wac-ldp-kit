@@ -18,6 +18,7 @@ export class AuthenticationResult extends AuthenticationTask {
 
 export class Authentication extends Worker {
   post(task: AuthenticationTask) {
+    console.log('AuthenticationTask!')
     const result = task as AclFetcherTask // this step just adds info
     result.webId = 'this is where the Authentication module would put the webId'
     this.colleagues.respondAndRelease.post(result)

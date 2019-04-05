@@ -11,6 +11,7 @@ import LdpTask from '../Task'
 
 export class ContainerDeleter extends Worker {
   post(task: LdpTask) {
+    console.log('LdpTask ContainerDeleter!')
     // TODO: implement
     const result = {
       errorCode: null,

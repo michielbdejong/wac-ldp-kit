@@ -11,6 +11,7 @@ import LdpTask from '../Task'
 
 export class ContainerReader extends Worker {
   post(task: LdpTask) {
+    console.log('LdpTask ContainerReader!')
     // TODO: implement
     const result = {
       errorCode: null,
