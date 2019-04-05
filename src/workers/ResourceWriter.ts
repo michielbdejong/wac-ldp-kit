@@ -19,3 +19,27 @@ export class ResourceWriter extends Worker {
     this.colleagues.respondAndRelease.post(result)
   }
 }
+
+  // async PUT(path: string, headers: any, body: Stream): Promise<Response> {
+  //   console.log('checking headers', headers)
+  //   if (headers['if-match']) {
+  //     const etag = await this.getETag(path)
+  //     if (etag !== headers['if-match']) {
+  //       console.log(headers, etag, 'no! 412')
+  //       return new Response(412, {}, '')
+  //     }
+  //   }
+  //   const resource = this.storage.getReadWriteLockedResource(path)
+  //   let status = 200
+  //   if (!resource.exists()) {
+  //     await resource.reset()
+  //     status = 201
+  //   }
+  //   const resourceData: ResourceData = {
+  //     contentType: headers['Content-Type'],
+  //     body: await readStream(body)
+  //   }
+  //   resource.setData(resourceData)
+  //   return new Response(status, { 'Content-Type': 'text/plain' }, 'OK')
+  // }
+  //

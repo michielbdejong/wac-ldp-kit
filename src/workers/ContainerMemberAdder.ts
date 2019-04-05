@@ -19,3 +19,18 @@ export class ContainerMemberAdder extends Worker {
     this.colleagues.respondAndRelease.post(result)
   }
 }
+
+  // 
+  // async POST(containerPath: string, headers: any, body: Stream): Promise<Response> {
+  //   const resourcePath = containerPath + uuid()
+  //   const resource = this.storage.getReadWriteLockedResource(resourcePath)
+  //   if (!resource.exists()) {
+  //     await resource.reset()
+  //   }
+  //   const resourceData: ResourceData = {
+  //     contentType: headers['Content-Type'],
+  //     body: await readStream(body)
+  //   }
+  //   resource.setData(resourceData)
+  //   return new Response(201, { Location: resourcePath }, 'Created')
+  // }

@@ -19,3 +19,9 @@ export class ContainerReader extends Worker {
     this.colleagues.respondAndRelease.post(result)
   }
 }
+
+  //
+  // types.push('<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"')
+  // const container = this.storage.getReadLockedContainer(path)
+  // const membersList: Array<string> = await container.getMembers()
+  // resourceData = membersListAsResourceData(domain + path, membersList, headers)
