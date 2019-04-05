@@ -15,11 +15,55 @@ import { ResponderAndReleaserTask } from './ResponderAndReleaser'
 // and add that info to the request, then pass it on to the colleague from
 // Authentication:
 export class LdpParser extends Worker {
-  determineIsContainer(httpReq: any) {
-    return (httpReq.url.substr(-1) === '/')
+  getContainerTask(method) {
+    if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
+      return 'containerRead'
+    }
+    if (method === 'POST') {
+      return 'containerMemberAdd'
+    }
+    if (method === 'DELETE') {
+      return 'containerDelete'
+    }
+    return 'unknown'
+  }
+
+  getGlobTask(method) {
+    if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
+      return 'globRead'
+    }
+    return 'unknown'
+  }
+
+  getResourceTask(method) {
+    if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
+      return 'resourceRead'
+    }
+    if (method === 'PUT') {
+      return 'resourceWrite'
+    }
+    if (method === 'PUT') {
+      return 'resourceUpdate'
+    }
+    if (method === 'DELETE') {
+      return 'resourceDelete'
+    }
+    return 'unknown'
   }
 
   determineLdpTaskName(httpReq: any) {
+    // if the URL end with a / then the path indicates a container
+    // if the URL end with /* then the path indicates a glob
+    // in all other cases, the path indicates a resource
+
+    const lastUrlChar = httpReq.url.substr(-1)
+    if (lastUrlChar === '/') {
+      return this.getContainerTask(httpReq.method)
+    } else if (lastUrlChar === '*') {
+      return this.getGlobTask(httpReq.method)
+    } else {
+      return this.getResourceTask(httpReq.method)
+    }
     return 'containerRead' // todo: implement
   }
 
@@ -35,7 +79,6 @@ export class LdpParser extends Worker {
     console.log('LdpParserTask!')
     let errorCode = null // todo actually use this. maybe with try-catch?
     const parsedTask = {
-      isContainer: this.determineIsContainer(task.httpReq),
       mayIncreaseDiskUsage: this.determineMayIncreaseDiskUsage(task.httpReq),
       origin: this.determineOrigin(task.httpReq),
       ldpTaskName: this.determineLdpTaskName(task.httpReq),
@@ -55,7 +98,6 @@ export class LdpParser extends Worker {
 }
 
 export class LdpParserResult {
-  isContainer: boolean
   mayIncreaseDiskUsage: boolean
   origin: string
   ldpTaskName: string
