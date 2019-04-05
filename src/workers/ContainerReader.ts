@@ -1,5 +1,5 @@
 import Worker from './Worker'
-import { ResponderAndReleaserTask } from './ResponderAndReleaser'
+import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
 
 // Used as:
@@ -14,7 +14,7 @@ export class ContainerReader extends Worker {
     console.log('LdpTask ContainerReader!')
     // TODO: implement
     const result = {
-      resultType: ResultType.OkayWithBody,
+      resultType: ResultType.OkayWithBody, // TODO: deal with HEAD and OPTIONS
       httpRes: task.httpRes,
     } as ResponderAndReleaserTask
     this.colleagues.respondAndRelease.post(result)

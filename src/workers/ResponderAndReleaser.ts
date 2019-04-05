@@ -1,5 +1,5 @@
 import Worker from './Worker'
-
+import { ReadLockedNode } from '../Node'
 // Used as:
 //  * workers.respondAndRelease
 // Receives tasks from:
@@ -20,6 +20,7 @@ export enum ResultType {
   CouldNotParse,
   AccessDenied,
   NotFound,
+  QuotaExceeded,
   OkayWithBody,
   OkayWithoutBody,
   Created,
@@ -29,9 +30,10 @@ export class ResponderAndReleaserTask {
   resultType: ResultType
   contentType: string
   responseBody: string | null
+  etag: string | null
   createdLocation: string | null
   httpRes: any
-  lock: any
+  lock: ReadLockedNode | undefined
 }
 
 export class ResponderAndReleaser extends Worker {
@@ -80,7 +82,7 @@ export class ResponderAndReleaser extends Worker {
       console.log('request completed')
       if (task.lock) {
         console.log('releasing lock')
-        // task.lock.release()
+        task.lock.releaseLock()
       }
     })
   }

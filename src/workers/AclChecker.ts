@@ -1,6 +1,6 @@
 import Worker from './Worker'
 import { TrustedAppsListFetcherResult } from './TrustedAppsListFetcher'
-import { ResponderAndReleaserTask } from './ResponderAndReleaser'
+import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
 
 // Used as:
@@ -33,7 +33,7 @@ export class AclChecker extends Worker {
     const accessError = this.getAccessError(task.aclGraph, task.webId, task.trustedApps, task.origin)
     if (accessError !== null) {
       const errorResponse = {
-        errorCode: accessError,
+        resultType: ResultType.AccessDenied,
         httpRes: task.httpRes,
       } as ResponderAndReleaserTask
       this.colleagues.respondAndRelease.post(errorResponse)

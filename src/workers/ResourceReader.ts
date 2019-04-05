@@ -1,7 +1,7 @@
 import Worker from './Worker'
-import { ResponderAndReleaserTask } from './ResponderAndReleaser'
+import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
-import sha256 from './sha256'
+import sha256 from '../sha256'
 
 import storage from '../Storage'
 // Used as:
@@ -16,7 +16,7 @@ export class ResourceReader extends Worker {
     let result = {
       httpRes: task.httpRes,
       lock: resource,
-    }
+    } as ResponderAndReleaserTask
     if (!resource.exists()) {
       result.resultType = ResultType.NotFound
       return result
@@ -29,7 +29,7 @@ export class ResourceReader extends Worker {
       return result
     }
     result.resultType = ResultType.OkayWithBody
-    result.body = data.body
+    result.responseBody = data.body
     return result
   }
 
@@ -37,6 +37,11 @@ export class ResourceReader extends Worker {
     console.log('LdpTask ResourceReader!')
     const resource = storage.getReadLockedResource(task.path)
     const result = this.executeTask(task, resource)
+    if (result.resultType === ResultType.OkayWithBody) {
+      result.lock = resource // release lock after streaming out the body
+    } else {
+      resource.releaseLock()
+    }
     this.colleagues.respondAndRelease.post(result)
   }
 }

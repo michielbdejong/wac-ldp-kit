@@ -1,5 +1,5 @@
 import Worker from './Worker'
-import { ResponderAndReleaserTask } from './ResponderAndReleaser'
+import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
 
 // Used as:
@@ -24,7 +24,7 @@ export class QuotaChecker extends Worker {
       this.colleagues[task.ldpTaskName].post(task as LdpTask)
     } else {
       const errorResponse = {
-        errorCode: quotaError,
+        resultType: ResultType.QuotaExceeded,
         httpRes: task.httpRes,
       } as ResponderAndReleaserTask
       this.colleagues.respondAndRelease.post(errorResponse)

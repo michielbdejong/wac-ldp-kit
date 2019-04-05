@@ -1,5 +1,5 @@
 import Worker from './Worker'
-import { ResponderAndReleaserTask } from './ResponderAndReleaser'
+import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
 
 // Used as:
@@ -14,7 +14,7 @@ export class GlobReader extends Worker {
     console.log('LdpTask GlobReader!')
     // TODO: implement
     const result = {
-      errorCode: null,
+      resultType: ResultType.OkayWithBody,
       httpRes: task.httpRes,
     } as ResponderAndReleaserTask
     this.colleagues.respondAndRelease.post(result)

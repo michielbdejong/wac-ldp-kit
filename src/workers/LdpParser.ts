@@ -87,6 +87,7 @@ export class LdpParser extends Worker {
       omitBody: this.determineOmitBody(task.httpReq),
       origin: this.determineOrigin(task.httpReq),
       ldpTaskName: this.determineLdpTaskName(task.httpReq),
+      path: task.httpReq.url,
       httpRes: task.httpRes, // passed on
     } as LdpParserResult
 

@@ -1,6 +1,7 @@
 import Worker from './Worker'
-import { ResponderAndReleaserTask } from './ResponderAndReleaser'
+import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
+import storage from '../Storage'
 
 // Used as:
 //  * workers.resourceWriter
@@ -12,9 +13,16 @@ import LdpTask from '../Task'
 export class ResourceWriter extends Worker {
   post(task: LdpTask) {
     console.log('LdpTask ResourceWriter!')
-    // TODO: implement
+    const resource = storage.getReadWriteLockedResource(task.path)
+    const resultType = (resource.exists() ? ResultType.OkayWithoutBody : ResultType.Created)
+    resource.setData({
+      contentType: task.contentType,
+      body: task.body
+    })
+    resource.releaseLock()
+
     const result = {
-      errorCode: null,
+      resultType,
       httpRes: task.httpRes,
     } as ResponderAndReleaserTask
     this.colleagues.respondAndRelease.post(result)

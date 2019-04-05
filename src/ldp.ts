@@ -1,5 +1,5 @@
 import * as http from 'http'
-// import Task from './Task'
+
 import { LdpParser, LdpParserTask } from './workers/LdpParser'
 import { Authentication } from './workers/Authentication'
 import { AclFetcher } from './workers/AclFetcher'
