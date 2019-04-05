@@ -31,14 +31,18 @@ export class AclChecker extends Worker {
   post(task: AclCheckerTask) {
     console.log('AclCheckerTask!')
     const accessError = this.getAccessError(task.aclGraph, task.webId, task.trustedApps, task.origin)
-    if (accessError === null) {
-      this.colleagues[task.ldpTaskName].post(task as LdpTask)
-    } else {
+    if (accessError !== null) {
       const errorResponse = {
         errorCode: accessError,
         httpRes: task.httpRes,
       } as ResponderAndReleaserTask
       this.colleagues.respondAndRelease.post(errorResponse)
+      return
     }
+    let nextStep = task.ldpTaskName
+    if (task.mayIncreaseDiskUsage) {
+      nextStep = 'quotaCheck'
+    }
+    this.colleagues[nextStep].post(task as LdpTask)
   }
 }
