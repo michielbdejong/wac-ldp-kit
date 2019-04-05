@@ -29,15 +29,28 @@ import Worker from './Worker'
 // and add that info to the request, then pass it on to the colleague from
 // Authentication:
 export class LdpParser extends Worker {
-  determineIsContainer(task: LdpParserTask) {
-    return (task.httpReq.url.substr(-1) === '/')
+  determineIsContainer(httpReq: any) {
+    return (httpReq.url.substr(-1) === '/')
+  }
+
+  determineMayIncreaseDiskUsage(httpReq: any) {
+    return (['OPTIONS', 'HEAD', 'GET', 'DELETE'].indexOf(httpReq.method) === -1)
   }
 
   post(task: LdpParserTask) {
-    const parsedTask = task as any
-    parsedTask.isContainer = this.determineIsContainer(task)
-    this.colleagues.respondAndRelease.post(parsedTask)
+    const parsedTask = {
+      isContainer: this.determineIsContainer(task.httpReq),
+      mayIncreaseDiskUsage: this.determineMayIncreaseDiskUsage(task.httpReq),
+      httpRes: task.httpRes, // passed on
+    } as LdpParserResult
+    this.colleagues.determineIdentity.post(parsedTask)
   }
+}
+
+export class LdpParserResult {
+  isContainer: boolean
+  mayIncreaseDiskUsage: boolean
+  httpRes: any // HttpResponse
 }
 
 export class LdpParserTask {
