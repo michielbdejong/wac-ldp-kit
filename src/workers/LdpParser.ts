@@ -1,28 +1,14 @@
-// import AtomicTree from './Atomictree'
-// import { ReadLockedNode, ReadWriteLockedNode } from './Node'
-// import { ReadLockedContainer, ReadWriteLockedContainer } from './Container'
-// import { ReadLockedResource, ReadWriteLockedResource } from './Resource'
-// import membersListAsResourceData from './membersListAsResourceData'
-// import Request from './Request'
-// import Response from './Response'
-// import ResourceData from './ResourceData'
-// import * as Stream from 'stream'
-// import sha256 from './sha256'
-// import * as uuid from 'uuid/v4'
-//
-// function readStream(stream: Stream): Promise<string> {
-//   return new Promise(resolve => {
-//     let text = ''
-//     stream.on('data', chunk => {
-//       text += chunk
-//     })
-//     stream.on('end', () => {
-//       resolve(text)
-//     })
-//   })
-// }
+// Used as:
+//  * workers.parseLdp
+// Receives tasks from:
+//  * the ldp.ts as they come in to the http server.
+// Posts tasks to:
+//  * the Authentication at workers.determineIdentity
+//  * the ResponderAndReleaser at workers.respondAndRelease
 
 import Worker from './Worker'
+import { ResponderAndReleaserTask } from './ResponderAndReleaser'
+
 // import { HttpRequest, HttpResponse } from 'http'
 
 // parse the http request to extract some basic info (e.g. is it a container?)
@@ -33,23 +19,45 @@ export class LdpParser extends Worker {
     return (httpReq.url.substr(-1) === '/')
   }
 
+  determineLdpTaskName(httpReq: any) {
+    return 'containerRead' // todo: implement
+  }
+
+  determineOrigin(httpReq: any) {
+    return httpReq.headers.origin
+  }
+
   determineMayIncreaseDiskUsage(httpReq: any) {
     return (['OPTIONS', 'HEAD', 'GET', 'DELETE'].indexOf(httpReq.method) === -1)
   }
 
   post(task: LdpParserTask) {
+    let errorCode = null // todo actually use this. maybe with try-catch?
     const parsedTask = {
       isContainer: this.determineIsContainer(task.httpReq),
       mayIncreaseDiskUsage: this.determineMayIncreaseDiskUsage(task.httpReq),
+      origin: this.determineOrigin(task.httpReq),
+      ldpTaskName: this.determineLdpTaskName(task.httpReq),
       httpRes: task.httpRes, // passed on
     } as LdpParserResult
-    this.colleagues.determineIdentity.post(parsedTask)
+
+    if (errorCode === null) {
+      this.colleagues.determineIdentity.post(parsedTask)
+    } else {
+      const errorResponse = {
+        errorCode: 'could not parse request',
+        httpRes: task.httpRes,
+      } as ResponderAndReleaserTask
+      this.colleagues.respondAndRelease.post(errorResponse)
+    }
   }
 }
 
 export class LdpParserResult {
   isContainer: boolean
   mayIncreaseDiskUsage: boolean
+  origin: string
+  ldpTaskName: string
   httpRes: any // HttpResponse
 }
 

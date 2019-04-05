@@ -1,15 +1,6 @@
-import * as Stream from 'stream'
+import { AclCheckerResult } from './workers/AclChecker'
 
-export default class Request {
-  // constructor(domain: string, path: string, headers: any, body: stream) {
-  //   this.domain = domain
-  //   this.path = path
-  //   this.headers = headers
-  //   this.body = body
-  // },
-  domain: string
-  path: string
-  method: string
-  headers: any
-  body: Stream.Readable
+// Task that can go to one of the LDP-executing workers, or to the QuotaChecker.
+
+export default class LdpTask extends AclCheckerResult {
 }
