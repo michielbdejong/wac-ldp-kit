@@ -1,6 +1,6 @@
 import Worker from './Worker'
 import { ReadLockedNode } from '../Node'
-import sha256 from '../sha256'
+import { ResourceData } from '../ResourceData'
 
 // Used as:
 //  * workers.respondAndRelease
@@ -31,8 +31,7 @@ export enum ResultType {
 
 export class ResponderAndReleaserTask {
   resultType: ResultType
-  contentType: string
-  responseBody: string | null
+  resourceData: ResourceData | undefined
   createdLocation: string | undefined
   isContainer: boolean
   httpRes: any
@@ -46,7 +45,7 @@ export class ResponderAndReleaser extends Worker {
     const responses = {
       [ResultType.OkayWithBody]: {
         responseStatus: 200,
-        responseBody: task.responseBody,
+        responseBody: task.resourceData ? task.resourceData.body : '',
       },
       [ResultType.CouldNotParse]: {
         responseStatus: 405,
@@ -88,15 +87,15 @@ export class ResponderAndReleaser extends Worker {
       'Accept-Patch': 'application/sparql-update',
       'Accept-Post': 'application/sparql-update',
     } as any
-    if (task.contentType) {
-      responseHeaders['Content-Type'] = task.contentType
+    if (task.resourceData) {
+      responseHeaders['Content-Type'] = task.resourceData.contentType
     }
     if (task.createdLocation) {
       responseHeaders['Location'] = task.createdLocation
     }
-    if (task.responseBody) {
+    if (task.resourceData) {
       console.log('setting ETag')
-      responseHeaders.ETag = `"${sha256(task.responseBody)}"`
+      responseHeaders.ETag = `"${task.resourceData.etag}"`
     } else {
       console.log('not setting ETag')
     }

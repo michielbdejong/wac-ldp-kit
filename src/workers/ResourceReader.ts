@@ -21,10 +21,8 @@ export class ResourceReader extends Worker {
       result.resultType = ResultType.NotFound
       return result
     }
-    const data = await resource.getData()
-    result.contentType = data.contentType
-    result.responseBody = data.body
-    console.log('responseBody set to ', result.responseBody)
+    result.resourceData = await resource.getData()
+    console.log('result.resourceData set to ', result.resourceData)
     if (task.omitBody) {
       result.resultType = ResultType.OkayWithoutBody
     } else {

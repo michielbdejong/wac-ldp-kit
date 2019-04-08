@@ -20,8 +20,7 @@ export class ContainerReader extends Worker {
     const resourceData = membersListAsResourceData(task.path, membersList, task.asJsonLd)
     const result = {
       resultType: (task.omitBody ? ResultType.OkayWithoutBody : ResultType.OkayWithBody),
-      responseBody: resourceData.body,
-      contentType: resourceData.contentType,
+      resourceData,
       createdLocation: undefined,
       isContainer: task.isContainer,
       httpRes: task.httpRes,

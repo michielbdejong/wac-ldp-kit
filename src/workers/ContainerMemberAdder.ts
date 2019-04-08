@@ -2,8 +2,7 @@ import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
 import * as uuid from 'uuid/v4'
-
-console.log('ContainerMemberAdder refers to storage')
+import { makeResourceData } from '../ResourceData'
 import storage from '../storage'
 
 // Used as:
@@ -22,10 +21,7 @@ export class ContainerMemberAdder extends Worker {
       await resource.reset()
       console.log('resource.reset has been called')
     }
-    await resource.setData({
-      contentType: task.contentType,
-      body: task.requestBody
-    })
+    await resource.setData(makeResourceData(task.contentType, task.requestBody))
     const result = {
       resultType: ResultType.Created,
       httpRes: task.httpRes,
