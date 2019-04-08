@@ -80,18 +80,36 @@ export class LdpParser extends Worker {
     return (['OPTIONS', 'HEAD'].indexOf(httpReq.method) !== -1)
   }
 
-  post(task: LdpParserTask) {
+  async post(task: LdpParserTask) {
     console.log('LdpParserTask!')
     let errorCode = null // todo actually use this. maybe with try-catch?
     const parsedTask = {
       mayIncreaseDiskUsage: this.determineMayIncreaseDiskUsage(task.httpReq),
       omitBody: this.determineOmitBody(task.httpReq),
+      isContainer: (task.httpReq.url.substr(-1) === '/'), // FIXME: code duplication, see determineLdpTaskName above
       origin: this.determineOrigin(task.httpReq),
       ldpTaskName: this.determineLdpTaskName(task.httpReq),
       path: task.httpReq.url,
       httpRes: task.httpRes, // passed on
     } as LdpParserResult
-
+    await new Promise(resolve => {
+      parsedTask.requestBody = ''
+      task.httpReq.on('data', chunk => {
+        parsedTask.requestBody += chunk
+      })
+      task.httpReq.on('end', resolve)
+    })
+    console.log('parsed http request', {
+      method: task.httpReq.method,
+      headers: task.httpReq.headers,
+      mayIncreaseDiskUsage: parsedTask.mayIncreaseDiskUsage,
+      omitBody: parsedTask.omitBody,
+      isContainer: parsedTask.isContainer,
+      origin: parsedTask.origin,
+      ldpTaskName: parsedTask.ldpTaskName,
+      path: parsedTask.path,
+      requestBody: parsedTask.requestBody,
+    })
     if (errorCode === null) {
       this.colleagues.determineIdentity.post(parsedTask)
     } else {
@@ -106,8 +124,12 @@ export class LdpParser extends Worker {
 
 export class LdpParserResult {
   mayIncreaseDiskUsage: boolean
+  isContainer: boolean
+  omitBody: boolean
   origin: string
   ldpTaskName: string
+  path: string
+  requestBody: string
   httpRes: any // HttpResponse
 }
 

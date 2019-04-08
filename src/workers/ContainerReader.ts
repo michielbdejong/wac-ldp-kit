@@ -1,6 +1,8 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
+console.log('ContainerReader refers to storage')
+
 import storage from '../storage'
 import membersListAsResourceData from '../membersListAsResourceData'
 
@@ -21,15 +23,10 @@ export class ContainerReader extends Worker {
       responseBody: resourceData.body,
       contentType: resourceData.contentType,
       createdLocation: undefined,
+      isContainer: task.isContainer,
       httpRes: task.httpRes,
       lock: container,
     } as ResponderAndReleaserTask
     this.colleagues.respondAndRelease.post(result)
   }
 }
-
-  //
-  // types.push('<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"')
-  // const container = this.storage.getReadLockedContainer(path)
-  // const membersList: Array<string> = await container.getMembers()
-  // resourceData = membersListAsResourceData(domain + path, membersList, headers)

@@ -34,6 +34,7 @@ export class ResponderAndReleaserTask {
   contentType: string
   responseBody: string | null
   createdLocation: string | undefined
+  isContainer: boolean
   httpRes: any
   lock: ReadLockedNode | undefined
 }
@@ -41,14 +42,6 @@ export class ResponderAndReleaserTask {
 export class ResponderAndReleaser extends Worker {
   post(task: ResponderAndReleaserTask) {
     console.log('ResponderAndReleaserTask!')
-    const responseHeaders = {
-    } as any
-    if (task.contentType) {
-      responseHeaders['Content-Type'] = task.contentType
-    }
-    if (task.createdLocation) {
-      responseHeaders['Location'] = task.createdLocation
-    }
 
     const responses = {
       [ResultType.OkayWithBody]: {
@@ -82,9 +75,33 @@ export class ResponderAndReleaser extends Worker {
     }
     const responseStatus = responses[task.resultType].responseStatus
     const responseBody = responses[task.resultType].responseBody
-    if (task.resultType === ResultType.OkayWithBody) {
-      responseHeaders.ETag = sha256(responseBody)
+
+    const types: Array<string> = [
+      '<http://www.w3.org/ns/ldp#Resource>; rel="type"',
+    ]
+    if (task.isContainer) {
+       types.push('<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"')
     }
+    const responseHeaders = {
+      'Link': `<.acl>; rel="acl", <.meta>; rel="describedBy", ${types.join(', ')}`,
+      'Allow': 'GET, HEAD, POST, PUT, DELETE, PATCH',
+      'Accept-Patch': 'application/sparql-update',
+      'Accept-Post': 'application/sparql-update',
+    } as any
+    if (task.contentType) {
+      responseHeaders['Content-Type'] = task.contentType
+    }
+    if (task.createdLocation) {
+      responseHeaders['Location'] = task.createdLocation
+    }
+    if (task.responseBody) {
+      console.log('setting ETag')
+      responseHeaders.ETag = `"${sha256(task.responseBody)}"`
+    } else {
+      console.log('not setting ETag')
+    }
+
+    console.log('responding', { responseStatus, responseHeaders, responseBody })
     task.httpRes.writeHead(responseStatus, responseHeaders)
     task.httpRes.end(responseBody)
     task.httpRes.on('end', () => {

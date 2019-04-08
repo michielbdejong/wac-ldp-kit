@@ -1,7 +1,8 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
-import storage from '../Storage'
+console.log('ResourceWriter refers to storage')
+import storage from '../storage'
 
 // Used as:
 //  * workers.resourceWriter
@@ -11,11 +12,11 @@ import storage from '../Storage'
 //  * the ResponderAndReleaser at workers.respondAndRelease
 
 export class ResourceWriter extends Worker {
-  post(task: LdpTask) {
+  async post(task: LdpTask) {
     console.log('LdpTask ResourceWriter!')
     const resource = storage.getReadWriteLockedResource(task.path)
     const resultType = (resource.exists() ? ResultType.OkayWithoutBody : ResultType.Created)
-    resource.setData({
+    await resource.setData({
       contentType: task.contentType,
       body: task.body
     })

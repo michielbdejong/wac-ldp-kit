@@ -10,10 +10,12 @@ class ReadLockedNodeInMem implements ReadLockedNode {
   constructor(path: string, tree: AtomicTreeInMem) {
     this.path = path
     this.tree = tree
+    console.log('constructed node', path, tree)
   }
   releaseLock() {
   }
   exists() {
+    console.log('checking exists', this.path, Object.keys(this.tree.kv))
     return (Object.keys(this.tree.kv).indexOf(this.path) !== -1)
   }
 }
@@ -48,17 +50,19 @@ class ReadWriteLockedContainerInMem extends ReadLockedContainerInMem implements 
 
 class ReadLockedResourceInMem extends ReadLockedNodeInMem implements ReadLockedResource {
   getData() {
-    return Promise.resolve(this.tree[this.path])
+    console.log('reading resource', this.path, this.tree.kv)
+    return Promise.resolve(this.tree.kv[this.path])
   }
 }
 
 class ReadWriteLockedResourceInMem extends ReadLockedResourceInMem implements ReadWriteLockedResource {
   setData(data) {
-    this.tree[this.path] = data
+    this.tree.kv[this.path] = data
+    console.log('this.tree.kv after setData', this.tree.kv)
     return Promise.resolve()
   }
   delete() {
-    delete this.tree[this.path]
+    delete this.tree.kv[this.path]
     return Promise.resolve()
   }
   reset() {

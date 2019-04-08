@@ -74,7 +74,7 @@ workers.resourceUpdate = new ResourceUpdater(workers)
 workers.respondAndRelease = new ResponderAndReleaser(workers)
 
 const server = http.createServer(async (req: any, res: any) => {
-  console.log(req.method, req.headers, req.url)
+  console.log(`\n\n`, req.method, req.url, req.headers)
   const task = {
     httpReq: req,
     httpRes: res,

@@ -2,7 +2,8 @@ import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
 
-import storage from '../Storage'
+console.log('ResourceReader refers to storage')
+import storage from '../storage'
 // Used as:
 //  * workers.resourceReader
 // Receives tasks from:
@@ -11,7 +12,7 @@ import storage from '../Storage'
 //  * the ResponderAndReleaser at workers.respondAndRelease
 
 export class ResourceReader extends Worker {
-  executeTask(task, resource): ResponderAndReleaserTask {
+  async executeTask(task, resource): Promise<ResponderAndReleaserTask> {
     let result = {
       httpRes: task.httpRes,
       lock: resource,
@@ -20,21 +21,22 @@ export class ResourceReader extends Worker {
       result.resultType = ResultType.NotFound
       return result
     }
-    const data = resource.getData()
+    const data = await resource.getData()
     result.contentType = data.contentType
+    result.responseBody = data.body
+    console.log('responseBody set to ', result.responseBody)
     if (task.omitBody) {
       result.resultType = ResultType.OkayWithoutBody
-      return result
+    } else {
+      result.resultType = ResultType.OkayWithBody
     }
-    result.resultType = ResultType.OkayWithBody
-    result.responseBody = data.body
     return result
   }
 
-  post(task: LdpTask) {
+  async post(task: LdpTask) {
     console.log('LdpTask ResourceReader!')
     const resource = storage.getReadLockedResource(task.path)
-    const result = this.executeTask(task, resource)
+    const result = await this.executeTask(task, resource)
     if (result.resultType === ResultType.OkayWithBody) {
       result.lock = resource // release lock after streaming out the body
     } else {
