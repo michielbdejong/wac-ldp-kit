@@ -76,6 +76,10 @@ export class LdpParser extends Worker {
     return httpReq.headers['content-type']
   }
 
+  determineIfMatch(httpReq: any) {
+    return httpReq.headers['if-match']
+  }
+
   determineMayIncreaseDiskUsage(httpReq: any) {
     return (['OPTIONS', 'HEAD', 'GET', 'DELETE'].indexOf(httpReq.method) === -1)
   }
@@ -93,6 +97,7 @@ export class LdpParser extends Worker {
       isContainer: (task.httpReq.url.substr(-1) === '/'), // FIXME: code duplication, see determineLdpTaskName above
       origin: this.determineOrigin(task.httpReq),
       contentType: this.determineContentType(task.httpReq),
+      ifMatch: this.determineIfMatch(task.httpReq),
       ldpTaskName: this.determineLdpTaskName(task.httpReq),
       path: task.httpReq.url,
       httpRes: task.httpRes, // passed on
@@ -133,6 +138,7 @@ export class LdpParserResult {
   omitBody: boolean
   origin: string
   contentType: string | undefined
+  ifMatch: string | undefined
   ldpTaskName: string
   path: string
   requestBody: string
