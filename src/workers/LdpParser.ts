@@ -7,14 +7,12 @@
 //  * the ResponderAndReleaser at workers.respondAndRelease
 
 import Worker from './Worker'
-import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
-
-// import { HttpRequest, HttpResponse } from 'http'
+import { ResponderAndReleaserTask, ResultType, ErrorResult } from './ResponderAndReleaser'
 
 // parse the http request to extract some basic info (e.g. is it a container?)
 // and add that info to the request, then pass it on to the colleague from
 // Authentication:
-export class LdpParser extends Worker {
+export class LdpParser implements Worker {
   getContainerTask(method) {
     if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
       return 'containerRead'
@@ -88,7 +86,15 @@ export class LdpParser extends Worker {
     return (['OPTIONS', 'HEAD'].indexOf(httpReq.method) !== -1)
   }
 
-  async post(task: LdpParserTask) {
+  determineAsJsonLd(httpReq: any) {
+    try {
+      return (httpReq.headers['content-type'].split(';')[0] === 'application/json+ld')
+    } catch(e) {
+      return false
+    }
+  }
+
+  async handle(task: any) {
     console.log('LdpParserTask!')
     let errorCode = null // todo actually use this. maybe with try-catch?
     const parsedTask = {
@@ -98,7 +104,9 @@ export class LdpParser extends Worker {
       origin: this.determineOrigin(task.httpReq),
       contentType: this.determineContentType(task.httpReq),
       ifMatch: this.determineIfMatch(task.httpReq),
+      asJsonLd: this.determineAsJsonLd(task.httpReq),
       ldpTaskName: this.determineLdpTaskName(task.httpReq),
+      requestBody: undefined,
       path: task.httpReq.url,
       httpRes: task.httpRes, // passed on
     } as LdpParserResult
@@ -121,13 +129,9 @@ export class LdpParser extends Worker {
       requestBody: parsedTask.requestBody,
     })
     if (errorCode === null) {
-      this.colleagues.success.post(parsedTask)
+      return parsedTask
     } else {
-      const errorResponse = {
-        resultType: ResultType.CouldNotParse,
-        httpRes: task.httpRes,
-      } as ResponderAndReleaserTask
-      this.colleagues.failure.post(errorResponse)
+      throw new ErrorResult(ResultType.CouldNotParse)
     }
   }
 }
@@ -136,16 +140,11 @@ export class LdpParserResult {
   mayIncreaseDiskUsage: boolean
   isContainer: boolean
   omitBody: boolean
+  asJsonLd: boolean
   origin: string
   contentType: string | undefined
   ifMatch: string | undefined
   ldpTaskName: string
   path: string
   requestBody: string
-  httpRes: any // HttpResponse
-}
-
-export class LdpParserTask {
-  httpReq: any // HttpRequest
-  httpRes: any // HttpResponse
 }

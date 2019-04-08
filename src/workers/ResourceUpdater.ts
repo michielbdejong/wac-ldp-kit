@@ -1,22 +1,13 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
-import LdpTask from '../Task'
+import LdpTask from '../LdpTask'
 
-// Used as:
-//  * workers.resourceUpdater
-// Receives tasks from:
-//  * the QuotaChecker at workers.quotaCheck
-// Posts tasks to:
-//  * the ResponderAndReleaser at workers.respondAndRelease
-
-export class ResourceUpdater extends Worker {
-  post(task: LdpTask) {
+export class ResourceUpdater implements Worker {
+  async handle(task: LdpTask) {
     console.log('LdpTask ResourceUpdater!')
     // TODO: implement
-    const result = {
+    return {
       resultType: ResultType.OkayWithoutBody,
-      httpRes: task.httpRes,
     } as ResponderAndReleaserTask
-    this.colleagues.done.post(result)
   }
 }

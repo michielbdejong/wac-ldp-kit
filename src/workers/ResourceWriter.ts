@@ -1,32 +1,22 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
-import LdpTask from '../Task'
-console.log('ResourceWriter refers to storage')
+import LdpTask from '../LdpTask'
 import storage from '../storage'
 
-// Used as:
-//  * workers.resourceWriter
-// Receives tasks from:
-//  * the QuotaChecker at workers.quotaCheck
-// Posts tasks to:
-//  * the ResponderAndReleaser at workers.respondAndRelease
-
-export class ResourceWriter extends Worker {
-  async post(task: LdpTask) {
+export class ResourceWriter implements Worker {
+  async handle(task: LdpTask) {
     console.log('LdpTask ResourceWriter!')
     const resource = storage.getReadWriteLockedResource(task.path)
     const resultType = (resource.exists() ? ResultType.OkayWithoutBody : ResultType.Created)
     await resource.setData({
       contentType: task.contentType,
-      body: task.body
+      body: task.requestBody
     })
     resource.releaseLock()
 
-    const result = {
+    return {
       resultType,
-      httpRes: task.httpRes,
     } as ResponderAndReleaserTask
-    this.colleagues.done.post(result)
   }
 }
 

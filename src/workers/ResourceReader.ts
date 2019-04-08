@@ -1,20 +1,13 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
-import LdpTask from '../Task'
+import LdpTask from '../LdpTask'
 
 console.log('ResourceReader refers to storage')
 import storage from '../storage'
-// Used as:
-//  * workers.resourceReader
-// Receives tasks from:
-//  * the AclChecker at determineAllowedModes
-// Posts tasks to:
-//  * the ResponderAndReleaser at workers.respondAndRelease
 
-export class ResourceReader extends Worker {
+export class ResourceReader implements Worker {
   async executeTask(task, resource): Promise<ResponderAndReleaserTask> {
     let result = {
-      httpRes: task.httpRes,
       lock: resource,
     } as ResponderAndReleaserTask
     if (!resource.exists()) {
@@ -31,7 +24,7 @@ export class ResourceReader extends Worker {
     return result
   }
 
-  async post(task: LdpTask) {
+  async handle(task: LdpTask) {
     console.log('LdpTask ResourceReader!')
     const resource = storage.getReadLockedResource(task.path)
     const result = await this.executeTask(task, resource)
@@ -40,7 +33,7 @@ export class ResourceReader extends Worker {
     } else {
       resource.releaseLock()
     }
-    this.colleagues.done.post(result)
+    return result
   }
 }
 

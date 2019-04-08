@@ -1,23 +1,14 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
-import LdpTask from '../Task'
+import LdpTask from '../LdpTask'
 
-// Used as:
-//  * workers.resourceDelete
-// Receives tasks from:
-//  * the AclChecker at determineAllowedModes
-// Posts tasks to:
-//  * the ResponderAndReleaser at workers.respondAndRelease
-
-export class ResourceDeleter extends Worker {
-  post(task: LdpTask) {
+export class ResourceDeleter implements Worker {
+  async handle(task: LdpTask) {
     console.log('LdpTask ResourceDeleter!')
     // TODO: implement
-    const result = {
+    return {
       resultType: ResultType.OkayWithoutBody,
-      httpRes: task.httpRes,
     } as ResponderAndReleaserTask
-    this.colleagues.done.post(result)
   }
 }
 

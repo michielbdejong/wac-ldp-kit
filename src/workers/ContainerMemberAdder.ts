@@ -1,19 +1,12 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
-import LdpTask from '../Task'
+import LdpTask from '../LdpTask'
 import * as uuid from 'uuid/v4'
 import { makeResourceData } from '../ResourceData'
 import storage from '../storage'
 
-// Used as:
-//  * workers.containerMemberAdd
-// Receives tasks from:
-//  * the QuotaChecker at workers.quotaCheck
-// Posts tasks to:
-//  * the ResponderAndReleaser at workers.respondAndRelease
-
-export class ContainerMemberAdder extends Worker {
-  async post(task: LdpTask) {
+export class ContainerMemberAdder implements Worker {
+  async handle(task: LdpTask) {
     console.log('LdpTask ContainerMemberAdder!')
     const resourcePath = task.path + uuid()
     const resource = storage.getReadWriteLockedResource(resourcePath)
@@ -22,12 +15,10 @@ export class ContainerMemberAdder extends Worker {
       console.log('resource.reset has been called')
     }
     await resource.setData(makeResourceData(task.contentType, task.requestBody))
-    const result = {
+    return {
       resultType: ResultType.Created,
-      httpRes: task.httpRes,
       createdLocation: resourcePath,
     } as ResponderAndReleaserTask
-    this.colleagues.done.post(result)
   }
 }
 

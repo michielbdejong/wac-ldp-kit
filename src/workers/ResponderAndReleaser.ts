@@ -2,22 +2,6 @@ import Worker from './Worker'
 import { ReadLockedNode } from '../Node'
 import { ResourceData } from '../ResourceData'
 
-// Used as:
-//  * workers.respondAndRelease
-// Receives tasks from:
-//  * the LdpParser at workers.parseLdp
-//  * the AclChecker at determineAllowedModes
-//  * the QuotaChecker at workers.quotaCheck
-//
-//  * the ContainerReader at containerRead
-//  * the GlobReader at workers.globRead
-//  * the ResourceReader at workers.resourceRead
-//  * the ContainerMemberAdder at workers.containerMemberAdd
-//  * the ResourceWriter at workers.resourceWrite
-//  * the ResourceUpdater at workers.resourceUpdate
-//  * the ContainerDeleter at workers.containerDelete
-//  * the ResourceDeleter at workers.resourceDelete
-
 export enum ResultType {
   CouldNotParse,
   AccessDenied,
@@ -29,6 +13,13 @@ export enum ResultType {
   InternalServerError,
 }
 
+export class ErrorResult extends Error {
+  resultType: ResultType
+  constructor(resultType: ResultType) {
+    super('error result')
+    this.resultType = resultType
+  }
+}
 export class ResponderAndReleaserTask {
   resultType: ResultType
   resourceData: ResourceData | undefined
@@ -38,8 +29,8 @@ export class ResponderAndReleaserTask {
   lock: ReadLockedNode | undefined
 }
 
-export class ResponderAndReleaser extends Worker {
-  post(task: ResponderAndReleaserTask) {
+export class ResponderAndReleaser implements Worker {
+  async handle(task: ResponderAndReleaserTask) {
     console.log('ResponderAndReleaserTask!')
 
     const responses = {
@@ -72,6 +63,7 @@ export class ResponderAndReleaser extends Worker {
         responseBody: 'Internal server error',
       }
     }
+    console.log(task.resultType, responses)
     const responseStatus = responses[task.resultType].responseStatus
     const responseBody = responses[task.resultType].responseBody
 

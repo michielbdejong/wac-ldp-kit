@@ -1,22 +1,13 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
-import LdpTask from '../Task'
+import LdpTask from '../LdpTask'
 
-// Used as:
-//  * workers.globReader
-// Receives tasks from:
-//  * the AclChecker at determineAllowedModes
-// Posts tasks to:
-//  * the ResponderAndReleaser at workers.respondAndRelease
-
-export class GlobReader extends Worker {
-  post(task: LdpTask) {
+export class GlobReader implements Worker {
+  async handle(task: LdpTask) {
     console.log('LdpTask GlobReader!')
     // TODO: implement
-    const result = {
+    return {
       resultType: ResultType.OkayWithBody,
-      httpRes: task.httpRes,
     } as ResponderAndReleaserTask
-    this.colleagues.done.post(result)
   }
 }
