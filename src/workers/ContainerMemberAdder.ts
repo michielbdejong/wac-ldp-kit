@@ -31,7 +31,7 @@ export class ContainerMemberAdder extends Worker {
       httpRes: task.httpRes,
       createdLocation: resourcePath,
     } as ResponderAndReleaserTask
-    this.colleagues.respondAndRelease.post(result)
+    this.colleagues.done.post(result)
   }
 }
 

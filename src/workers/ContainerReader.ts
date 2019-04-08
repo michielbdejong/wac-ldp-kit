@@ -27,6 +27,6 @@ export class ContainerReader extends Worker {
       httpRes: task.httpRes,
       lock: container,
     } as ResponderAndReleaserTask
-    this.colleagues.respondAndRelease.post(result)
+    this.colleagues.done.post(result)
   }
 }

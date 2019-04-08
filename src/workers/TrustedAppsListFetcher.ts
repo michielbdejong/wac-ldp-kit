@@ -21,6 +21,6 @@ export class TrustedAppsListFetcher extends Worker {
     console.log('TrustedAppsListFetcherTask!')
     const result = task as TrustedAppsListFetcherResult // this step just adds info
     result.trustedApps = 'this is where the TrustedAppsListFetcher would create the list of trusted apps'
-    this.colleagues.determineAllowedModes.post(task as AclCheckerTask)
+    this.colleagues.success.post(task as AclCheckerTask)
   }
 }

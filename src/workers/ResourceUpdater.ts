@@ -17,6 +17,6 @@ export class ResourceUpdater extends Worker {
       resultType: ResultType.OkayWithoutBody,
       httpRes: task.httpRes,
     } as ResponderAndReleaserTask
-    this.colleagues.respondAndRelease.post(result)
+    this.colleagues.done.post(result)
   }
 }

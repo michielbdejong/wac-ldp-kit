@@ -26,7 +26,7 @@ export class ResourceWriter extends Worker {
       resultType,
       httpRes: task.httpRes,
     } as ResponderAndReleaserTask
-    this.colleagues.respondAndRelease.post(result)
+    this.colleagues.done.post(result)
   }
 }
 

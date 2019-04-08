@@ -42,7 +42,7 @@ export class ResourceReader extends Worker {
     } else {
       resource.releaseLock()
     }
-    this.colleagues.respondAndRelease.post(result)
+    this.colleagues.done.post(result)
   }
 }
 

@@ -111,13 +111,13 @@ export class LdpParser extends Worker {
       requestBody: parsedTask.requestBody,
     })
     if (errorCode === null) {
-      this.colleagues.determineIdentity.post(parsedTask)
+      this.colleagues.success.post(parsedTask)
     } else {
       const errorResponse = {
         resultType: ResultType.CouldNotParse,
         httpRes: task.httpRes,
       } as ResponderAndReleaserTask
-      this.colleagues.respondAndRelease.post(errorResponse)
+      this.colleagues.failure.post(errorResponse)
     }
   }
 }

@@ -17,6 +17,6 @@ export class GlobReader extends Worker {
       resultType: ResultType.OkayWithBody,
       httpRes: task.httpRes,
     } as ResponderAndReleaserTask
-    this.colleagues.respondAndRelease.post(result)
+    this.colleagues.done.post(result)
   }
 }

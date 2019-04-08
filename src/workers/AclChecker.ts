@@ -9,13 +9,7 @@ import LdpTask from '../Task'
 //  * the TrustedAppsListFetcher at determineTrustedApps
 // Posts tasks to:
 //  * the ResponderAndReleaser at workers.respondAndRelease
-//  * the QuotaChecker at workers.quotaCheck
-//
-//  * the ContainerReader at containerRead
-//  * the GlobReader at workers.globRead
-//  * the ResourceReader at workers.resourceRead
-//  * the ContainerDeleter at workers.containerDelete
-//  * the ResourceDeleter at workers.resourceDelete
+//  * the LdpTaskSplitter at workers.splitToTask
 
 export class AclCheckerTask extends TrustedAppsListFetcherResult {
 }
@@ -36,13 +30,9 @@ export class AclChecker extends Worker {
         resultType: ResultType.AccessDenied,
         httpRes: task.httpRes,
       } as ResponderAndReleaserTask
-      this.colleagues.respondAndRelease.post(errorResponse)
+      this.colleagues.failure.post(errorResponse)
       return
     }
-    let nextStep = task.ldpTaskName
-    if (task.mayIncreaseDiskUsage) {
-      nextStep = 'quotaCheck'
-    }
-    this.colleagues[nextStep].post(task as LdpTask)
+    this.colleagues.success.post(task as LdpTask)
   }
 }
