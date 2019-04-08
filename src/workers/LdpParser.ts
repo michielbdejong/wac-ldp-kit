@@ -19,7 +19,7 @@ export class LdpParser extends Worker {
     if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
       return 'containerRead'
     }
-    if (method === 'POST') {
+    if (method === 'POST' || method === 'PUT') {
       return 'containerMemberAdd'
     }
     if (method === 'DELETE') {
@@ -48,6 +48,7 @@ export class LdpParser extends Worker {
     if (method === 'DELETE') {
       return 'resourceDelete'
     }
+    console.log('unknown http method', method)
     return 'unknown'
   }
 

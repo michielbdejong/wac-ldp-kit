@@ -21,6 +21,7 @@ export class QuotaChecker extends Worker {
     console.log('LdpTask QuotaChecker!')
     const quotaError = this.getQuotaError()
     if (quotaError === null) {
+      console.log(task.ldpTaskName)
       this.colleagues[task.ldpTaskName].post(task as LdpTask)
     } else {
       const errorResponse = {

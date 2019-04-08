@@ -1,6 +1,8 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
+import * as uuid from 'uuid/v4'
+import storage from '../storage'
 
 // Used as:
 //  * workers.containerMemberAdd
@@ -10,12 +12,17 @@ import LdpTask from '../Task'
 //  * the ResponderAndReleaser at workers.respondAndRelease
 
 export class ContainerMemberAdder extends Worker {
-  post(task: LdpTask) {
+  async post(task: LdpTask) {
     console.log('LdpTask ContainerMemberAdder!')
-    // TODO: implement
+    const resourcePath = task.path + uuid()
+    const resource = storage.getReadWriteLockedResource(resourcePath)
+    if (!resource.exists()) {
+      await resource.reset()
+    }
     const result = {
-      resultType: ResultType.OkayWithoutBody,
+      resultType: ResultType.Created,
       httpRes: task.httpRes,
+      createdLocation: resourcePath,
     } as ResponderAndReleaserTask
     this.colleagues.respondAndRelease.post(result)
   }
