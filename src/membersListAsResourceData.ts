@@ -35,11 +35,9 @@ function toJsonLd (containerUrl: string, fileNames: Array<string>) : string {
   })
 }
 
-export default function membersListAsResourceData (containerUrl, fileNames, headers): ResourceData {
-  console.log(headers)
-  const contentType = 'application/ld+json'
-  console.log('toFolderDescription', containerUrl, fileNames, contentType)
-  if (contentType === 'application/ld+json') {
+export default function membersListAsResourceData (containerUrl, fileNames, asJsonLd): ResourceData {
+  console.log('membersListAsResourceData', containerUrl, fileNames, asJsonLd)
+  if (asJsonLd) {
      return {
        body: toJsonLd(containerUrl, fileNames),
        contentType: 'application/ld+json'

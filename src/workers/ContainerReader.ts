@@ -1,6 +1,8 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
+import storage from '../storage'
+import membersListAsResourceData from '../membersListAsResourceData'
 
 // Used as:
 //  * workers.containerReader
@@ -10,12 +12,17 @@ import LdpTask from '../Task'
 //  * the ResponderAndReleaser at workers.respondAndRelease
 
 export class ContainerReader extends Worker {
-  post(task: LdpTask) {
-    console.log('LdpTask ContainerReader!')
-    // TODO: implement
+  async post(task: LdpTask) {
+    const container = storage.getReadLockedContainer(task.path)
+    const membersList = await container.getMembers()
+    const resourceData = membersListAsResourceData(task.path, membersList, task.asJsonLd)
     const result = {
-      resultType: ResultType.OkayWithBody, // TODO: deal with HEAD and OPTIONS
+      resultType: (task.omitBody ? ResultType.OkayWithoutBody : ResultType.OkayWithBody),
+      responseBody: resourceData.body,
+      contentType: resourceData.contentType,
+      createdLocation: undefined,
       httpRes: task.httpRes,
+      lock: container,
     } as ResponderAndReleaserTask
     this.colleagues.respondAndRelease.post(result)
   }

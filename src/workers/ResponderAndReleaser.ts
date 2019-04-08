@@ -1,5 +1,7 @@
 import Worker from './Worker'
 import { ReadLockedNode } from '../Node'
+import sha256 from '../sha256'
+
 // Used as:
 //  * workers.respondAndRelease
 // Receives tasks from:
@@ -31,8 +33,7 @@ export class ResponderAndReleaserTask {
   resultType: ResultType
   contentType: string
   responseBody: string | null
-  etag: string | null
-  createdLocation: string | null
+  createdLocation: string | undefined
   httpRes: any
   lock: ReadLockedNode | undefined
 }
@@ -41,7 +42,7 @@ export class ResponderAndReleaser extends Worker {
   post(task: ResponderAndReleaserTask) {
     console.log('ResponderAndReleaserTask!')
     const responseHeaders = {
-    }
+    } as any
     if (task.contentType) {
       responseHeaders['Content-Type'] = task.contentType
     }
@@ -81,6 +82,9 @@ export class ResponderAndReleaser extends Worker {
     }
     const responseStatus = responses[task.resultType].responseStatus
     const responseBody = responses[task.resultType].responseBody
+    if (task.resultType === ResultType.OkayWithBody) {
+      responseHeaders.ETag = sha256(responseBody)
+    }
     task.httpRes.writeHead(responseStatus, responseHeaders)
     task.httpRes.end(responseBody)
     task.httpRes.on('end', () => {

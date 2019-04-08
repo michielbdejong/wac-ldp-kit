@@ -1,7 +1,6 @@
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../Task'
-import sha256 from '../sha256'
 
 import storage from '../Storage'
 // Used as:
@@ -22,7 +21,6 @@ export class ResourceReader extends Worker {
       return result
     }
     const data = resource.getData()
-    result.etag = sha256(data.body)
     result.contentType = data.contentType
     if (task.omitBody) {
       result.resultType = ResultType.OkayWithoutBody
