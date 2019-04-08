@@ -1,10 +1,9 @@
 import * as crypto from 'crypto'
-import * as Stream from 'stream'
 
 const secret = 'abcdefg'
 
-export default function sha256 (s: Stream) {
+export default function calculateETag (text: string) {
   const hmac = crypto.createHmac('sha256', secret)
-  s.pipe(hmac)
+  hmac.update(text)
   return hmac.digest('hex')
 }

@@ -11,7 +11,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "node src/ldp.js",
-    "build": "tsc src/*.ts --lib ES2015,dom",
+    "build": "tsc **/*.ts --lib ES2015,dom",
     "test": "npm run build",
     "testsuite1": "java -jar ../../w3c/ldp-testsuite/target/ldp-testsuite-0.2.0-SNAPSHOT-shaded.jar --basic --test testJsonLdRepresentation",
     "testsuite": "java -jar ../../w3c/ldp-testsuite/target/ldp-testsuite-0.2.0-SNAPSHOT-shaded.jar --basic"

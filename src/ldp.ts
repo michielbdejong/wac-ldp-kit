@@ -1,25 +1,56 @@
 import * as http from 'http'
-import ResourceStoreInMem from './ResourceStoreInMem'
-import IResourceIdentifier from './IResourceIdentifier'
-import IRepresentation from './IRepresentation'
-import IResponse from './IResponse'
-import Router from './router'
+
+import { LdpParser } from './workers/LdpParser'
+
+import { ContainerReader } from './workers/ContainerReader'
+import { GlobReader } from './workers/GlobReader'
+import { ResourceReader } from './workers/ResourceReader'
+import { ContainerMemberAdder } from './workers/ContainerMemberAdder'
+import { ResourceWriter } from './workers/ResourceWriter'
+import { ResourceUpdater } from './workers/ResourceUpdater'
+import { ContainerDeleter } from './workers/ContainerDeleter'
+import { ResourceDeleter } from './workers/ResourceDeleter'
+
+import { ResponderAndReleaser, ResponderAndReleaserTask } from './workers/ResponderAndReleaser'
+import LdpTask from './LdpTask'
 
 const port = 8080
 
-const resourceStore = new ResourceStoreInMem()
-const router = new Router(resourceStore)
+const workers = {
+  // step 1, parse:
+  parseLdp: new LdpParser(),
+
+  // step 2, execute:
+  containerRead: new ContainerReader(),
+  globRead: new GlobReader(),
+  resourceRead: new ResourceReader(),
+  containerDelete: new ContainerDeleter(),
+  resourceDelete: new ResourceDeleter(),
+  containerMemberAdd: new ContainerMemberAdder(),
+  resourceWrite: new ResourceWriter(),
+  resourceUpdate: new ResourceUpdater(),
+
+  // step 3, handle result:
+  respondAndRelease: new ResponderAndReleaser(),
+}
 
 const server = http.createServer(async (req: any, res: any) => {
-  console.log(req.method, req.headers, req.url)
-  const identifier = { domain: `http://localhost:${port}`, path: req.url } as IResourceIdentifier
-  const representation = {
-    body: req,
-    contentType: 'text/turtle'
-  } as IRepresentation
-  const response = await router[req.method](identifier, req.headers, representation)
-  res.writeHead(response.status, response.headers)
-  response.body.pipe(res)
+  console.log(`\n\n`, req.method, req.url, req.headers)
+
+  let response: ResponderAndReleaserTask
+  try {
+    const ldpTask: LdpTask = await workers.parseLdp.handle({
+      httpReq: req
+    })
+    console.log('parsed', ldpTask)
+    response = await workers[ldpTask.ldpTaskName].handle(ldpTask)
+    console.log('executed', response)
+  } catch (error) {
+    console.log('errored', error)
+    response = error as ResponderAndReleaserTask
+  }
+  response.httpRes = res
+  workers.respondAndRelease.handle(response)
 })
 
 // ...

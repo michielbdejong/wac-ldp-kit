@@ -1,15 +1,8 @@
 import * as Stream from 'stream'
-import IRepresentation from './IRepresentation'
+import { makeResourceData, ResourceData } from './ResourceData'
 
 const NEWLINE = '\r\n'
 
-function stringToStream ( text: string ) : Stream {
-  const stream = new Stream.Readable()
-  stream._read = () => {}
-  stream.push(text)
-  stream.push(null)
-  return stream
-}
 
 function toTurtle (containerUrl: string, fileNames: Array<string>) : string {
   console.log('folderDescription', fileNames)
@@ -42,19 +35,11 @@ function toJsonLd (containerUrl: string, fileNames: Array<string>) : string {
   })
 }
 
-export default function toFolderDescription (containerUrl, fileNames, headers): IRepresentation {
-  console.log(headers)
-  const contentType = 'application/ld+json'
-  console.log('toFolderDescription', containerUrl, fileNames, contentType)
-  if (contentType === 'application/ld+json') {
-     return {
-       body: stringToStream(toJsonLd(containerUrl, fileNames)),
-       contentType: 'application/ld+json'
-     } as IRepresentation
+export default function membersListAsResourceData (containerUrl, fileNames, asJsonLd): ResourceData {
+  console.log('membersListAsResourceData', containerUrl, fileNames, asJsonLd)
+  if (asJsonLd) {
+     return makeResourceData('application/ld+json', toJsonLd(containerUrl, fileNames))
   } else {
-    return {
-      body: stringToStream(toTurtle(containerUrl, fileNames)),
-      contentType: 'text/turtle'
-    } as IRepresentation
+    return makeResourceData('text/turtle', toTurtle(containerUrl, fileNames))
   }
 }
