@@ -1,5 +1,5 @@
 import * as Stream from 'stream'
-import ResourceData from './ResourceData'
+import { makeResourceData, ResourceData } from './ResourceData'
 
 const NEWLINE = '\r\n'
 
@@ -35,19 +35,11 @@ function toJsonLd (containerUrl: string, fileNames: Array<string>) : string {
   })
 }
 
-export default function membersListAsResourceData (containerUrl, fileNames, headers): ResourceData {
-  console.log(headers)
-  const contentType = 'application/ld+json'
-  console.log('toFolderDescription', containerUrl, fileNames, contentType)
-  if (contentType === 'application/ld+json') {
-     return {
-       body: toJsonLd(containerUrl, fileNames),
-       contentType: 'application/ld+json'
-     } as ResourceData
+export default function membersListAsResourceData (containerUrl, fileNames, asJsonLd): ResourceData {
+  console.log('membersListAsResourceData', containerUrl, fileNames, asJsonLd)
+  if (asJsonLd) {
+     return makeResourceData('application/ld+json', toJsonLd(containerUrl, fileNames))
   } else {
-    return {
-      body: toTurtle(containerUrl, fileNames),
-      contentType: 'text/turtle'
-    } as ResourceData
+    return makeResourceData('text/turtle', toTurtle(containerUrl, fileNames))
   }
 }

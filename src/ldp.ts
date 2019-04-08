@@ -1,26 +1,56 @@
 import * as http from 'http'
-import Request from './Request'
-import Response from './Response'
-import Router from './router'
-import AtomicTreeInMem from './AtomicTreeInMem'
+
+import { LdpParser } from './workers/LdpParser'
+
+import { ContainerReader } from './workers/ContainerReader'
+import { GlobReader } from './workers/GlobReader'
+import { ResourceReader } from './workers/ResourceReader'
+import { ContainerMemberAdder } from './workers/ContainerMemberAdder'
+import { ResourceWriter } from './workers/ResourceWriter'
+import { ResourceUpdater } from './workers/ResourceUpdater'
+import { ContainerDeleter } from './workers/ContainerDeleter'
+import { ResourceDeleter } from './workers/ResourceDeleter'
+
+import { ResponderAndReleaser, ResponderAndReleaserTask } from './workers/ResponderAndReleaser'
+import LdpTask from './LdpTask'
 
 const port = 8080
 
-const storage = new AtomicTreeInMem()
-const router = new Router(storage)
+const workers = {
+  // step 1, parse:
+  parseLdp: new LdpParser(),
+
+  // step 2, execute:
+  containerRead: new ContainerReader(),
+  globRead: new GlobReader(),
+  resourceRead: new ResourceReader(),
+  containerDelete: new ContainerDeleter(),
+  resourceDelete: new ResourceDeleter(),
+  containerMemberAdd: new ContainerMemberAdder(),
+  resourceWrite: new ResourceWriter(),
+  resourceUpdate: new ResourceUpdater(),
+
+  // step 3, handle result:
+  respondAndRelease: new ResponderAndReleaser(),
+}
 
 const server = http.createServer(async (req: any, res: any) => {
-  console.log(req.method, req.headers, req.url)
-  const request = {
-    domain: `http://localhost:${port}`,
-    path: req.url,
-    method: req.method,
-    headers: req.headers,
-    body: req
-  } as Request
-  const response = await router.handle(request)
-  res.writeHead(response.status, response.headers)
-  response.body.pipe(res)
+  console.log(`\n\n`, req.method, req.url, req.headers)
+
+  let response: ResponderAndReleaserTask
+  try {
+    const ldpTask: LdpTask = await workers.parseLdp.handle({
+      httpReq: req
+    })
+    console.log('parsed', ldpTask)
+    response = await workers[ldpTask.ldpTaskName].handle(ldpTask)
+    console.log('executed', response)
+  } catch (error) {
+    console.log('errored', error)
+    response = error as ResponderAndReleaserTask
+  }
+  response.httpRes = res
+  workers.respondAndRelease.handle(response)
 })
 
 // ...
