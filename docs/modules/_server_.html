@@ -74,14 +74,10 @@
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_server_.html#debug" class="tsd-kind-icon">debug</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_server_.html#handler" class="tsd-kind-icon">handler</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_server_.html#port" class="tsd-kind-icon">port</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_server_.html#server" class="tsd-kind-icon">server</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Object literals</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-external-module tsd-is-not-exported"><a href="_server_.html#workers" class="tsd-kind-icon">workers</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_server_.html#storage" class="tsd-kind-icon">storage</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,7 +91,17 @@
 					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;Debug(&#x27;server&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L3">server.ts:3</a></li>
+							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/214e8f0/src/server.ts#L7">server.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="handler" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> handler</h3>
+					<div class="tsd-signature tsd-kind-icon">handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">handle</span><span class="tsd-signature-symbol"> =&nbsp;makeHandler(storage)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/214e8f0/src/server.ts#L11">server.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -105,132 +111,29 @@
 					<div class="tsd-signature tsd-kind-icon">port<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">8080</span><span class="tsd-signature-symbol"> =&nbsp;8080</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L19">server.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/214e8f0/src/server.ts#L8">server.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 					<a name="server" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> server</h3>
-					<div class="tsd-signature tsd-kind-icon">server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Server</span><span class="tsd-signature-symbol"> =&nbsp;http.createServer(async (req: any, res: any) &#x3D;&gt; {debug(&#x60;\n\n&#x60;, req.method, req.url, req.headers)let response: ResponderAndReleaserTasktry {const ldpTask: LdpTask &#x3D; await workers.parseLdp.handle({httpReq: req})debug(&#x27;parsed&#x27;, ldpTask)response &#x3D; await workers[ldpTask.ldpTaskName].handle(ldpTask)debug(&#x27;executed&#x27;, response)} catch (error) {debug(&#x27;errored&#x27;, error)response &#x3D; error as ResponderAndReleaserTask}response.httpRes &#x3D; restry {return workers.respondAndRelease.handle(response)} catch (error) {debug(&#x27;errored while responding&#x27;, error)}})</span></div>
+					<div class="tsd-signature tsd-kind-icon">server<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Server</span><span class="tsd-signature-symbol"> =&nbsp;http.createServer(handler)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L39">server.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/214e8f0/src/server.ts#L12">server.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Object literals</h2>
-				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="workers" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> workers</h3>
-					<div class="tsd-signature tsd-kind-icon">workers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="storage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> storage</h3>
+					<div class="tsd-signature tsd-kind-icon">storage<span class="tsd-signature-symbol">:</span> <a href="../classes/_atomictreeinmem_.atomictreeinmem.html" class="tsd-signature-type">AtomicTreeInMem</a><span class="tsd-signature-symbol"> =&nbsp;new AtomicTreeInMem()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L21">server.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/214e8f0/src/server.ts#L10">server.ts:10</a></li>
 						</ul>
 					</aside>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
-						<a name="workers.containerdelete" class="tsd-anchor"></a>
-						<h3>container<wbr>Delete</h3>
-						<div class="tsd-signature tsd-kind-icon">container<wbr>Delete<span class="tsd-signature-symbol">:</span> <a href="../classes/_workers_containerdeleter_.containerdeleter.html" class="tsd-signature-type">ContainerDeleter</a><span class="tsd-signature-symbol"> =&nbsp;new ContainerDeleter()</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L29">server.ts:29</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
-						<a name="workers.containermemberadd" class="tsd-anchor"></a>
-						<h3>container<wbr>Member<wbr>Add</h3>
-						<div class="tsd-signature tsd-kind-icon">container<wbr>Member<wbr>Add<span class="tsd-signature-symbol">:</span> <a href="../classes/_workers_containermemberadder_.containermemberadder.html" class="tsd-signature-type">ContainerMemberAdder</a><span class="tsd-signature-symbol"> =&nbsp;new ContainerMemberAdder()</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L31">server.ts:31</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
-						<a name="workers.containerread" class="tsd-anchor"></a>
-						<h3>container<wbr>Read</h3>
-						<div class="tsd-signature tsd-kind-icon">container<wbr>Read<span class="tsd-signature-symbol">:</span> <a href="../classes/_workers_containerreader_.containerreader.html" class="tsd-signature-type">ContainerReader</a><span class="tsd-signature-symbol"> =&nbsp;new ContainerReader()</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L26">server.ts:26</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
-						<a name="workers.globread" class="tsd-anchor"></a>
-						<h3>glob<wbr>Read</h3>
-						<div class="tsd-signature tsd-kind-icon">glob<wbr>Read<span class="tsd-signature-symbol">:</span> <a href="../classes/_workers_globreader_.globreader.html" class="tsd-signature-type">GlobReader</a><span class="tsd-signature-symbol"> =&nbsp;new GlobReader()</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L27">server.ts:27</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
-						<a name="workers.parseldp" class="tsd-anchor"></a>
-						<h3>parse<wbr>Ldp</h3>
-						<div class="tsd-signature tsd-kind-icon">parse<wbr>Ldp<span class="tsd-signature-symbol">:</span> <a href="../classes/_workers_ldpparser_.ldpparser.html" class="tsd-signature-type">LdpParser</a><span class="tsd-signature-symbol"> =&nbsp;new LdpParser()</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L23">server.ts:23</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
-						<a name="workers.resourcedelete" class="tsd-anchor"></a>
-						<h3>resource<wbr>Delete</h3>
-						<div class="tsd-signature tsd-kind-icon">resource<wbr>Delete<span class="tsd-signature-symbol">:</span> <a href="../classes/_workers_resourcedeleter_.resourcedeleter.html" class="tsd-signature-type">ResourceDeleter</a><span class="tsd-signature-symbol"> =&nbsp;new ResourceDeleter()</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L30">server.ts:30</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
-						<a name="workers.resourceread" class="tsd-anchor"></a>
-						<h3>resource<wbr>Read</h3>
-						<div class="tsd-signature tsd-kind-icon">resource<wbr>Read<span class="tsd-signature-symbol">:</span> <a href="../classes/_workers_resourcereader_.resourcereader.html" class="tsd-signature-type">ResourceReader</a><span class="tsd-signature-symbol"> =&nbsp;new ResourceReader()</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L28">server.ts:28</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
-						<a name="workers.resourceupdate" class="tsd-anchor"></a>
-						<h3>resource<wbr>Update</h3>
-						<div class="tsd-signature tsd-kind-icon">resource<wbr>Update<span class="tsd-signature-symbol">:</span> <a href="../classes/_workers_resourceupdater_.resourceupdater.html" class="tsd-signature-type">ResourceUpdater</a><span class="tsd-signature-symbol"> =&nbsp;new ResourceUpdater()</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L33">server.ts:33</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
-						<a name="workers.resourcewrite" class="tsd-anchor"></a>
-						<h3>resource<wbr>Write</h3>
-						<div class="tsd-signature tsd-kind-icon">resource<wbr>Write<span class="tsd-signature-symbol">:</span> <a href="../classes/_workers_resourcewriter_.resourcewriter.html" class="tsd-signature-type">ResourceWriter</a><span class="tsd-signature-symbol"> =&nbsp;new ResourceWriter()</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L32">server.ts:32</a></li>
-							</ul>
-						</aside>
-					</section>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal tsd-is-not-exported">
-						<a name="workers.respondandrelease" class="tsd-anchor"></a>
-						<h3>respond<wbr>And<wbr>Release</h3>
-						<div class="tsd-signature tsd-kind-icon">respond<wbr>And<wbr>Release<span class="tsd-signature-symbol">:</span> <a href="../classes/_workers_responderandreleaser_.responderandreleaser.html" class="tsd-signature-type">ResponderAndReleaser</a><span class="tsd-signature-symbol"> =&nbsp;new ResponderAndReleaser()</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ac82be0/src/server.ts#L36">server.ts:36</a></li>
-							</ul>
-						</aside>
-					</section>
 				</section>
 			</section>
 		</div>
@@ -262,6 +165,9 @@
 						<a href="_resourcedata_.html">"<wbr>Resource<wbr>Data"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_app_.html">"app"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_calculateetag_.html">"calculateETag"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -269,9 +175,6 @@
 					</li>
 					<li class="current tsd-kind-external-module">
 						<a href="_server_.html">"server"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_storage_.html">"storage"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_workers_containerdeleter_.html">"workers/<wbr>Container<wbr>Deleter"</a>
@@ -304,6 +207,9 @@
 						<a href="_workers_responderandreleaser_.html">"workers/<wbr>Responder<wbr>And<wbr>Releaser"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="_workers_storageworker_.html">"workers/<wbr>Storage<wbr>Worker"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="_workers_worker_.html">"workers/<wbr>Worker"</a>
 					</li>
 				</ul>
@@ -314,13 +220,16 @@
 						<a href="_server_.html#debug" class="tsd-kind-icon">debug</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_server_.html#handler" class="tsd-kind-icon">handler</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_server_.html#port" class="tsd-kind-icon">port</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
 						<a href="_server_.html#server" class="tsd-kind-icon">server</a>
 					</li>
-					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_server_.html#workers" class="tsd-kind-icon">workers</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_server_.html#storage" class="tsd-kind-icon">storage</a>
 					</li>
 				</ul>
 			</nav>

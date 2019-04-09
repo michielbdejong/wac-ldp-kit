@@ -1,14 +1,12 @@
 import Debug from 'debug'
+import StorageWorker from './StorageWorker'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../LdpTask'
 
 const debug = Debug('ResourceReader')
 
-debug('ResourceReader refers to storage')
-import storage from '../storage'
-
-export class ResourceReader implements Worker {
+export class ResourceReader extends StorageWorker implements Worker {
   async executeTask (task, resource): Promise<ResponderAndReleaserTask> {
     let result = {
       lock: resource
@@ -29,7 +27,7 @@ export class ResourceReader implements Worker {
 
   async handle (task: LdpTask) {
     debug('LdpTask ResourceReader!')
-    const resource = storage.getReadLockedResource(task.path)
+    const resource = this.storage.getReadLockedResource(task.path)
     const result = await this.executeTask(task, resource)
     if (result.resultType === ResultType.OkayWithBody) {
       result.lock = resource // release lock after streaming out the body

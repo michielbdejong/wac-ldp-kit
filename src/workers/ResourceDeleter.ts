@@ -1,11 +1,12 @@
 import Debug from 'debug'
+import StorageWorker from './StorageWorker'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../LdpTask'
 
 const debug = Debug('ResourceDeleter')
 
-export class ResourceDeleter implements Worker {
+export class ResourceDeleter extends StorageWorker implements Worker {
   async handle (task: LdpTask) {
     debug('LdpTask ResourceDeleter!')
     // TODO: implement

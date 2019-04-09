@@ -1,18 +1,18 @@
 import Debug from 'debug'
+import StorageWorker from './StorageWorker'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../LdpTask'
-import * as uuid from 'uuid/v4'
+import uuid from 'uuid/v4'
 import { makeResourceData } from '../ResourceData'
-import storage from '../storage'
 
 const debug = Debug('ContainerMemberAdder')
 
-export class ContainerMemberAdder implements Worker {
+export class ContainerMemberAdder extends StorageWorker implements Worker {
   async handle (task: LdpTask) {
     debug('LdpTask ContainerMemberAdder!')
     const resourcePath = task.path + uuid()
-    const resource = storage.getReadWriteLockedResource(resourcePath)
+    const resource = this.storage.getReadWriteLockedResource(resourcePath)
     if (!resource.exists()) {
       await resource.reset()
       debug('resource.reset has been called')

@@ -1,15 +1,15 @@
 import Debug from 'debug'
+import StorageWorker from './StorageWorker'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../LdpTask'
-import storage from '../storage'
 
 const debug = Debug('ResourceWriter')
 
-export class ResourceWriter implements Worker {
+export class ResourceWriter extends StorageWorker implements Worker {
   async handle (task: LdpTask) {
     debug('LdpTask ResourceWriter!')
-    const resource = storage.getReadWriteLockedResource(task.path)
+    const resource = this.storage.getReadWriteLockedResource(task.path)
     const resultType = (resource.exists() ? ResultType.OkayWithoutBody : ResultType.Created)
     await resource.setData({
       contentType: task.contentType,
