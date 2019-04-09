@@ -3,7 +3,6 @@ import Debug from 'debug'
 import makeHandler from './app'
 import AtomicTreeInMem from './AtomicTreeInMem'
 
-
 const debug = Debug('server')
 const port = 8080
 

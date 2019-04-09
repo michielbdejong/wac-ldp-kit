@@ -7,7 +7,6 @@ import membersListAsResourceData from '../membersListAsResourceData'
 
 const debug = Debug('ContainerReader')
 
-
 export class ContainerReader extends StorageWorker implements Worker {
   async handle (task: LdpTask) {
     const container = this.storage.getReadLockedContainer(task.path)
