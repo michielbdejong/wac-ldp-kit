@@ -1,5 +1,5 @@
 import * as Stream from 'stream'
-import * as Debug from 'debug'
+import Debug from 'debug'
 import { makeResourceData, ResourceData } from './ResourceData'
 const debug = Debug('membersListAsResourceData')
 

@@ -1,5 +1,5 @@
 import * as http from 'http'
-import * as Debug from 'debug'
+import Debug from 'debug'
 const debug = Debug('server')
 
 import { LdpParser } from './workers/LdpParser'

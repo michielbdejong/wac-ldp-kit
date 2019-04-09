@@ -1,4 +1,4 @@
-import * as Debug from 'debug'
+import Debug from 'debug'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType, ErrorResult } from './ResponderAndReleaser'
 

@@ -1,4 +1,4 @@
-import * as Debug from 'debug'
+import Debug from 'debug'
 import { ReadLockedNode, ReadWriteLockedNode } from './Node'
 import { ReadLockedContainer, ReadWriteLockedContainer } from './Container'
 import { ReadLockedResource, ReadWriteLockedResource } from './Resource'
