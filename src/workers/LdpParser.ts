@@ -45,7 +45,7 @@ export class LdpParser implements Worker {
     return 'unknown'
   }
 
-  determineLdpTaskName (httpReq: any) {
+  determineLdpParserResultName (httpReq: any) {
     // if the URL end with a / then the path indicates a container
     // if the URL end with /* then the path indicates a glob
     // in all other cases, the path indicates a resource
@@ -95,12 +95,12 @@ export class LdpParser implements Worker {
     const parsedTask = {
       mayIncreaseDiskUsage: this.determineMayIncreaseDiskUsage(task.httpReq),
       omitBody: this.determineOmitBody(task.httpReq),
-      isContainer: (task.httpReq.url.substr(-1) === '/'), // FIXME: code duplication, see determineLdpTaskName above
+      isContainer: (task.httpReq.url.substr(-1) === '/'), // FIXME: code duplication, see determineLdpParserResultName above
       origin: this.determineOrigin(task.httpReq),
       contentType: this.determineContentType(task.httpReq),
       ifMatch: this.determineIfMatch(task.httpReq),
       asJsonLd: this.determineAsJsonLd(task.httpReq),
-      ldpTaskName: this.determineLdpTaskName(task.httpReq),
+      ldpTaskName: this.determineLdpParserResultName(task.httpReq),
       requestBody: undefined,
       path: task.httpReq.url
     } as LdpParserResult

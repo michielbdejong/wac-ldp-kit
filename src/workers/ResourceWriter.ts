@@ -2,13 +2,13 @@ import Debug from 'debug'
 import StorageWorker from './StorageWorker'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
-import LdpTask from '../LdpTask'
+import { LdpParserResult } from './LdpParser'
 
 const debug = Debug('ResourceWriter')
 
 export class ResourceWriter extends StorageWorker implements Worker {
-  async handle (task: LdpTask) {
-    debug('LdpTask ResourceWriter!')
+  async handle (task: LdpParserResult) {
+    debug('LdpParserResult ResourceWriter!')
     const resource = this.storage.getReadWriteLockedResource(task.path)
     const resultType = (resource.exists() ? ResultType.OkayWithoutBody : ResultType.Created)
     await resource.setData({

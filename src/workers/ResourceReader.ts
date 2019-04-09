@@ -2,7 +2,7 @@ import Debug from 'debug'
 import StorageWorker from './StorageWorker'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
-import LdpTask from '../LdpTask'
+import { LdpParserResult } from './LdpParser'
 
 const debug = Debug('ResourceReader')
 
@@ -25,8 +25,8 @@ export class ResourceReader extends StorageWorker implements Worker {
     return result
   }
 
-  async handle (task: LdpTask) {
-    debug('LdpTask ResourceReader!')
+  async handle (task: LdpParserResult) {
+    debug('LdpParserResult ResourceReader!')
     const resource = this.storage.getReadLockedResource(task.path)
     const result = await this.executeTask(task, resource)
     if (result.resultType === ResultType.OkayWithBody) {

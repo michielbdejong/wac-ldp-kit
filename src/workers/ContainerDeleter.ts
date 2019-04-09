@@ -2,13 +2,13 @@ import Debug from 'debug'
 import StorageWorker from './StorageWorker'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
-import LdpTask from '../LdpTask'
+import { LdpParserResult } from './LdpParser'
 
 const debug = Debug('ContainerDeleter')
 
 export class ContainerDeleter extends StorageWorker implements Worker {
-  async handle (task: LdpTask) {
-    debug('LdpTask ContainerDeleter!')
+  async handle (task: LdpParserResult) {
+    debug('LdpParserResult ContainerDeleter!')
     // TODO: implement
     return {
       resultType: ResultType.OkayWithoutBody
