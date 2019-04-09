@@ -9,7 +9,18 @@ const debug = Debug('ResourceDeleter')
 export class ResourceDeleter extends StorageWorker implements Worker {
   async handle (task: LdpParserResult) {
     debug('LdpParserResult ResourceDeleter!')
-    // TODO: implement
+    const resource = await this.storage.getReadWriteLockedResource(task.path)
+    // FIXME: duplicate code qith ResourceWriter. use inheritence with common ancestor?
+    if(task.ifMatch) {
+      const resourceData = await resource.getData()
+      if (resourceData.etag !== task.ifMatch) {
+        return {
+          resultType: ResultType.PreconditionFailed,
+        } as ResponderAndReleaserTask
+      }
+    }
+    resource.delete()
+    resource.releaseLock()
     return {
       resultType: ResultType.OkayWithoutBody
     } as ResponderAndReleaserTask

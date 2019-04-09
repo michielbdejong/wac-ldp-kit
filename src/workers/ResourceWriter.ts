@@ -10,6 +10,15 @@ export class ResourceWriter extends StorageWorker implements Worker {
   async handle (task: LdpParserResult) {
     debug('LdpParserResult ResourceWriter!')
     const resource = this.storage.getReadWriteLockedResource(task.path)
+    // FIXME: duplicate code qith ResourceWriter. use inheritence with common ancestor?
+    if(task.ifMatch) {
+      const resourceData = await resource.getData()
+      if (resourceData.etag !== task.ifMatch) {
+        return {
+          resultType: ResultType.PreconditionFailed,
+        } as ResponderAndReleaserTask
+      }
+    }
     const resultType = (resource.exists() ? ResultType.OkayWithoutBody : ResultType.Created)
     await resource.setData({
       contentType: task.contentType,

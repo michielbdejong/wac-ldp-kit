@@ -8,6 +8,7 @@ const debug = Debug('ResponderAndReleaser')
 export enum ResultType {
   CouldNotParse,
   AccessDenied,
+  PreconditionFailed,
   NotFound,
   QuotaExceeded,
   OkayWithBody,
@@ -48,6 +49,10 @@ export class ResponderAndReleaser implements Worker {
       [ResultType.AccessDenied]: {
         responseStatus: 401,
         responseBody: 'Access denied'
+      },
+      [ResultType.PreconditionFailed]: {
+        responseStatus: 412,
+        responseBody: 'Precondition failed'
       },
       [ResultType.NotFound]: {
         responseStatus: 404,
