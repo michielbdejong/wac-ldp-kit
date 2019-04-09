@@ -9,11 +9,15 @@
     "stream": "0.0.2",
     "uuid": "^3.3.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "tslint": "^5.15.0",
+    "tslint-config-standard": "^8.0.1"
+  },
   "scripts": {
     "start": "node src/server.js",
-    "build": "tsc **/*.ts --lib ES2015,dom",
+    "build": "tsc -p tsconfig.json",
     "test": "npm run build",
+    "lint": "tslint -t stylish --project \"tsconfig.json\"",
     "testsuite1": "java -jar ../../w3c/ldp-testsuite/target/ldp-testsuite-0.2.0-SNAPSHOT-shaded.jar --basic --test testJsonLdRepresentation",
     "testsuite": "java -jar ../../w3c/ldp-testsuite/target/ldp-testsuite-0.2.0-SNAPSHOT-shaded.jar --basic"
   },
