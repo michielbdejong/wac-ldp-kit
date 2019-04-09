@@ -1,4 +1,6 @@
 import * as http from 'http'
+import * as Debug from 'debug'
+const debug = Debug('server')
 
 import { LdpParser } from './workers/LdpParser'
 
@@ -31,28 +33,32 @@ const workers = {
   resourceUpdate: new ResourceUpdater(),
 
   // step 3, handle result:
-  respondAndRelease: new ResponderAndReleaser(),
+  respondAndRelease: new ResponderAndReleaser()
 }
 
 const server = http.createServer(async (req: any, res: any) => {
-  console.log(`\n\n`, req.method, req.url, req.headers)
+  debug(`\n\n`, req.method, req.url, req.headers)
 
   let response: ResponderAndReleaserTask
   try {
     const ldpTask: LdpTask = await workers.parseLdp.handle({
       httpReq: req
     })
-    console.log('parsed', ldpTask)
+    debug('parsed', ldpTask)
     response = await workers[ldpTask.ldpTaskName].handle(ldpTask)
-    console.log('executed', response)
+    debug('executed', response)
   } catch (error) {
-    console.log('errored', error)
+    debug('errored', error)
     response = error as ResponderAndReleaserTask
   }
   response.httpRes = res
-  workers.respondAndRelease.handle(response)
+  try {
+    return workers.respondAndRelease.handle(response)
+  } catch (error) {
+    debug('errored while responding', error)
+  }
 })
 
 // ...
 server.listen(port)
-console.log('listening on port', port)
+debug('listening on port', port)

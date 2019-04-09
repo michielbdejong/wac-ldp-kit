@@ -1,6 +1,9 @@
+import * as Debug from 'debug'
 import AtomicTreeInMem from './AtomicTreeInMem'
 
+const debug = Debug('storage')
+
 // singleton in-memory AtomicTree instance for the whole process:
-console.log('creating storage singleton')
+debug('creating storage singleton')
 const storage = new AtomicTreeInMem()
 export default storage

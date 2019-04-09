@@ -5,9 +5,9 @@ import { ReadLockedResource, ReadWriteLockedResource } from './Resource'
 // https://github.com/RubenVerborgh/solid-server-ts/issues/6
 
 export default interface AtomicTree {
-  getReadLockedContainer(path: string): ReadLockedContainer
-  getReadWriteLockedContainer(path: string): ReadWriteLockedContainer
-  getReadLockedResource(path: string): ReadLockedResource
-  getReadWriteLockedResource(path: string): ReadWriteLockedResource
-  on(eventName: string, eventHandler: (event: any) => void): void
+  getReadLockedContainer (path: string): ReadLockedContainer
+  getReadWriteLockedContainer (path: string): ReadWriteLockedContainer
+  getReadLockedResource (path: string): ReadLockedResource
+  getReadWriteLockedResource (path: string): ReadWriteLockedResource
+  on (eventName: string, eventHandler: (event: any) => void): void
 }

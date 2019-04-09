@@ -1,21 +1,24 @@
+import * as Debug from 'debug'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../LdpTask'
 
-console.log('ResourceReader refers to storage')
+const debug = Debug('ResourceReader')
+
+debug('ResourceReader refers to storage')
 import storage from '../storage'
 
 export class ResourceReader implements Worker {
-  async executeTask(task, resource): Promise<ResponderAndReleaserTask> {
+  async executeTask (task, resource): Promise<ResponderAndReleaserTask> {
     let result = {
-      lock: resource,
+      lock: resource
     } as ResponderAndReleaserTask
     if (!resource.exists()) {
       result.resultType = ResultType.NotFound
       return result
     }
     result.resourceData = await resource.getData()
-    console.log('result.resourceData set to ', result.resourceData)
+    debug('result.resourceData set to ', result.resourceData)
     if (task.omitBody) {
       result.resultType = ResultType.OkayWithoutBody
     } else {
@@ -24,8 +27,8 @@ export class ResourceReader implements Worker {
     return result
   }
 
-  async handle(task: LdpTask) {
-    console.log('LdpTask ResourceReader!')
+  async handle (task: LdpTask) {
+    debug('LdpTask ResourceReader!')
     const resource = storage.getReadLockedResource(task.path)
     const result = await this.executeTask(task, resource)
     if (result.resultType === ResultType.OkayWithBody) {

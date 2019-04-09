@@ -1,11 +1,14 @@
+import * as Debug from 'debug'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../LdpTask'
 import storage from '../storage'
 
+const debug = Debug('ResourceWriter')
+
 export class ResourceWriter implements Worker {
-  async handle(task: LdpTask) {
-    console.log('LdpTask ResourceWriter!')
+  async handle (task: LdpTask) {
+    debug('LdpTask ResourceWriter!')
     const resource = storage.getReadWriteLockedResource(task.path)
     const resultType = (resource.exists() ? ResultType.OkayWithoutBody : ResultType.Created)
     await resource.setData({
@@ -15,17 +18,17 @@ export class ResourceWriter implements Worker {
     resource.releaseLock()
 
     return {
-      resultType,
+      resultType
     } as ResponderAndReleaserTask
   }
 }
 
   // async PUT(path: string, headers: any, body: Stream): Promise<Response> {
-  //   console.log('checking headers', headers)
+  //   debug('checking headers', headers)
   //   if (headers['if-match']) {
   //     const etag = await this.getETag(path)
   //     if (etag !== headers['if-match']) {
-  //       console.log(headers, etag, 'no! 412')
+  //       debug(headers, etag, 'no! 412')
   //       return new Response(412, {}, '')
   //     }
   //   }

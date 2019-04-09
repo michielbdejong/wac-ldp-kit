@@ -1,18 +1,26 @@
 {
-  "name": "ldp-resource-store",
-  "version": "1.0.0",
+  "name": "wac-ldp-kit",
+  "version": "0.1.0",
   "description": "A resource store for use in LDP-like servers such as Solid servers. Also usable as LDP server.",
   "main": "src/index.js",
   "dependencies": {
     "@types/node": "^11.12.1",
+    "debug": "^4.1.1",
     "stream": "0.0.2",
     "uuid": "^3.3.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "tslint": "^5.15.0",
+    "tslint-config-standard": "^8.0.1",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.4.2"
+  },
   "scripts": {
-    "start": "node src/ldp.js",
-    "build": "tsc **/*.ts --lib ES2015,dom",
+    "start": "node src/server.js",
+    "build": "tsc -p tsconfig.json",
     "test": "npm run build",
+    "lint": "tslint -t stylish --project \"tsconfig.json\"",
+    "docs": "typedoc --out docs --mode modules src",
     "testsuite1": "java -jar ../../w3c/ldp-testsuite/target/ldp-testsuite-0.2.0-SNAPSHOT-shaded.jar --basic --test testJsonLdRepresentation",
     "testsuite": "java -jar ../../w3c/ldp-testsuite/target/ldp-testsuite-0.2.0-SNAPSHOT-shaded.jar --basic"
   },
