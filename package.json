@@ -2,7 +2,7 @@
   "name": "wac-ldp-kit",
   "version": "0.1.0",
   "description": "A resource store for use in LDP-like servers such as Solid servers. Also usable as LDP server.",
-  "main": "src/index.js",
+  "main": "dist/app.js",
   "dependencies": {
     "@types/node": "^11.12.1",
     "debug": "^4.1.1",
@@ -37,7 +37,16 @@
     "type": "git",
     "url": "git+https://github.com/michielbdejong/ldp-resource-store.git"
   },
-  "author": "",
+  "author": "inrupt, Inc.",
+  "contributors": [
+    "Michiel de Jong (https://github.com/michielbdejong)",
+    "Ruben Verborgh (https://github.com/rubenverborgh)",
+    "Kjetil Kjernsmo (https://github.com/kjetilk)",
+    "*Jackson Morgan (https://github.com/jaxoncreed)",
+    "Pat McBennett (https://github.com/pmcb55)",
+    "Justin Bingham (https://github.com/justinwb)"
+"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/michielbdejong/ldp-resource-store/issues"
