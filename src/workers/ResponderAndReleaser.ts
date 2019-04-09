@@ -1,6 +1,9 @@
+import * as Debug from 'debug'
 import Worker from './Worker'
 import { ReadLockedNode } from '../Node'
 import { ResourceData } from '../ResourceData'
+
+const debug = Debug('ResponderAndReleaser')
 
 export enum ResultType {
   CouldNotParse,
@@ -31,7 +34,7 @@ export class ResponderAndReleaserTask {
 
 export class ResponderAndReleaser implements Worker {
   async handle(task: ResponderAndReleaserTask) {
-    console.log('ResponderAndReleaserTask!')
+    debug('ResponderAndReleaserTask!')
 
     const responses = {
       [ResultType.OkayWithBody]: {
@@ -63,7 +66,7 @@ export class ResponderAndReleaser implements Worker {
         responseBody: 'Internal server error',
       }
     }
-    console.log(task.resultType, responses)
+    debug(task.resultType, responses)
     const responseStatus = responses[task.resultType].responseStatus
     const responseBody = responses[task.resultType].responseBody
 
@@ -86,19 +89,19 @@ export class ResponderAndReleaser implements Worker {
       responseHeaders['Location'] = task.createdLocation
     }
     if (task.resourceData) {
-      console.log('setting ETag')
+      debug('setting ETag')
       responseHeaders.ETag = `"${task.resourceData.etag}"`
     } else {
-      console.log('not setting ETag')
+      debug('not setting ETag')
     }
 
-    console.log('responding', { responseStatus, responseHeaders, responseBody })
+    debug('responding', { responseStatus, responseHeaders, responseBody })
     task.httpRes.writeHead(responseStatus, responseHeaders)
     task.httpRes.end(responseBody)
     task.httpRes.on('end', () => {
-      console.log('request completed')
+      debug('request completed')
       if (task.lock) {
-        console.log('releasing lock')
+        debug('releasing lock')
         task.lock.releaseLock()
       }
     })

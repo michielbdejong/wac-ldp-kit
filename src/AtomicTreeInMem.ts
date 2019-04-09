@@ -1,7 +1,10 @@
+import * as Debug from 'debug'
 import { ReadLockedNode, ReadWriteLockedNode } from './Node'
 import { ReadLockedContainer, ReadWriteLockedContainer } from './Container'
 import { ReadLockedResource, ReadWriteLockedResource } from './Resource'
 import AtomicTree from './AtomicTree'
+
+const debug = Debug('AtomicTreeInMem')
 
 class ReadLockedNodeInMem implements ReadLockedNode {
   path: string
@@ -10,12 +13,12 @@ class ReadLockedNodeInMem implements ReadLockedNode {
   constructor(path: string, tree: AtomicTreeInMem) {
     this.path = path
     this.tree = tree
-    console.log('constructed node', path, tree)
+    debug('constructed node', path, tree)
   }
   releaseLock() {
   }
   exists() {
-    console.log('checking exists', this.path, Object.keys(this.tree.kv))
+    debug('checking exists', this.path, Object.keys(this.tree.kv))
     return (Object.keys(this.tree.kv).indexOf(this.path) !== -1)
   }
 }
@@ -30,7 +33,7 @@ class ReadLockedContainerInMem extends ReadLockedNodeInMem implements ReadLocked
     const list = this.getDescendents()
     // TODO: only report directly contained members
     // but don't forget
-    console.log('getMembers', this.path, this.tree.kv, list)
+    debug('getMembers', this.path, this.tree.kv, list)
     return Promise.resolve(list)
   }
 }
@@ -50,7 +53,7 @@ class ReadWriteLockedContainerInMem extends ReadLockedContainerInMem implements 
 
 class ReadLockedResourceInMem extends ReadLockedNodeInMem implements ReadLockedResource {
   getData() {
-    console.log('reading resource', this.path, this.tree.kv)
+    debug('reading resource', this.path, this.tree.kv)
     return Promise.resolve(this.tree.kv[this.path])
   }
 }
@@ -58,7 +61,7 @@ class ReadLockedResourceInMem extends ReadLockedNodeInMem implements ReadLockedR
 class ReadWriteLockedResourceInMem extends ReadLockedResourceInMem implements ReadWriteLockedResource {
   setData(data) {
     this.tree.kv[this.path] = data
-    console.log('this.tree.kv after setData', this.tree.kv)
+    debug('this.tree.kv after setData', this.tree.kv)
     return Promise.resolve()
   }
   delete() {
@@ -76,7 +79,7 @@ export default class AtomicTreeInMem {
 
   constructor () {
     this.kv = {}
-    console.log('constructed in-mem store', this.kv)
+    debug('constructed in-mem store', this.kv)
   }
 
   getReadLockedContainer(path: string) {
@@ -93,6 +96,6 @@ export default class AtomicTreeInMem {
   }
   on(eventName: string, eventHandler: (event: any) => void) {
     //TODO: implement
-    console.log('adding event handler', eventName, eventHandler)
+    debug('adding event handler', eventName, eventHandler)
   }
 }

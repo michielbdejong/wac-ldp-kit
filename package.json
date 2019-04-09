@@ -5,12 +5,13 @@
   "main": "src/index.js",
   "dependencies": {
     "@types/node": "^11.12.1",
+    "debug": "^4.1.1",
     "stream": "0.0.2",
     "uuid": "^3.3.2"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node src/ldp.js",
+    "start": "node src/server.js",
     "build": "tsc **/*.ts --lib ES2015,dom",
     "test": "npm run build",
     "testsuite1": "java -jar ../../w3c/ldp-testsuite/target/ldp-testsuite-0.2.0-SNAPSHOT-shaded.jar --basic --test testJsonLdRepresentation",

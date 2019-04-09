@@ -1,11 +1,13 @@
 import * as Stream from 'stream'
+import * as Debug from 'debug'
 import { makeResourceData, ResourceData } from './ResourceData'
+const debug = Debug('membersListAsResourceData')
 
 const NEWLINE = '\r\n'
 
 
 function toTurtle (containerUrl: string, fileNames: Array<string>) : string {
-  console.log('folderDescription', fileNames)
+  debug('folderDescription', fileNames)
 
   const prefixes = [
     '@prefix ldp: <http://www.w3.org/ns/ldp#>.',
@@ -36,7 +38,7 @@ function toJsonLd (containerUrl: string, fileNames: Array<string>) : string {
 }
 
 export default function membersListAsResourceData (containerUrl, fileNames, asJsonLd): ResourceData {
-  console.log('membersListAsResourceData', containerUrl, fileNames, asJsonLd)
+  debug('membersListAsResourceData', containerUrl, fileNames, asJsonLd)
   if (asJsonLd) {
      return makeResourceData('application/ld+json', toJsonLd(containerUrl, fileNames))
   } else {

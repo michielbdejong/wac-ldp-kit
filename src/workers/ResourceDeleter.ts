@@ -1,10 +1,13 @@
+import * as Debug from 'debug'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../LdpTask'
 
+const debug = Debug('ResourceDeleter')
+
 export class ResourceDeleter implements Worker {
   async handle(task: LdpTask) {
-    console.log('LdpTask ResourceDeleter!')
+    debug('LdpTask ResourceDeleter!')
     // TODO: implement
     return {
       resultType: ResultType.OkayWithoutBody,
@@ -25,6 +28,6 @@ export class ResourceDeleter implements Worker {
   //     readWriteLockedNode = this.storage.getReadWriteLockedResource(path)
   //   }
   //   await readWriteLockedNode.delete()
-  //   console.log('deleted', path)
+  //   debug('deleted', path)
   //   return new Response(200, { 'Content-Type': 'text/plain' }, 'Deleted')
   // }

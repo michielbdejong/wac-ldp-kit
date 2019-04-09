@@ -1,13 +1,8 @@
-// Used as:
-//  * workers.parseLdp
-// Receives tasks from:
-//  * the ldp.ts as they come in to the http server.
-// Posts tasks to:
-//  * the Authentication at workers.determineIdentity
-//  * the ResponderAndReleaser at workers.respondAndRelease
-
+import * as Debug from 'debug'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType, ErrorResult } from './ResponderAndReleaser'
+
+const debug = Debug('LdpParser')
 
 // parse the http request to extract some basic info (e.g. is it a container?)
 // and add that info to the request, then pass it on to the colleague from
@@ -46,7 +41,7 @@ export class LdpParser implements Worker {
     if (method === 'DELETE') {
       return 'resourceDelete'
     }
-    console.log('unknown http method', method)
+    debug('unknown http method', method)
     return 'unknown'
   }
 
@@ -95,7 +90,7 @@ export class LdpParser implements Worker {
   }
 
   async handle(task: any) {
-    console.log('LdpParserTask!')
+    debug('LdpParserTask!')
     let errorCode = null // todo actually use this. maybe with try-catch?
     const parsedTask = {
       mayIncreaseDiskUsage: this.determineMayIncreaseDiskUsage(task.httpReq),
@@ -117,7 +112,7 @@ export class LdpParser implements Worker {
       })
       task.httpReq.on('end', resolve)
     })
-    console.log('parsed http request', {
+    debug('parsed http request', {
       method: task.httpReq.method,
       headers: task.httpReq.headers,
       mayIncreaseDiskUsage: parsedTask.mayIncreaseDiskUsage,

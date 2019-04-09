@@ -1,7 +1,9 @@
+import * as Debug from 'debug'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
 import LdpTask from '../LdpTask'
-console.log('ContainerReader refers to storage')
+
+const debug = Debug('ContainerReader')
 
 import storage from '../storage'
 import membersListAsResourceData from '../membersListAsResourceData'
