@@ -33,7 +33,7 @@ const workers = {
   resourceUpdate: new ResourceUpdater(),
 
   // step 3, handle result:
-  respondAndRelease: new ResponderAndReleaser(),
+  respondAndRelease: new ResponderAndReleaser()
 }
 
 const server = http.createServer(async (req: any, res: any) => {
@@ -52,7 +52,11 @@ const server = http.createServer(async (req: any, res: any) => {
     response = error as ResponderAndReleaserTask
   }
   response.httpRes = res
-  workers.respondAndRelease.handle(response)
+  try {
+    return workers.respondAndRelease.handle(response)
+  } catch (error) {
+    debug('errored while responding', error)
+  }
 })
 
 // ...

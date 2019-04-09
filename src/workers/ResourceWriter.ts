@@ -7,7 +7,7 @@ import storage from '../storage'
 const debug = Debug('ResourceWriter')
 
 export class ResourceWriter implements Worker {
-  async handle(task: LdpTask) {
+  async handle (task: LdpTask) {
     debug('LdpTask ResourceWriter!')
     const resource = storage.getReadWriteLockedResource(task.path)
     const resultType = (resource.exists() ? ResultType.OkayWithoutBody : ResultType.Created)
@@ -18,7 +18,7 @@ export class ResourceWriter implements Worker {
     resource.releaseLock()
 
     return {
-      resultType,
+      resultType
     } as ResponderAndReleaserTask
   }
 }

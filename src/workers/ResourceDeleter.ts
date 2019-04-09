@@ -6,15 +6,14 @@ import LdpTask from '../LdpTask'
 const debug = Debug('ResourceDeleter')
 
 export class ResourceDeleter implements Worker {
-  async handle(task: LdpTask) {
+  async handle (task: LdpTask) {
     debug('LdpTask ResourceDeleter!')
     // TODO: implement
     return {
-      resultType: ResultType.OkayWithoutBody,
+      resultType: ResultType.OkayWithoutBody
     } as ResponderAndReleaserTask
   }
 }
-
 
   //
   // async DELETE(path: string, headers: any): Promise<Response> {

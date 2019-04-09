@@ -5,12 +5,11 @@ const debug = Debug('membersListAsResourceData')
 
 const NEWLINE = '\r\n'
 
-
-function toTurtle (containerUrl: string, fileNames: Array<string>) : string {
+function toTurtle (containerUrl: string, fileNames: Array<string>): string {
   debug('folderDescription', fileNames)
 
   const prefixes = [
-    '@prefix ldp: <http://www.w3.org/ns/ldp#>.',
+    '@prefix ldp: <http://www.w3.org/ns/ldp#>.'
   ]
   const memberRefs = fileNames.map(filename => `<${filename}>`)
   const containerItem = [
@@ -19,20 +18,20 @@ function toTurtle (containerUrl: string, fileNames: Array<string>) : string {
   ].join(NEWLINE)
   return [
     prefixes.join(NEWLINE),
-    containerItem,
+    containerItem
   ].join(NEWLINE + NEWLINE) + NEWLINE
 }
 
-function toJsonLd (containerUrl: string, fileNames: Array<string>) : string {
+function toJsonLd (containerUrl: string, fileNames: Array<string>): string {
   return JSON.stringify({
-    "@id": containerUrl,
-    "contains": fileNames.map(fileName => containerUrl + fileName),
-    "@context":{
-      "contains":{
-        "@id":"http://www.w3.org/ns/ldp#contains",
-        "@type":"@id"
+    '@id': containerUrl,
+    'contains': fileNames.map(fileName => containerUrl + fileName),
+    '@context': {
+      'contains': {
+        '@id': 'http://www.w3.org/ns/ldp#contains',
+        '@type': '@id'
       },
-      "ldp":"http://www.w3.org/ns/ldp#",
+      'ldp': 'http://www.w3.org/ns/ldp#'
     }
   })
 }
@@ -40,7 +39,7 @@ function toJsonLd (containerUrl: string, fileNames: Array<string>) : string {
 export default function membersListAsResourceData (containerUrl, fileNames, asJsonLd): ResourceData {
   debug('membersListAsResourceData', containerUrl, fileNames, asJsonLd)
   if (asJsonLd) {
-     return makeResourceData('application/ld+json', toJsonLd(containerUrl, fileNames))
+    return makeResourceData('application/ld+json', toJsonLd(containerUrl, fileNames))
   } else {
     return makeResourceData('text/turtle', toTurtle(containerUrl, fileNames))
   }

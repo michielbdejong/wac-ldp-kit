@@ -9,7 +9,7 @@ import storage from '../storage'
 import membersListAsResourceData from '../membersListAsResourceData'
 
 export class ContainerReader implements Worker {
-  async handle(task: LdpTask) {
+  async handle (task: LdpTask) {
     const container = storage.getReadLockedContainer(task.path)
     const membersList = await container.getMembers()
     const resourceData = membersListAsResourceData(task.path, membersList, task.asJsonLd)

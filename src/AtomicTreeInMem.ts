@@ -10,26 +10,27 @@ class ReadLockedNodeInMem implements ReadLockedNode {
   path: string
   tree: AtomicTreeInMem
 
-  constructor(path: string, tree: AtomicTreeInMem) {
+  constructor (path: string, tree: AtomicTreeInMem) {
     this.path = path
     this.tree = tree
     debug('constructed node', path, tree)
   }
-  releaseLock() {
+  releaseLock () {
+    // TODO: implement
   }
-  exists() {
+  exists () {
     debug('checking exists', this.path, Object.keys(this.tree.kv))
     return (Object.keys(this.tree.kv).indexOf(this.path) !== -1)
   }
 }
 
 class ReadLockedContainerInMem extends ReadLockedNodeInMem implements ReadLockedContainer {
-  getDescendents() {
+  getDescendents () {
     return Object.keys(this.tree.kv).filter(x => {
-      return (x.substr(0, this.path.length) == this.path)
+      return (x.substr(0, this.path.length) === this.path)
     })
   }
-  getMembers() {
+  getMembers () {
     const list = this.getDescendents()
     // TODO: only report directly contained members
     // but don't forget
@@ -39,36 +40,36 @@ class ReadLockedContainerInMem extends ReadLockedNodeInMem implements ReadLocked
 }
 
 class ReadWriteLockedContainerInMem extends ReadLockedContainerInMem implements ReadWriteLockedContainer {
-  delete() {
+  delete () {
     this.getDescendents().map(x => {
       delete this.tree.kv[x]
     })
     return Promise.resolve()
   }
-  reset() {
+  reset () {
     this.tree.kv[this.path + '.placeholder'] = undefined // basically same trick git uses for empty folders
     return Promise.resolve()
   }
 }
 
 class ReadLockedResourceInMem extends ReadLockedNodeInMem implements ReadLockedResource {
-  getData() {
+  getData () {
     debug('reading resource', this.path, this.tree.kv)
     return Promise.resolve(this.tree.kv[this.path])
   }
 }
 
 class ReadWriteLockedResourceInMem extends ReadLockedResourceInMem implements ReadWriteLockedResource {
-  setData(data) {
+  setData (data) {
     this.tree.kv[this.path] = data
     debug('this.tree.kv after setData', this.tree.kv)
     return Promise.resolve()
   }
-  delete() {
+  delete () {
     delete this.tree.kv[this.path]
     return Promise.resolve()
   }
-  reset() {
+  reset () {
     this.tree.kv[this.path] = undefined
     return Promise.resolve()
   }
@@ -82,20 +83,20 @@ export default class AtomicTreeInMem {
     debug('constructed in-mem store', this.kv)
   }
 
-  getReadLockedContainer(path: string) {
+  getReadLockedContainer (path: string) {
     return new ReadLockedContainerInMem(path, this)
   }
-  getReadWriteLockedContainer(path: string) {
+  getReadWriteLockedContainer (path: string) {
     return new ReadWriteLockedContainerInMem(path, this)
   }
-  getReadLockedResource(path: string) {
+  getReadLockedResource (path: string) {
     return new ReadLockedResourceInMem(path, this)
   }
-  getReadWriteLockedResource(path: string) {
+  getReadWriteLockedResource (path: string) {
     return new ReadWriteLockedResourceInMem(path, this)
   }
-  on(eventName: string, eventHandler: (event: any) => void) {
-    //TODO: implement
+  on (eventName: string, eventHandler: (event: any) => void) {
+    // TODO: implement
     debug('adding event handler', eventName, eventHandler)
   }
 }

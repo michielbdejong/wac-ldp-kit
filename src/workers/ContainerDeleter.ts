@@ -6,16 +6,14 @@ import LdpTask from '../LdpTask'
 const debug = Debug('ContainerDeleter')
 
 export class ContainerDeleter implements Worker {
-  async handle(task: LdpTask) {
+  async handle (task: LdpTask) {
     debug('LdpTask ContainerDeleter!')
     // TODO: implement
     return {
-      resultType: ResultType.OkayWithoutBody,
+      resultType: ResultType.OkayWithoutBody
     } as ResponderAndReleaserTask
   }
 }
-
-
 
   // async DELETE(path: string, headers: any): Promise<Response> {
   //   if (headers['If-Match'] && this.getETag(path) !== headers['If-Match']) {

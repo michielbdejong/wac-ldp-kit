@@ -1,4 +1,4 @@
-//import * as Stream from 'stream'
+// import * as Stream from 'stream'
 import calculateETag from './calculateETag'
 
 export interface ResourceData {
@@ -6,10 +6,10 @@ export interface ResourceData {
   contentType: string
   etag: string
 }
-export function makeResourceData(contentType, body) {
+export function makeResourceData (contentType, body) {
   return {
     contentType,
     body,
-    etag: calculateETag(body),
+    etag: calculateETag(body)
   } as ResourceData
 }

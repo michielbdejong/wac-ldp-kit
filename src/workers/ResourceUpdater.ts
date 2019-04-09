@@ -6,11 +6,11 @@ import LdpTask from '../LdpTask'
 const debug = Debug('ResourceUpdater')
 
 export class ResourceUpdater implements Worker {
-  async handle(task: LdpTask) {
+  async handle (task: LdpTask) {
     debug('LdpTask ResourceUpdater!')
     // TODO: implement
     return {
-      resultType: ResultType.OkayWithoutBody,
+      resultType: ResultType.OkayWithoutBody
     } as ResponderAndReleaserTask
   }
 }

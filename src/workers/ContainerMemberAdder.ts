@@ -9,7 +9,7 @@ import storage from '../storage'
 const debug = Debug('ContainerMemberAdder')
 
 export class ContainerMemberAdder implements Worker {
-  async handle(task: LdpTask) {
+  async handle (task: LdpTask) {
     debug('LdpTask ContainerMemberAdder!')
     const resourcePath = task.path + uuid()
     const resource = storage.getReadWriteLockedResource(resourcePath)
@@ -20,7 +20,7 @@ export class ContainerMemberAdder implements Worker {
     await resource.setData(makeResourceData(task.contentType, task.requestBody))
     return {
       resultType: ResultType.Created,
-      createdLocation: resourcePath,
+      createdLocation: resourcePath
     } as ResponderAndReleaserTask
   }
 }

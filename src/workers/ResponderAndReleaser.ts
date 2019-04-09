@@ -13,12 +13,12 @@ export enum ResultType {
   OkayWithBody,
   OkayWithoutBody,
   Created,
-  InternalServerError,
+  InternalServerError
 }
 
 export class ErrorResult extends Error {
   resultType: ResultType
-  constructor(resultType: ResultType) {
+  constructor (resultType: ResultType) {
     super('error result')
     this.resultType = resultType
   }
@@ -33,37 +33,37 @@ export class ResponderAndReleaserTask {
 }
 
 export class ResponderAndReleaser implements Worker {
-  async handle(task: ResponderAndReleaserTask) {
+  async handle (task: ResponderAndReleaserTask) {
     debug('ResponderAndReleaserTask!')
 
     const responses = {
       [ResultType.OkayWithBody]: {
         responseStatus: 200,
-        responseBody: task.resourceData ? task.resourceData.body : '',
+        responseBody: task.resourceData ? task.resourceData.body : ''
       },
       [ResultType.CouldNotParse]: {
         responseStatus: 405,
-        responseBody: 'Method not allowed',
+        responseBody: 'Method not allowed'
       },
       [ResultType.AccessDenied]: {
         responseStatus: 401,
-        responseBody: 'Access denied',
+        responseBody: 'Access denied'
       },
       [ResultType.NotFound]: {
         responseStatus: 404,
-        responseBody: 'Not found',
+        responseBody: 'Not found'
       },
       [ResultType.Created]: {
         responseStatus: 201,
-        responseBody: 'Created',
+        responseBody: 'Created'
       },
       [ResultType.OkayWithoutBody]: {
         responseStatus: 204,
-        responseBody: 'No Content',
+        responseBody: 'No Content'
       },
       [ResultType.InternalServerError]: {
         responseStatus: 500,
-        responseBody: 'Internal server error',
+        responseBody: 'Internal server error'
       }
     }
     debug(task.resultType, responses)
@@ -71,16 +71,16 @@ export class ResponderAndReleaser implements Worker {
     const responseBody = responses[task.resultType].responseBody
 
     const types: Array<string> = [
-      '<http://www.w3.org/ns/ldp#Resource>; rel="type"',
+      '<http://www.w3.org/ns/ldp#Resource>; rel="type"'
     ]
     if (task.isContainer) {
-       types.push('<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"')
+      types.push('<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"')
     }
     const responseHeaders = {
       'Link': `<.acl>; rel="acl", <.meta>; rel="describedBy", ${types.join(', ')}`,
       'Allow': 'GET, HEAD, POST, PUT, DELETE, PATCH',
       'Accept-Patch': 'application/sparql-update',
-      'Accept-Post': 'application/sparql-update',
+      'Accept-Post': 'application/sparql-update'
     } as any
     if (task.resourceData) {
       responseHeaders['Content-Type'] = task.resourceData.contentType

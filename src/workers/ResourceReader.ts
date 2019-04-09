@@ -9,9 +9,9 @@ debug('ResourceReader refers to storage')
 import storage from '../storage'
 
 export class ResourceReader implements Worker {
-  async executeTask(task, resource): Promise<ResponderAndReleaserTask> {
+  async executeTask (task, resource): Promise<ResponderAndReleaserTask> {
     let result = {
-      lock: resource,
+      lock: resource
     } as ResponderAndReleaserTask
     if (!resource.exists()) {
       result.resultType = ResultType.NotFound
@@ -27,7 +27,7 @@ export class ResourceReader implements Worker {
     return result
   }
 
-  async handle(task: LdpTask) {
+  async handle (task: LdpTask) {
     debug('LdpTask ResourceReader!')
     const resource = storage.getReadLockedResource(task.path)
     const result = await this.executeTask(task, resource)
