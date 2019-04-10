@@ -9,10 +9,9 @@ const debug = Debug('ContainerDeleter')
 export class ContainerDeleter extends StorageWorker implements Worker {
   async handle (task: LdpTask) {
     debug('LdpParserResult ContainerDeleter!')
-    const container = await this.storage.getReadWriteLockedResource(task.path)
+    const container = await this.storage.getBlob(task.path)
     // TODO: check task.ifMatch
     container.delete()
-    container.releaseLock()
     return {
       resultType: ResultType.OkayWithoutBody
     } as LdpResponse

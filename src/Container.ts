@@ -1,8 +1,5 @@
-import { ReadLockedNode, ReadWriteLockedNode } from './Node'
+import { Node } from './Node'
 
-export interface ReadLockedContainer extends ReadLockedNode {
+export interface Container extends Node {
   getMembers (): Promise<Array<string>>
-}
-
-export interface ReadWriteLockedContainer extends ReadLockedContainer, ReadWriteLockedNode {
 }

@@ -1,12 +1,12 @@
 import Debug from 'debug'
-import { ReadLockedNode, ReadWriteLockedNode } from './Node'
-import { ReadLockedContainer, ReadWriteLockedContainer } from './Container'
-import { ReadLockedResource, ReadWriteLockedResource } from './Resource'
+import { Node } from './Node'
+import { Container } from './Container'
+import { Blob } from './Blob'
 import AtomicTree from './AtomicTree'
 
 const debug = Debug('AtomicTreeInMem')
 
-class ReadLockedNodeInMem implements ReadLockedNode {
+class NodeInMem {
   path: string
   tree: AtomicTreeInMem
 
@@ -15,16 +15,13 @@ class ReadLockedNodeInMem implements ReadLockedNode {
     this.tree = tree
     debug('constructed node', path, tree)
   }
-  releaseLock () {
-    // TODO: implement
-  }
   exists () {
     debug('checking exists', this.path, Object.keys(this.tree.kv))
     return (Object.keys(this.tree.kv).indexOf(this.path) !== -1)
   }
 }
 
-class ReadLockedContainerInMem extends ReadLockedNodeInMem implements ReadLockedContainer {
+class ContainerInMem extends NodeInMem implements Container {
   getDescendents () {
     return Object.keys(this.tree.kv).filter(x => {
       return (x.substr(0, this.path.length) === this.path)
@@ -37,9 +34,6 @@ class ReadLockedContainerInMem extends ReadLockedNodeInMem implements ReadLocked
     debug('getMembers', this.path, this.tree.kv, list)
     return Promise.resolve(list)
   }
-}
-
-class ReadWriteLockedContainerInMem extends ReadLockedContainerInMem implements ReadWriteLockedContainer {
   delete () {
     this.getDescendents().map(x => {
       delete this.tree.kv[x]
@@ -52,14 +46,11 @@ class ReadWriteLockedContainerInMem extends ReadLockedContainerInMem implements 
   }
 }
 
-class ReadLockedResourceInMem extends ReadLockedNodeInMem implements ReadLockedResource {
+class BlobInMem extends NodeInMem implements Blob {
   getData () {
     debug('reading resource', this.path, this.tree.kv)
     return Promise.resolve(this.tree.kv[this.path])
   }
-}
-
-class ReadWriteLockedResourceInMem extends ReadLockedResourceInMem implements ReadWriteLockedResource {
   setData (data) {
     this.tree.kv[this.path] = data
     debug('this.tree.kv after setData', this.tree.kv)
@@ -83,17 +74,11 @@ export default class AtomicTreeInMem {
     debug('constructed in-mem store', this.kv)
   }
 
-  getReadLockedContainer (path: string) {
-    return new ReadLockedContainerInMem(path, this)
+  getContainer (path: string) {
+    return new ContainerInMem(path, this)
   }
-  getReadWriteLockedContainer (path: string) {
-    return new ReadWriteLockedContainerInMem(path, this)
-  }
-  getReadLockedResource (path: string) {
-    return new ReadLockedResourceInMem(path, this)
-  }
-  getReadWriteLockedResource (path: string) {
-    return new ReadWriteLockedResourceInMem(path, this)
+  getBlob (path: string) {
+    return new BlobInMem(path, this)
   }
   on (eventName: string, eventHandler: (event: any) => void) {
     // TODO: implement

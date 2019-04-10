@@ -1,6 +1,5 @@
 import Debug from 'debug'
 import Worker from './Worker'
-import { ReadLockedNode } from '../Node'
 import { ResourceData } from '../ResourceData'
 
 const debug = Debug('ResponderAndReleaser')
@@ -31,7 +30,6 @@ export class LdpResponse {
   createdLocation: string | undefined
   isContainer: boolean
   httpRes: any
-  lock: ReadLockedNode | undefined
 }
 
 export class Responder implements Worker {
@@ -110,10 +108,6 @@ export class Responder implements Worker {
     task.httpRes.end(responseBody)
     task.httpRes.on('end', () => {
       debug('request completed')
-      if (task.lock) {
-        debug('releasing lock')
-        task.lock.releaseLock()
-      }
     })
   }
 }

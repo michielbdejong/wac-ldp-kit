@@ -9,7 +9,7 @@ const debug = Debug('ContainerReader')
 
 export class ContainerReader extends StorageWorker implements Worker {
   async handle (task: LdpTask) {
-    const container = this.storage.getReadLockedContainer(task.path)
+    const container = this.storage.getContainer(task.path)
     const membersList = await container.getMembers()
     const resourceData = membersListAsResourceData(task.path, membersList, task.asJsonLd)
     return {

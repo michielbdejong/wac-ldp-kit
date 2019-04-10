@@ -12,7 +12,7 @@ export class ContainerMemberAdder extends StorageWorker implements Worker {
   async handle (task: LdpTask) {
     debug('LdpParserResult ContainerMemberAdder!')
     const resourcePath = task.path + uuid()
-    const resource = this.storage.getReadWriteLockedResource(resourcePath)
+    const resource = this.storage.getBlob(resourcePath)
     if (!resource.exists()) {
       await resource.reset()
       debug('resource.reset has been called')

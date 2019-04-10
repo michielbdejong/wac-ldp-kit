@@ -9,7 +9,7 @@ const debug = Debug('ResourceWriter')
 export class BlobWriter extends StorageWorker implements Worker {
   async handle (task: LdpTask) {
     debug('LdpParserResult ResourceWriter!')
-    const resource = this.storage.getReadWriteLockedResource(task.path)
+    const resource = this.storage.getBlob(task.path)
     // FIXME: duplicate code qith ResourceWriter. use inheritence with common ancestor?
     if(task.ifMatch) {
       const resourceData = await resource.getData()
@@ -24,7 +24,6 @@ export class BlobWriter extends StorageWorker implements Worker {
       contentType: task.contentType,
       body: task.requestBody
     })
-    resource.releaseLock()
 
     return {
       resultType

@@ -28,13 +28,8 @@ export class BlobReader extends StorageWorker implements Worker {
 
   async handle (task: LdpTask) {
     debug('LdpParserResult ResourceReader!')
-    const resource = this.storage.getReadLockedResource(task.path)
+    const resource = this.storage.getBlob(task.path)
     const result = await this.executeTask(task, resource)
-    if (result.resultType === ResultType.OkayWithBody) {
-      result.lock = resource // release lock after streaming out the body
-    } else {
-      resource.releaseLock()
-    }
     return result
   }
 }

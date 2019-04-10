@@ -1,13 +1,8 @@
-import { ReadLockedContainer, ReadWriteLockedContainer } from './Container'
-import { ReadLockedResource, ReadWriteLockedResource } from './Resource'
-
-// Inspired on Ruben Verborgh's ResourceStore abstraction, see:
-// https://github.com/RubenVerborgh/solid-server-ts/issues/6
+import { Container } from './Container'
+import { Blob } from './Blob'
 
 export default interface AtomicTree {
-  getReadLockedContainer (path: string): ReadLockedContainer
-  getReadWriteLockedContainer (path: string): ReadWriteLockedContainer
-  getReadLockedResource (path: string): ReadLockedResource
-  getReadWriteLockedResource (path: string): ReadWriteLockedResource
+  getContainer (path: string): Container
+  getBlob (path: string): Blob
   on (eventName: string, eventHandler: (event: any) => void): void
 }
