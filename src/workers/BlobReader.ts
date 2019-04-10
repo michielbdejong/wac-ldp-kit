@@ -9,8 +9,7 @@ const debug = Debug('ResourceReader')
 export class BlobReader extends StorageWorker implements Worker {
   async executeTask (task, resource): Promise<LdpResponse> {
     let result = {
-      lock: resource
-    } as LdpResponse
+    } as any
     if (!resource.exists()) {
       result.resultType = ResultType.NotFound
       return result
@@ -19,10 +18,12 @@ export class BlobReader extends StorageWorker implements Worker {
     debug('result.resourceData set to ', result.resourceData)
     if (task.omitBody) {
       result.resultType = ResultType.OkayWithoutBody
-    } else {
-      result.resultType = ResultType.OkayWithBody
+    } else if (task.ifNoneMatch && task.ifNoneMatch.indexOf(result.resourceData.etag) !== -1) {
+        result.resultType = ResultType.NotModified
+      } else {
+        result.resultType = ResultType.OkayWithBody
     }
-    return result
+    return result as LdpResponse
   }
 
   async handle (task: LdpTask) {

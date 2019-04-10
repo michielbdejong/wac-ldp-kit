@@ -70,7 +70,19 @@ export class LdpParser implements Worker {
   }
 
   determineIfMatch (httpReq: any) {
-    return httpReq.headers['if-match']
+    try {
+      return httpReq.headers['if-match'].split('"')[1]
+    } catch (error) {
+      // return undefined
+    }
+  }
+
+  determineIfNoneMatch (httpReq: any) {
+    try {
+      return httpReq.headers['if-none-match'].split(',').map(x => x.split('"')[1])
+    } catch (error) {
+      // return undefined
+    }
   }
 
   determineMayIncreaseDiskUsage (httpReq: any) {
@@ -99,6 +111,7 @@ export class LdpParser implements Worker {
       origin: this.determineOrigin(task.httpReq),
       contentType: this.determineContentType(task.httpReq),
       ifMatch: this.determineIfMatch(task.httpReq),
+      ifNoneMatch: this.determineIfNoneMatch(task.httpReq),
       asJsonLd: this.determineAsJsonLd(task.httpReq),
       ldpTaskName: this.determineLdpParserResultName(task.httpReq),
       requestBody: undefined,

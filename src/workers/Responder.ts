@@ -9,6 +9,7 @@ export enum ResultType {
   CouldNotParse,
   AccessDenied,
   PreconditionFailed,
+  NotModified,
   NotFound,
   QuotaExceeded,
   OkayWithBody,
@@ -57,6 +58,10 @@ export class Responder implements Worker {
       [ResultType.NotFound]: {
         responseStatus: 404,
         responseBody: 'Not found'
+      },
+      [ResultType.NotModified]: {
+        responseStatus: 304,
+        responseBody: 'Not modified'
       },
       [ResultType.Created]: {
         responseStatus: 201,
