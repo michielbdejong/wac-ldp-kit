@@ -3,7 +3,7 @@ import Debug from 'debug'
 const debug = Debug('app')
 
 import AtomicTree from './AtomicTree'
-import { LdpParser, LdpParserResult } from './workers/LdpParser'
+import { LdpParser, LdpTask } from './workers/LdpParser'
 
 import { ContainerReader } from './workers/ContainerReader'
 import { GlobReader } from './workers/GlobReader'
@@ -40,7 +40,7 @@ export default (storage: AtomicTree) => {
 
     let response: ResponderAndReleaserTask
     try {
-      const ldpTask: LdpParserResult = await workers.parseLdp.handle({
+      const ldpTask: LdpTask = await workers.parseLdp.handle({
         httpReq: req
       })
       debug('parsed', ldpTask)

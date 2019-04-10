@@ -2,12 +2,12 @@ import Debug from 'debug'
 import StorageWorker from './StorageWorker'
 import Worker from './Worker'
 import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
-import { LdpParserResult } from './LdpParser'
+import { LdpTask } from './LdpParser'
 
 const debug = Debug('ContainerDeleter')
 
 export class ContainerDeleter extends StorageWorker implements Worker {
-  async handle (task: LdpParserResult) {
+  async handle (task: LdpTask) {
     debug('LdpParserResult ContainerDeleter!')
     const container = await this.storage.getReadWriteLockedResource(task.path)
     // TODO: check task.ifMatch

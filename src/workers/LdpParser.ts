@@ -103,7 +103,7 @@ export class LdpParser implements Worker {
       ldpTaskName: this.determineLdpParserResultName(task.httpReq),
       requestBody: undefined,
       path: task.httpReq.url
-    } as LdpParserResult
+    } as LdpTask
     await new Promise(resolve => {
       parsedTask.requestBody = ''
       task.httpReq.on('data', chunk => {
@@ -130,7 +130,7 @@ export class LdpParser implements Worker {
   }
 }
 
-export class LdpParserResult {
+export class LdpTask {
   mayIncreaseDiskUsage: boolean
   isContainer: boolean
   omitBody: boolean
