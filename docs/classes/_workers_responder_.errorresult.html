@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ResponderAndReleaserTask | wac-ldp-kit</title>
+	<title>ErrorResult | wac-ldp-kit</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_workers_responderandreleaser_.html">&quot;workers/ResponderAndReleaser&quot;</a>
+					<a href="../modules/_workers_responder_.html">&quot;workers/Responder&quot;</a>
 				</li>
 				<li>
-					<a href="_workers_responderandreleaser_.responderandreleasertask.html">ResponderAndReleaserTask</a>
+					<a href="_workers_responder_.errorresult.html">ErrorResult</a>
 				</li>
 			</ul>
-			<h1>Class ResponderAndReleaserTask</h1>
+			<h1>Class ErrorResult</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ResponderAndReleaserTask</span>
+						<span class="tsd-signature-type">Error</span>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">ErrorResult</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -82,78 +87,103 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_workers_responder_.errorresult.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_workers_responderandreleaser_.responderandreleasertask.html#createdlocation" class="tsd-kind-icon">created<wbr>Location</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_workers_responderandreleaser_.responderandreleasertask.html#httpres" class="tsd-kind-icon">http<wbr>Res</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_workers_responderandreleaser_.responderandreleasertask.html#iscontainer" class="tsd-kind-icon">is<wbr>Container</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_workers_responderandreleaser_.responderandreleasertask.html#lock" class="tsd-kind-icon">lock</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_workers_responderandreleaser_.responderandreleasertask.html#resourcedata" class="tsd-kind-icon">resource<wbr>Data</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_workers_responderandreleaser_.responderandreleasertask.html#resulttype" class="tsd-kind-icon">result<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_workers_responder_.errorresult.html#message" class="tsd-kind-icon">message</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_workers_responder_.errorresult.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_workers_responder_.errorresult.html#resulttype" class="tsd-kind-icon">result<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_workers_responder_.errorresult.html#stack" class="tsd-kind-icon">stack</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_workers_responder_.errorresult.html#error" class="tsd-kind-icon">Error</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Error<wbr>Result<span class="tsd-signature-symbol">(</span>resultType<span class="tsd-signature-symbol">: </span><a href="../enums/_workers_responder_.resulttype.html" class="tsd-signature-type">ResultType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_workers_responder_.errorresult.html" class="tsd-signature-type">ErrorResult</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in workers/Responder.ts:21</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resultType: <a href="../enums/_workers_responder_.resulttype.html" class="tsd-signature-type">ResultType</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_workers_responder_.errorresult.html" class="tsd-signature-type">ErrorResult</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="createdlocation" class="tsd-anchor"></a>
-					<h3>created<wbr>Location</h3>
-					<div class="tsd-signature tsd-kind-icon">created<wbr>Location<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="message" class="tsd-anchor"></a>
+					<h3>message</h3>
+					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from Error.message</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/56bbe6a/src/workers/ResponderAndReleaser.ts#L30">workers/ResponderAndReleaser.ts:30</a></li>
+							<li>Defined in /Users/michiel/gh/michielbdejong/wac-ldp-kit/node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:964</li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="httpres" class="tsd-anchor"></a>
-					<h3>http<wbr>Res</h3>
-					<div class="tsd-signature tsd-kind-icon">http<wbr>Res<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from Error.name</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/56bbe6a/src/workers/ResponderAndReleaser.ts#L32">workers/ResponderAndReleaser.ts:32</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="iscontainer" class="tsd-anchor"></a>
-					<h3>is<wbr>Container</h3>
-					<div class="tsd-signature tsd-kind-icon">is<wbr>Container<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/56bbe6a/src/workers/ResponderAndReleaser.ts#L31">workers/ResponderAndReleaser.ts:31</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="lock" class="tsd-anchor"></a>
-					<h3>lock</h3>
-					<div class="tsd-signature tsd-kind-icon">lock<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_node_.readlockednode.html" class="tsd-signature-type">ReadLockedNode</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/56bbe6a/src/workers/ResponderAndReleaser.ts#L33">workers/ResponderAndReleaser.ts:33</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="resourcedata" class="tsd-anchor"></a>
-					<h3>resource<wbr>Data</h3>
-					<div class="tsd-signature tsd-kind-icon">resource<wbr>Data<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_resourcedata_.resourcedata.html" class="tsd-signature-type">ResourceData</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/56bbe6a/src/workers/ResponderAndReleaser.ts#L29">workers/ResponderAndReleaser.ts:29</a></li>
+							<li>Defined in /Users/michiel/gh/michielbdejong/wac-ldp-kit/node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:963</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="resulttype" class="tsd-anchor"></a>
 					<h3>result<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">result<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/_workers_responderandreleaser_.resulttype.html" class="tsd-signature-type">ResultType</a></div>
+					<div class="tsd-signature tsd-kind-icon">result<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/_workers_responder_.resulttype.html" class="tsd-signature-type">ResultType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/56bbe6a/src/workers/ResponderAndReleaser.ts#L28">workers/ResponderAndReleaser.ts:28</a></li>
+							<li>Defined in workers/Responder.ts:21</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+					<a name="stack" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> stack</h3>
+					<div class="tsd-signature tsd-kind-icon">stack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from Error.stack</p>
+						<p>Overrides Error.stack</p>
+						<ul>
+							<li>Defined in /Users/michiel/gh/michielbdejong/wac-ldp-kit/node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:965</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="error" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> Error</h3>
+					<div class="tsd-signature tsd-kind-icon">Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ErrorConstructor</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in /Users/michiel/gh/michielbdejong/wac-ldp-kit/node_modules/typedoc/node_modules/typescript/lib/lib.es5.d.ts:974</li>
 						</ul>
 					</aside>
 				</section>
@@ -196,6 +226,18 @@
 						<a href="../modules/_server_.html">"server"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_workers_blobdeleter_.html">"workers/<wbr>Blob<wbr>Deleter"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_workers_blobreader_.html">"workers/<wbr>Blob<wbr>Reader"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_workers_blobupdater_.html">"workers/<wbr>Blob<wbr>Updater"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_workers_blobwriter_.html">"workers/<wbr>Blob<wbr>Writer"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_workers_containerdeleter_.html">"workers/<wbr>Container<wbr>Deleter"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -210,20 +252,8 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_workers_ldpparser_.html">"workers/<wbr>Ldp<wbr>Parser"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_workers_resourcedeleter_.html">"workers/<wbr>Resource<wbr>Deleter"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_workers_resourcereader_.html">"workers/<wbr>Resource<wbr>Reader"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_workers_resourceupdater_.html">"workers/<wbr>Resource<wbr>Updater"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_workers_resourcewriter_.html">"workers/<wbr>Resource<wbr>Writer"</a>
-					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_workers_responderandreleaser_.html">"workers/<wbr>Responder<wbr>And<wbr>Releaser"</a>
+						<a href="../modules/_workers_responder_.html">"workers/<wbr>Responder"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_workers_storageworker_.html">"workers/<wbr>Storage<wbr>Worker"</a>
@@ -236,43 +266,43 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
-						<a href="../enums/_workers_responderandreleaser_.resulttype.html" class="tsd-kind-icon">Result<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_workers_responderandreleaser_.errorresult.html" class="tsd-kind-icon">Error<wbr>Result</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_workers_responderandreleaser_.responderandreleaser.html" class="tsd-kind-icon">Responder<wbr>And<wbr>Releaser</a>
+						<a href="../enums/_workers_responder_.resulttype.html" class="tsd-kind-icon">Result<wbr>Type</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-external-module">
-						<a href="_workers_responderandreleaser_.responderandreleasertask.html" class="tsd-kind-icon">Responder<wbr>And<wbr>Releaser<wbr>Task</a>
+						<a href="_workers_responder_.errorresult.html" class="tsd-kind-icon">Error<wbr>Result</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_workers_responderandreleaser_.responderandreleasertask.html#createdlocation" class="tsd-kind-icon">created<wbr>Location</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="_workers_responder_.errorresult.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="_workers_responder_.errorresult.html#message" class="tsd-kind-icon">message</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="_workers_responder_.errorresult.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_workers_responderandreleaser_.responderandreleasertask.html#httpres" class="tsd-kind-icon">http<wbr>Res</a>
+								<a href="_workers_responder_.errorresult.html#resulttype" class="tsd-kind-icon">result<wbr>Type</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_workers_responderandreleaser_.responderandreleasertask.html#iscontainer" class="tsd-kind-icon">is<wbr>Container</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+								<a href="_workers_responder_.errorresult.html#stack" class="tsd-kind-icon">stack</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_workers_responderandreleaser_.responderandreleasertask.html#lock" class="tsd-kind-icon">lock</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_workers_responderandreleaser_.responderandreleasertask.html#resourcedata" class="tsd-kind-icon">resource<wbr>Data</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_workers_responderandreleaser_.responderandreleasertask.html#resulttype" class="tsd-kind-icon">result<wbr>Type</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_workers_responder_.errorresult.html#error" class="tsd-kind-icon">Error</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_workers_responder_.ldpresponse.html" class="tsd-kind-icon">Ldp<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_workers_responder_.responder.html" class="tsd-kind-icon">Responder</a>
+					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_workers_responderandreleaser_.html#debug" class="tsd-kind-icon">debug</a>
+						<a href="../modules/_workers_responder_.html#debug" class="tsd-kind-icon">debug</a>
 					</li>
 				</ul>
 			</nav>

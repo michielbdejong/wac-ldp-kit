@@ -1,7 +1,7 @@
 import Debug from 'debug'
 import StorageWorker from './StorageWorker'
 import Worker from './Worker'
-import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
+import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 
 const debug = Debug('ContainerDeleter')
@@ -15,7 +15,7 @@ export class ContainerDeleter extends StorageWorker implements Worker {
     container.releaseLock()
     return {
       resultType: ResultType.OkayWithoutBody
-    } as ResponderAndReleaserTask
+    } as LdpResponse
   }
 }
 

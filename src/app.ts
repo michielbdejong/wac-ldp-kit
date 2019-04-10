@@ -6,15 +6,17 @@ import AtomicTree from './AtomicTree'
 import { LdpParser, LdpTask } from './workers/LdpParser'
 
 import { ContainerReader } from './workers/ContainerReader'
-import { GlobReader } from './workers/GlobReader'
-import { ResourceReader } from './workers/ResourceReader'
 import { ContainerMemberAdder } from './workers/ContainerMemberAdder'
-import { ResourceWriter } from './workers/ResourceWriter'
-import { ResourceUpdater } from './workers/ResourceUpdater'
 import { ContainerDeleter } from './workers/ContainerDeleter'
-import { ResourceDeleter } from './workers/ResourceDeleter'
 
-import { ResponderAndReleaser, ResponderAndReleaserTask } from './workers/ResponderAndReleaser'
+import { GlobReader } from './workers/GlobReader'
+
+import { BlobReader } from './workers/BlobReader'
+import { BlobWriter } from './workers/BlobWriter'
+import { BlobUpdater } from './workers/BlobUpdater'
+import { BlobDeleter } from './workers/BlobDeleter'
+
+import { Responder, LdpResponse } from './workers/Responder'
 
 export default (storage: AtomicTree) => {
   const workers = {
@@ -23,22 +25,22 @@ export default (storage: AtomicTree) => {
 
     // step 2, execute:
     containerRead: new ContainerReader(storage),
-    globRead: new GlobReader(storage),
-    resourceRead: new ResourceReader(storage),
     containerDelete: new ContainerDeleter(storage),
-    resourceDelete: new ResourceDeleter(storage),
     containerMemberAdd: new ContainerMemberAdder(storage),
-    resourceWrite: new ResourceWriter(storage),
-    resourceUpdate: new ResourceUpdater(storage),
+    globRead: new GlobReader(storage),
+    blobRead: new BlobReader(storage),
+    blobWrite: new BlobWriter(storage),
+    blobUpdate: new BlobUpdater(storage),
+    blobDelete: new BlobDeleter(storage),
 
     // step 3, handle result:
-    respondAndRelease: new ResponderAndReleaser()
+    respondAndRelease: new Responder()
   }
 
   const handle = async (req: any, res: any) => {
     debug(`\n\n`, req.method, req.url, req.headers)
 
-    let response: ResponderAndReleaserTask
+    let response: LdpResponse
     try {
       const ldpTask: LdpTask = await workers.parseLdp.handle({
         httpReq: req
@@ -48,7 +50,7 @@ export default (storage: AtomicTree) => {
       debug('executed', response)
     } catch (error) {
       debug('errored', error)
-      response = error as ResponderAndReleaserTask
+      response = error as LdpResponse
     }
     response.httpRes = res
     try {

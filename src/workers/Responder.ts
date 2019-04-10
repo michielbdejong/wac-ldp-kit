@@ -24,7 +24,7 @@ export class ErrorResult extends Error {
     this.resultType = resultType
   }
 }
-export class ResponderAndReleaserTask {
+export class LdpResponse {
   resultType: ResultType
   resourceData: ResourceData | undefined
   createdLocation: string | undefined
@@ -33,8 +33,8 @@ export class ResponderAndReleaserTask {
   lock: ReadLockedNode | undefined
 }
 
-export class ResponderAndReleaser implements Worker {
-  async handle (task: ResponderAndReleaserTask) {
+export class Responder implements Worker {
+  async handle (task: LdpResponse) {
     debug('ResponderAndReleaserTask!')
 
     const responses = {

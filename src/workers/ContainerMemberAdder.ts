@@ -1,7 +1,7 @@
 import Debug from 'debug'
 import StorageWorker from './StorageWorker'
 import Worker from './Worker'
-import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
+import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 import uuid from 'uuid/v4'
 import { makeResourceData } from '../ResourceData'
@@ -21,6 +21,6 @@ export class ContainerMemberAdder extends StorageWorker implements Worker {
     return {
       resultType: ResultType.Created,
       createdLocation: resourcePath
-    } as ResponderAndReleaserTask
+    } as LdpResponse
   }
 }

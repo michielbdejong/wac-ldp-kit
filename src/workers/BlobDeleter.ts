@@ -1,12 +1,12 @@
 import Debug from 'debug'
 import StorageWorker from './StorageWorker'
 import Worker from './Worker'
-import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
+import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 
 const debug = Debug('ResourceDeleter')
 
-export class ResourceDeleter extends StorageWorker implements Worker {
+export class BlobDeleter extends StorageWorker implements Worker {
   async handle (task: LdpTask) {
     debug('LdpParserResult ResourceDeleter!')
     const resource = await this.storage.getReadWriteLockedResource(task.path)
@@ -16,14 +16,14 @@ export class ResourceDeleter extends StorageWorker implements Worker {
       if (resourceData.etag !== task.ifMatch) {
         return {
           resultType: ResultType.PreconditionFailed,
-        } as ResponderAndReleaserTask
+        } as LdpResponse
       }
     }
     resource.delete()
     resource.releaseLock()
     return {
       resultType: ResultType.OkayWithoutBody
-    } as ResponderAndReleaserTask
+    } as LdpResponse
   }
 }
 

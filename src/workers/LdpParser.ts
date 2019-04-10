@@ -1,6 +1,6 @@
 import Debug from 'debug'
 import Worker from './Worker'
-import { ResponderAndReleaserTask, ResultType, ErrorResult } from './ResponderAndReleaser'
+import { LdpResponse, ResultType, ErrorResult } from './Responder'
 
 const debug = Debug('LdpParser')
 
@@ -28,18 +28,18 @@ export class LdpParser implements Worker {
     return 'unknown'
   }
 
-  getResourceTask (method) {
+  getBlobTask (method) {
     if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
-      return 'resourceRead'
+      return 'blobRead'
     }
     if (method === 'PUT') {
-      return 'resourceWrite'
+      return 'blobWrite'
     }
     if (method === 'PUT') {
-      return 'resourceUpdate'
+      return 'blobUpdate'
     }
     if (method === 'DELETE') {
-      return 'resourceDelete'
+      return 'blobDelete'
     }
     debug('unknown http method', method)
     return 'unknown'
@@ -48,7 +48,7 @@ export class LdpParser implements Worker {
   determineLdpParserResultName (httpReq: any) {
     // if the URL end with a / then the path indicates a container
     // if the URL end with /* then the path indicates a glob
-    // in all other cases, the path indicates a resource
+    // in all other cases, the path indicates a blob
 
     const lastUrlChar = httpReq.url.substr(-1)
     if (lastUrlChar === '/') {
@@ -56,7 +56,7 @@ export class LdpParser implements Worker {
     } else if (lastUrlChar === '*') {
       return this.getGlobTask(httpReq.method)
     } else {
-      return this.getResourceTask(httpReq.method)
+      return this.getBlobTask(httpReq.method)
     }
     return 'containerRead' // todo: implement
   }

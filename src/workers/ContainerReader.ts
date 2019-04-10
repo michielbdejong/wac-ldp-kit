@@ -1,7 +1,7 @@
 import Debug from 'debug'
 import StorageWorker from './StorageWorker'
 import Worker from './Worker'
-import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
+import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 import membersListAsResourceData from '../membersListAsResourceData'
 
@@ -19,6 +19,6 @@ export class ContainerReader extends StorageWorker implements Worker {
       isContainer: task.isContainer,
       lock: container,
       httpRes: undefined
-    } as ResponderAndReleaserTask
+    } as LdpResponse
   }
 }

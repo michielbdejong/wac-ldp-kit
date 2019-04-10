@@ -1,16 +1,16 @@
 import Debug from 'debug'
 import StorageWorker from './StorageWorker'
 import Worker from './Worker'
-import { ResponderAndReleaserTask, ResultType } from './ResponderAndReleaser'
+import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 
 const debug = Debug('ResourceReader')
 
-export class ResourceReader extends StorageWorker implements Worker {
-  async executeTask (task, resource): Promise<ResponderAndReleaserTask> {
+export class BlobReader extends StorageWorker implements Worker {
+  async executeTask (task, resource): Promise<LdpResponse> {
     let result = {
       lock: resource
-    } as ResponderAndReleaserTask
+    } as LdpResponse
     if (!resource.exists()) {
       result.resultType = ResultType.NotFound
       return result
