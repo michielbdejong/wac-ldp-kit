@@ -21,16 +21,18 @@ class NodeInMem {
   }
 }
 
+const PLACEHOLDER_MEMBER_NAME = '.placeholder'
+
 class ContainerInMem extends NodeInMem implements Container {
   getDescendents () {
     return Object.keys(this.tree.kv).filter(x => {
+      return (x.length > this.path.toString().length)
+    }).filter(x => {
       return (x.substr(0, this.path.toString().length) === this.path.toString())
     })
   }
   getMembers () {
-    const list = this.getDescendents()
-    // TODO: only report directly contained members
-    // but don't forget
+    const list = this.getDescendents().filter(x => (x !== PLACEHOLDER_MEMBER_NAME))
     debug('getMembers', this.path, this.tree.kv, list)
     return Promise.resolve(list)
   }
@@ -41,7 +43,7 @@ class ContainerInMem extends NodeInMem implements Container {
     return Promise.resolve()
   }
   reset () {
-    this.tree.kv[this.path.toString() + '.placeholder'] = undefined // basically same trick git uses for empty folders
+    this.tree.kv[this.path.toString() + PLACEHOLDER_MEMBER_NAME] = undefined // basically same trick some git users use for empty folders
     return Promise.resolve()
   }
 }

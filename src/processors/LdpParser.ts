@@ -6,48 +6,60 @@ import { Path } from '../AtomicTree'
 
 const debug = Debug('LdpParser')
 
+export enum TaskType {
+  containerRead,
+  containerMemberAdd,
+  containerDelete,
+  globRead,
+  blobRead,
+  blobWrite,
+  blobUpdate,
+  blobDelete,
+  unknown
+}
+
 // parse the http request to extract some basic info (e.g. is it a container?)
 // and add that info to the request, then pass it on to the colleague from
 // Authentication:
 export class LdpParser implements Processor {
   getContainerTask (method: string) {
     if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
-      return 'containerRead'
+      return TaskType.containerRead
     }
     if (method === 'POST' || method === 'PUT') {
-      return 'containerMemberAdd'
+      return TaskType.containerMemberAdd
     }
     if (method === 'DELETE') {
-      return 'containerDelete'
+      return TaskType.containerDelete
     }
-    return 'unknown'
+    return TaskType.unknown
   }
 
   getGlobTask (method: string) {
     if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
-      return 'globRead'
+      return TaskType.globRead
     }
-    return 'unknown'
+    return TaskType.unknown
   }
 
   getBlobTask (method: string) {
     if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
-      return 'blobRead'
+      return TaskType.blobRead
     }
     if (method === 'PUT') {
-      return 'blobWrite'
+      return TaskType.blobWrite
     }
     if (method === 'PUT') {
-      return 'blobUpdate'
+      return TaskType.blobUpdate
     }
     if (method === 'DELETE') {
-      return 'blobDelete'
+      return TaskType.blobDelete
     }
     debug('unknown http method', method)
-    return 'unknown'
+    return TaskType.unknown
   }
 
-  determineLdpParserResultName (httpReq: http.IncomingMessage) {
+  determineTaskType (httpReq: http.IncomingMessage) {
     // if the URL end with a / then the path indicates a container
     // if the URL end with /* then the path indicates a glob
     // in all other cases, the path indicates a blob
@@ -115,7 +127,7 @@ export class LdpParser implements Processor {
       ifMatch: this.determineIfMatch(httpReq),
       ifNoneMatch: this.determineIfNoneMatch(httpReq),
       asJsonLd: this.determineAsJsonLd(httpReq),
-      ldpTaskName: this.determineLdpParserResultName(httpReq),
+      ldpTaskType: this.determineTaskType(httpReq),
       requestBody: undefined,
       path: new Path(httpReq.url)
     } as LdpTask
@@ -133,7 +145,7 @@ export class LdpParser implements Processor {
       omitBody: parsedTask.omitBody,
       isContainer: parsedTask.isContainer,
       origin: parsedTask.origin,
-      ldpTaskName: parsedTask.ldpTaskName,
+      ldpTaskType: parsedTask.ldpTaskType,
       path: parsedTask.path,
       requestBody: parsedTask.requestBody
     })
@@ -153,7 +165,7 @@ export class LdpTask {
   origin: string
   contentType: string | undefined
   ifMatch: string | undefined
-  ldpTaskName: string
+  ldpTaskType: TaskType
   path: Path
   requestBody: string
 }

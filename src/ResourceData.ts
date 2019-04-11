@@ -6,7 +6,7 @@ export interface ResourceData {
   contentType: string
   etag: string
 }
-export function makeResourceData (contentType, body) {
+export function makeResourceData (contentType: string, body: string) {
   return {
     contentType,
     body,

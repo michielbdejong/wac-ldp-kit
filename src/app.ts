@@ -3,7 +3,7 @@ import Debug from 'debug'
 const debug = Debug('app')
 
 import { AtomicTree } from './AtomicTree'
-import { LdpParser, LdpTask } from './processors/LdpParser'
+import { LdpParser, LdpTask, TaskType } from './processors/LdpParser'
 
 import { ContainerReader } from './processors/ContainerReader'
 import { ContainerMemberAdder } from './processors/ContainerMemberAdder'
@@ -22,21 +22,21 @@ import Processor from './processors/Processor'
 export default (storage: AtomicTree) => {
   const processors = {
     // step 1, parse:
-    // input type: a http.IncomingMessage
+    // input type: http.IncomingMessage
     // output type: LdpTask
     parseLdp: new LdpParser(),
 
     // step 2, execute:
     // input type: LdpTask
     // output type: LdpResponse
-    containerRead: new ContainerReader(storage),
-    containerDelete: new ContainerDeleter(storage),
-    containerMemberAdd: new ContainerMemberAdder(storage),
-    globRead: new GlobReader(storage),
-    blobRead: new BlobReader(storage),
-    blobWrite: new BlobWriter(storage),
-    blobUpdate: new BlobUpdater(storage),
-    blobDelete: new BlobDeleter(storage),
+    [TaskType.containerRead]: new ContainerReader(storage),
+    [TaskType.containerDelete]: new ContainerDeleter(storage),
+    [TaskType.containerMemberAdd]: new ContainerMemberAdder(storage),
+    [TaskType.globRead]: new GlobReader(storage),
+    [TaskType.blobRead]: new BlobReader(storage),
+    [TaskType.blobWrite]: new BlobWriter(storage),
+    [TaskType.blobUpdate]: new BlobUpdater(storage),
+    [TaskType.blobDelete]: new BlobDeleter(storage),
 
     // step 3, handle result:
     // input type: LdpResponse
@@ -51,7 +51,7 @@ export default (storage: AtomicTree) => {
     try {
       const ldpTask: LdpTask = await processors.parseLdp.process(req)
       debug('parsed', ldpTask)
-      const requestProcessor: Processor = processors[ldpTask.ldpTaskName]
+      const requestProcessor: Processor = processors[ldpTask.ldpTaskType]
       response = await requestProcessor.process(ldpTask)
       debug('executed', response)
     } catch (error) {
