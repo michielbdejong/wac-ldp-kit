@@ -1,13 +1,13 @@
 import Debug from 'debug'
 import StorageWorker from './StorageWorker'
-import Worker from './Worker'
+import Processor from './Worker'
 import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 
 const debug = Debug('ResourceDeleter')
 
-export class BlobDeleter extends StorageWorker implements Worker {
-  async handle (task: LdpTask) {
+export class BlobDeleter extends StorageWorker implements Processor {
+  async process (task: LdpTask) {
     debug('LdpParserResult ResourceDeleter!')
     const resource = await this.storage.getBlob(task.path)
     // FIXME: duplicate code qith ResourceWriter. use inheritence with common ancestor?

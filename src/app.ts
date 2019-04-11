@@ -42,7 +42,7 @@ export default (storage: AtomicTree) => {
 
     let response: LdpResponse
     try {
-      const ldpTask: LdpTask = await workers.parseLdp.handle({
+      const ldpTask: LdpTask = await workers.parseLdp.process({
         httpReq: req
       })
       debug('parsed', ldpTask)
@@ -54,7 +54,7 @@ export default (storage: AtomicTree) => {
     }
     response.httpRes = res
     try {
-      return workers.respondAndRelease.handle(response)
+      return workers.respondAndRelease.process(response)
     } catch (error) {
       debug('errored while responding', error)
     }

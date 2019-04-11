@@ -1,5 +1,5 @@
 import Debug from 'debug'
-import Worker from './Worker'
+import Processor from './Worker'
 import { ResourceData } from '../ResourceData'
 
 const debug = Debug('ResponderAndReleaser')
@@ -32,8 +32,8 @@ export class LdpResponse {
   httpRes: any
 }
 
-export class Responder implements Worker {
-  async handle (task: LdpResponse) {
+export class Responder implements Processor {
+  async process (task: LdpResponse) {
     debug('ResponderAndReleaserTask!')
 
     const responses = {

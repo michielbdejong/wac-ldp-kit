@@ -1,5 +1,5 @@
 import Debug from 'debug'
-import Worker from './Worker'
+import Processor from './Worker'
 import { LdpResponse, ResultType, ErrorResult } from './Responder'
 
 const debug = Debug('LdpParser')
@@ -7,7 +7,7 @@ const debug = Debug('LdpParser')
 // parse the http request to extract some basic info (e.g. is it a container?)
 // and add that info to the request, then pass it on to the colleague from
 // Authentication:
-export class LdpParser implements Worker {
+export class LdpParser implements Processor {
   getContainerTask (method) {
     if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
       return 'containerRead'
@@ -101,7 +101,7 @@ export class LdpParser implements Worker {
     }
   }
 
-  async handle (task: any) {
+  async process (task: any) {
     debug('LdpParserTask!')
     let errorCode = null // todo actually use this. maybe with try-catch?
     const parsedTask = {

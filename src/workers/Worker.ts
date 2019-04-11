@@ -1,3 +1,3 @@
-export default interface Worker {
-  handle (task: any): Promise<any>
+export default interface Processor {
+  process (task: any): Promise<any>
 }

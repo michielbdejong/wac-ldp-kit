@@ -1,6 +1,6 @@
 import Debug from 'debug'
 import StorageWorker from './StorageWorker'
-import Worker from './Worker'
+import Processor from './Worker'
 import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 import uuid from 'uuid/v4'
@@ -8,8 +8,8 @@ import { makeResourceData } from '../ResourceData'
 
 const debug = Debug('ContainerMemberAdder')
 
-export class ContainerMemberAdder extends StorageWorker implements Worker {
-  async handle (task: LdpTask) {
+export class ContainerMemberAdder extends StorageWorker implements Processor {
+  async process (task: LdpTask) {
     debug('LdpParserResult ContainerMemberAdder!')
     const resourcePath = task.path + uuid()
     const resource = this.storage.getBlob(resourcePath)

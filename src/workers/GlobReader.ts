@@ -1,13 +1,13 @@
 import Debug from 'debug'
 import StorageWorker from './StorageWorker'
-import Worker from './Worker'
+import Processor from './Worker'
 import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 
 const debug = Debug('GlobReader')
 
-export class GlobReader extends StorageWorker implements Worker {
-  async handle (task: LdpTask) {
+export class GlobReader extends StorageWorker implements Processor {
+  async process (task: LdpTask) {
     debug('LdpParserResult GlobReader!')
     // TODO: implement
     return {

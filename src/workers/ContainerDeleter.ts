@@ -1,13 +1,13 @@
 import Debug from 'debug'
 import StorageWorker from './StorageWorker'
-import Worker from './Worker'
+import Processor from './Worker'
 import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 
 const debug = Debug('ContainerDeleter')
 
-export class ContainerDeleter extends StorageWorker implements Worker {
-  async handle (task: LdpTask) {
+export class ContainerDeleter extends StorageWorker implements Processor {
+  async process (task: LdpTask) {
     debug('LdpParserResult ContainerDeleter!')
     const container = await this.storage.getBlob(task.path)
     // TODO: check task.ifMatch
