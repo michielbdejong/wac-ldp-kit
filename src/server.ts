@@ -1,7 +1,7 @@
 import * as http from 'http'
 import Debug from 'debug'
-import makeHandler from './app'
 import AtomicTreeInMem from './AtomicTreeInMem'
+import makeHandler from './app'
 
 const debug = Debug('server')
 const port = 8080

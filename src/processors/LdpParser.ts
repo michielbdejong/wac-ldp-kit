@@ -1,3 +1,4 @@
+import * as http from 'http'
 import Debug from 'debug'
 import Processor from './Processor'
 import { LdpResponse, ResultType, ErrorResult } from './Responder'
@@ -9,7 +10,7 @@ const debug = Debug('LdpParser')
 // and add that info to the request, then pass it on to the colleague from
 // Authentication:
 export class LdpParser implements Processor {
-  getContainerTask (method) {
+  getContainerTask (method: string) {
     if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
       return 'containerRead'
     }
@@ -22,14 +23,14 @@ export class LdpParser implements Processor {
     return 'unknown'
   }
 
-  getGlobTask (method) {
+  getGlobTask (method: string) {
     if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
       return 'globRead'
     }
     return 'unknown'
   }
 
-  getBlobTask (method) {
+  getBlobTask (method: string) {
     if (method === 'OPTIONS' || method === 'HEAD' || method === 'GET') {
       return 'blobRead'
     }
@@ -46,7 +47,7 @@ export class LdpParser implements Processor {
     return 'unknown'
   }
 
-  determineLdpParserResultName (httpReq: any) {
+  determineLdpParserResultName (httpReq: http.IncomingMessage) {
     // if the URL end with a / then the path indicates a container
     // if the URL end with /* then the path indicates a glob
     // in all other cases, the path indicates a blob
@@ -62,15 +63,15 @@ export class LdpParser implements Processor {
     return 'containerRead' // todo: implement
   }
 
-  determineOrigin (httpReq: any) {
+  determineOrigin (httpReq: http.IncomingMessage) {
     return httpReq.headers.origin
   }
 
-  determineContentType (httpReq: any) {
+  determineContentType (httpReq: http.IncomingMessage) {
     return httpReq.headers['content-type']
   }
 
-  determineIfMatch (httpReq: any) {
+  determineIfMatch (httpReq: http.IncomingMessage) {
     try {
       return httpReq.headers['if-match'].split('"')[1]
     } catch (error) {
@@ -78,7 +79,7 @@ export class LdpParser implements Processor {
     }
   }
 
-  determineIfNoneMatch (httpReq: any) {
+  determineIfNoneMatch (httpReq: http.IncomingMessage) {
     try {
       return httpReq.headers['if-none-match'].split(',').map(x => x.split('"')[1])
     } catch (error) {
@@ -86,15 +87,15 @@ export class LdpParser implements Processor {
     }
   }
 
-  determineMayIncreaseDiskUsage (httpReq: any) {
+  determineMayIncreaseDiskUsage (httpReq: http.IncomingMessage) {
     return (['OPTIONS', 'HEAD', 'GET', 'DELETE'].indexOf(httpReq.method) === -1)
   }
 
-  determineOmitBody (httpReq: any) {
+  determineOmitBody (httpReq: http.IncomingMessage) {
     return (['OPTIONS', 'HEAD'].indexOf(httpReq.method) !== -1)
   }
 
-  determineAsJsonLd (httpReq: any) {
+  determineAsJsonLd (httpReq: http.IncomingMessage) {
     try {
       return (httpReq.headers['content-type'].split(';')[0] === 'application/json+ld')
     } catch (e) {
@@ -102,32 +103,32 @@ export class LdpParser implements Processor {
     }
   }
 
-  async process (task: any) {
+  async process (httpReq: http.IncomingMessage) {
     debug('LdpParserTask!')
     let errorCode = null // todo actually use this. maybe with try-catch?
     const parsedTask = {
-      mayIncreaseDiskUsage: this.determineMayIncreaseDiskUsage(task.httpReq),
-      omitBody: this.determineOmitBody(task.httpReq),
-      isContainer: (task.httpReq.url.substr(-1) === '/'), // FIXME: code duplication, see determineLdpParserResultName above
-      origin: this.determineOrigin(task.httpReq),
-      contentType: this.determineContentType(task.httpReq),
-      ifMatch: this.determineIfMatch(task.httpReq),
-      ifNoneMatch: this.determineIfNoneMatch(task.httpReq),
-      asJsonLd: this.determineAsJsonLd(task.httpReq),
-      ldpTaskName: this.determineLdpParserResultName(task.httpReq),
+      mayIncreaseDiskUsage: this.determineMayIncreaseDiskUsage(httpReq),
+      omitBody: this.determineOmitBody(httpReq),
+      isContainer: (httpReq.url.substr(-1) === '/'), // FIXME: code duplication, see determineLdpParserResultName above
+      origin: this.determineOrigin(httpReq),
+      contentType: this.determineContentType(httpReq),
+      ifMatch: this.determineIfMatch(httpReq),
+      ifNoneMatch: this.determineIfNoneMatch(httpReq),
+      asJsonLd: this.determineAsJsonLd(httpReq),
+      ldpTaskName: this.determineLdpParserResultName(httpReq),
       requestBody: undefined,
-      path: new Path(task.httpReq.url)
+      path: new Path(httpReq.url)
     } as LdpTask
     await new Promise(resolve => {
       parsedTask.requestBody = ''
-      task.httpReq.on('data', chunk => {
+      httpReq.on('data', chunk => {
         parsedTask.requestBody += chunk
       })
-      task.httpReq.on('end', resolve)
+      httpReq.on('end', resolve)
     })
     debug('parsed http request', {
-      method: task.httpReq.method,
-      headers: task.httpReq.headers,
+      method: httpReq.method,
+      headers: httpReq.headers,
       mayIncreaseDiskUsage: parsedTask.mayIncreaseDiskUsage,
       omitBody: parsedTask.omitBody,
       isContainer: parsedTask.isContainer,

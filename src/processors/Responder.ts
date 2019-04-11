@@ -1,6 +1,8 @@
+import * as http from 'http'
 import Debug from 'debug'
 import Processor from './Processor'
 import { ResourceData } from '../ResourceData'
+import { Http2SecureServer } from 'http2';
 
 const debug = Debug('ResponderAndReleaser')
 
@@ -29,7 +31,7 @@ export class LdpResponse {
   resourceData: ResourceData | undefined
   createdLocation: string | undefined
   isContainer: boolean
-  httpRes: any
+  httpRes: http.ServerResponse
 }
 
 export class Responder implements Processor {

@@ -4,6 +4,7 @@
   "description": "A resource store for use in LDP-like servers such as Solid servers. Also usable as LDP server.",
   "main": "dist/app.js",
   "dependencies": {
+    "@types/debug": "^4.1.3",
     "@types/node": "^11.12.1",
     "debug": "^4.1.1",
     "stream": "0.0.2",

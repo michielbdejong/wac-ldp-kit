@@ -22,9 +22,13 @@ import Processor from './processors/Processor'
 export default (storage: AtomicTree) => {
   const processors = {
     // step 1, parse:
+    // input type: a http.IncomingMessage
+    // output type: LdpTask
     parseLdp: new LdpParser(),
 
     // step 2, execute:
+    // input type: LdpTask
+    // output type: LdpResponse
     containerRead: new ContainerReader(storage),
     containerDelete: new ContainerDeleter(storage),
     containerMemberAdd: new ContainerMemberAdder(storage),
@@ -35,17 +39,17 @@ export default (storage: AtomicTree) => {
     blobDelete: new BlobDeleter(storage),
 
     // step 3, handle result:
+    // input type: LdpResponse
+    // output type: void
     respondAndRelease: new Responder()
   }
 
-  const handle = async (req: any, res: any) => {
+  const handle = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     debug(`\n\n`, req.method, req.url, req.headers)
 
     let response: LdpResponse
     try {
-      const ldpTask: LdpTask = await processors.parseLdp.process({
-        httpReq: req
-      })
+      const ldpTask: LdpTask = await processors.parseLdp.process(req)
       debug('parsed', ldpTask)
       const requestProcessor: Processor = processors[ldpTask.ldpTaskName]
       response = await requestProcessor.process(ldpTask)
