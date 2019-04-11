@@ -1,13 +1,13 @@
 import Debug from 'debug'
-import StorageWorker from './StorageWorker'
-import Processor from './Worker'
+import StorageProcessor from './StorageProcessor'
+import Processor from './Processor'
 import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 import membersListAsResourceData from '../membersListAsResourceData'
 
 const debug = Debug('ContainerReader')
 
-export class ContainerReader extends StorageWorker implements Processor {
+export class ContainerReader extends StorageProcessor implements Processor {
   async process (task: LdpTask) {
     const container = this.storage.getContainer(task.path)
     const membersList = await container.getMembers()

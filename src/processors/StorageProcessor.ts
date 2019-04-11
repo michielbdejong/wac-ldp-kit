@@ -1,6 +1,6 @@
 import { AtomicTree } from '../AtomicTree'
 
-export default class StorageWorker {
+export default class StorageProcessor {
   storage: AtomicTree
 
   constructor (storage: AtomicTree) {

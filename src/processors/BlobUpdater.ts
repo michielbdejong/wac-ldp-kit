@@ -1,12 +1,12 @@
 import Debug from 'debug'
-import StorageWorker from './StorageWorker'
-import Processor from './Worker'
+import StorageProcessor from './StorageProcessor'
+import Processor from './Processor'
 import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 
 const debug = Debug('ResourceUpdater')
 
-export class BlobUpdater extends StorageWorker implements Processor {
+export class BlobUpdater extends StorageProcessor implements Processor {
   async process (task: LdpTask) {
     debug('LdpParserResult ResourceUpdater!')
     // TODO: implement

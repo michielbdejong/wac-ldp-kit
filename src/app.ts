@@ -3,23 +3,24 @@ import Debug from 'debug'
 const debug = Debug('app')
 
 import { AtomicTree } from './AtomicTree'
-import { LdpParser, LdpTask } from './workers/LdpParser'
+import { LdpParser, LdpTask } from './processors/LdpParser'
 
-import { ContainerReader } from './workers/ContainerReader'
-import { ContainerMemberAdder } from './workers/ContainerMemberAdder'
-import { ContainerDeleter } from './workers/ContainerDeleter'
+import { ContainerReader } from './processors/ContainerReader'
+import { ContainerMemberAdder } from './processors/ContainerMemberAdder'
+import { ContainerDeleter } from './processors/ContainerDeleter'
 
-import { GlobReader } from './workers/GlobReader'
+import { GlobReader } from './processors/GlobReader'
 
-import { BlobReader } from './workers/BlobReader'
-import { BlobWriter } from './workers/BlobWriter'
-import { BlobUpdater } from './workers/BlobUpdater'
-import { BlobDeleter } from './workers/BlobDeleter'
+import { BlobReader } from './processors/BlobReader'
+import { BlobWriter } from './processors/BlobWriter'
+import { BlobUpdater } from './processors/BlobUpdater'
+import { BlobDeleter } from './processors/BlobDeleter'
 
-import { Responder, LdpResponse } from './workers/Responder'
+import { Responder, LdpResponse } from './processors/Responder'
+import Processor from './processors/Processor'
 
 export default (storage: AtomicTree) => {
-  const workers = {
+  const processors = {
     // step 1, parse:
     parseLdp: new LdpParser(),
 
@@ -42,11 +43,12 @@ export default (storage: AtomicTree) => {
 
     let response: LdpResponse
     try {
-      const ldpTask: LdpTask = await workers.parseLdp.process({
+      const ldpTask: LdpTask = await processors.parseLdp.process({
         httpReq: req
       })
       debug('parsed', ldpTask)
-      response = await workers[ldpTask.ldpTaskName].handle(ldpTask)
+      const requestProcessor: Processor = processors[ldpTask.ldpTaskName]
+      response = await requestProcessor.process(ldpTask)
       debug('executed', response)
     } catch (error) {
       debug('errored', error)
@@ -54,7 +56,7 @@ export default (storage: AtomicTree) => {
     }
     response.httpRes = res
     try {
-      return workers.respondAndRelease.process(response)
+      return processors.respondAndRelease.process(response)
     } catch (error) {
       debug('errored while responding', error)
     }

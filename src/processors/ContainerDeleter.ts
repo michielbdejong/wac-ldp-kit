@@ -1,32 +1,23 @@
 import Debug from 'debug'
-import StorageWorker from './StorageWorker'
-import Processor from './Worker'
+import StorageProcessor from './StorageProcessor'
+import Processor from './Processor'
 import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 
-const debug = Debug('ResourceDeleter')
+const debug = Debug('ContainerDeleter')
 
-export class BlobDeleter extends StorageWorker implements Processor {
+export class ContainerDeleter extends StorageProcessor implements Processor {
   async process (task: LdpTask) {
-    debug('LdpParserResult ResourceDeleter!')
-    const resource = this.storage.getBlob(task.path)
-    // FIXME: duplicate code qith ResourceWriter. use inheritence with common ancestor?
-    if (task.ifMatch) {
-      const resourceData = await resource.getData()
-      if (resourceData.etag !== task.ifMatch) {
-        return {
-          resultType: ResultType.PreconditionFailed
-        } as LdpResponse
-      }
-    }
-    await resource.delete()
+    debug('LdpParserResult ContainerDeleter!')
+    const container = this.storage.getBlob(task.path)
+    // TODO: check task.ifMatch
+    await container.delete()
     return {
       resultType: ResultType.OkayWithoutBody
     } as LdpResponse
   }
 }
 
-  //
   // async DELETE(path: string, headers: any): Promise<Response> {
   //   if (headers['If-Match'] && this.getETag(path) !== headers['If-Match']) {
   //     return new Response(412, {}, '')

@@ -1,5 +1,5 @@
 import Debug from 'debug'
-import Processor from './Worker'
+import Processor from './Processor'
 import { LdpResponse, ResultType, ErrorResult } from './Responder'
 import { Path } from '../AtomicTree'
 

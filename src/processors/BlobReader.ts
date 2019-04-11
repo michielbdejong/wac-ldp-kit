@@ -1,12 +1,12 @@
 import Debug from 'debug'
-import StorageWorker from './StorageWorker'
-import Processor from './Worker'
+import StorageProcessor from './StorageProcessor'
+import Processor from './Processor'
 import { LdpResponse, ResultType } from './Responder'
 import { LdpTask } from './LdpParser'
 
 const debug = Debug('ResourceReader')
 
-export class BlobReader extends StorageWorker implements Processor {
+export class BlobReader extends StorageProcessor implements Processor {
   async executeTask (task, resource): Promise<LdpResponse> {
     let result = {
     } as any
