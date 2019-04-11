@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Container | wac-ldp-kit</title>
+	<title>BlobReader | wac-ldp-kit</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_container_.html">&quot;Container&quot;</a>
+					<a href="../modules/_processors_blobreader_.html">&quot;processors/BlobReader&quot;</a>
 				</li>
 				<li>
-					<a href="_container_.container.html">Container</a>
+					<a href="_processors_blobreader_.blobreader.html">BlobReader</a>
 				</li>
 			</ul>
-			<h1>Interface Container</h1>
+			<h1>Class BlobReader</h1>
 		</div>
 	</div>
 </header>
@@ -73,107 +73,136 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_node_.node.html" class="tsd-signature-type">Node</a>
+						<a href="_processors_storageprocessor_.storageprocessor.html" class="tsd-signature-type">StorageProcessor</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">Container</span>
+								<span class="target">BlobReader</span>
 							</li>
 						</ul>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
-				<h3>Implemented by</h3>
+				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../classes/_atomictreeinmem_.containerinmem.html" class="tsd-signature-type">ContainerInMem</a></li>
+					<li><a href="../interfaces/_processors_processor_.processor.html" class="tsd-signature-type">Processor</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
+						<section class="tsd-index-section tsd-is-inherited">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="_processors_blobreader_.blobreader.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-inherited">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_processors_blobreader_.blobreader.html#storage" class="tsd-kind-icon">storage</a></li>
+							</ul>
+						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="_container_.container.html#delete" class="tsd-kind-icon">delete</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="_container_.container.html#exists" class="tsd-kind-icon">exists</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_container_.container.html#getmembers" class="tsd-kind-icon">get<wbr>Members</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-inherited"><a href="_container_.container.html#reset" class="tsd-kind-icon">reset</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_processors_blobreader_.blobreader.html#executetask" class="tsd-kind-icon">execute<wbr>Task</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_processors_blobreader_.blobreader.html#process" class="tsd-kind-icon">process</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Blob<wbr>Reader<span class="tsd-signature-symbol">(</span>storage<span class="tsd-signature-symbol">: </span><a href="../interfaces/_atomictree_.atomictree.html" class="tsd-signature-type">AtomicTree</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_processors_blobreader_.blobreader.html" class="tsd-signature-type">BlobReader</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_processors_storageprocessor_.storageprocessor.html">StorageProcessor</a>.<a href="_processors_storageprocessor_.storageprocessor.html#constructor">constructor</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/0e04295/src/processors/StorageProcessor.ts#L4">processors/StorageProcessor.ts:4</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>storage: <a href="../interfaces/_atomictree_.atomictree.html" class="tsd-signature-type">AtomicTree</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_processors_blobreader_.blobreader.html" class="tsd-signature-type">BlobReader</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="storage" class="tsd-anchor"></a>
+					<h3>storage</h3>
+					<div class="tsd-signature tsd-kind-icon">storage<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_atomictree_.atomictree.html" class="tsd-signature-type">AtomicTree</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="_processors_storageprocessor_.storageprocessor.html">StorageProcessor</a>.<a href="_processors_storageprocessor_.storageprocessor.html#storage">storage</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/0e04295/src/processors/StorageProcessor.ts#L4">processors/StorageProcessor.ts:4</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-					<a name="delete" class="tsd-anchor"></a>
-					<h3>delete</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">delete<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="executetask" class="tsd-anchor"></a>
+					<h3>execute<wbr>Task</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">execute<wbr>Task<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, resource<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_processors_responder_.ldpresponse.html" class="tsd-signature-type">LdpResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_node_.node.html">Node</a>.<a href="_node_.node.html#delete">delete</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/0e04295/src/Node.ts#L3">Node.ts:3</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/0e04295/src/processors/BlobReader.ts#L10">processors/BlobReader.ts:10</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>task: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>resource: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_processors_responder_.ldpresponse.html" class="tsd-signature-type">LdpResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-					<a name="exists" class="tsd-anchor"></a>
-					<h3>exists</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">exists<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="_node_.node.html">Node</a>.<a href="_node_.node.html#exists">exists</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/0e04295/src/Node.ts#L2">Node.ts:2</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="getmembers" class="tsd-anchor"></a>
-					<h3>get<wbr>Members</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Members<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="process" class="tsd-anchor"></a>
+					<h3>process</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">process<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><a href="_processors_ldpparser_.ldptask.html" class="tsd-signature-type">LdpTask</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_processors_responder_.ldpresponse.html" class="tsd-signature-type">LdpResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/0e04295/src/Container.ts#L4">Container.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/0e04295/src/processors/BlobReader.ts#L29">processors/BlobReader.ts:29</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-					<a name="reset" class="tsd-anchor"></a>
-					<h3>reset</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">reset<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="_node_.node.html">Node</a>.<a href="_node_.node.html#reset">reset</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/0e04295/src/Node.ts#L4">Node.ts:4</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>task: <a href="_processors_ldpparser_.ldptask.html" class="tsd-signature-type">LdpTask</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_processors_responder_.ldpresponse.html" class="tsd-signature-type">LdpResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -194,7 +223,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_blob_.html">"<wbr>Blob"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_container_.html">"<wbr>Container"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -215,7 +244,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_processors_blobdeleter_.html">"processors/<wbr>Blob<wbr>Deleter"</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/_processors_blobreader_.html">"processors/<wbr>Blob<wbr>Reader"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -257,25 +286,28 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_container_.container.html" class="tsd-kind-icon">Container</a>
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_processors_blobreader_.blobreader.html" class="tsd-kind-icon">Blob<wbr>Reader</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_container_.container.html#delete" class="tsd-kind-icon">delete</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+								<a href="_processors_blobreader_.blobreader.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_container_.container.html#exists" class="tsd-kind-icon">exists</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="_processors_blobreader_.blobreader.html#storage" class="tsd-kind-icon">storage</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_container_.container.html#getmembers" class="tsd-kind-icon">get<wbr>Members</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_processors_blobreader_.blobreader.html#executetask" class="tsd-kind-icon">execute<wbr>Task</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-inherited">
-								<a href="_container_.container.html#reset" class="tsd-kind-icon">reset</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_processors_blobreader_.blobreader.html#process" class="tsd-kind-icon">process</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../modules/_processors_blobreader_.html#debug" class="tsd-kind-icon">debug</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
