@@ -80,7 +80,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/_workers_worker_.worker.html" class="tsd-signature-type">Worker</a></li>
+					<li><a href="../interfaces/_workers_worker_.processor.html" class="tsd-signature-type">Processor</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -93,6 +93,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#determineasjsonld" class="tsd-kind-icon">determine<wbr>AsJson<wbr>Ld</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#determinecontenttype" class="tsd-kind-icon">determine<wbr>Content<wbr>Type</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#determineifmatch" class="tsd-kind-icon">determine<wbr>IfMatch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#determineifnonematch" class="tsd-kind-icon">determine<wbr>IfNone<wbr>Match</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#determineldpparserresultname" class="tsd-kind-icon">determine<wbr>Ldp<wbr>Parser<wbr>Result<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#determinemayincreasediskusage" class="tsd-kind-icon">determine<wbr>May<wbr>Increase<wbr>Disk<wbr>Usage</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#determineomitbody" class="tsd-kind-icon">determine<wbr>Omit<wbr>Body</a></li>
@@ -100,7 +101,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#getblobtask" class="tsd-kind-icon">get<wbr>Blob<wbr>Task</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#getcontainertask" class="tsd-kind-icon">get<wbr>Container<wbr>Task</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#getglobtask" class="tsd-kind-icon">get<wbr>Glob<wbr>Task</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#handle" class="tsd-kind-icon">handle</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_workers_ldpparser_.ldpparser.html#process" class="tsd-kind-icon">process</a></li>
 							</ul>
 						</section>
 					</div>
@@ -118,7 +119,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/workers/LdpParser.ts#L84">workers/LdpParser.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L97">workers/LdpParser.ts:97</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -141,7 +142,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/workers/LdpParser.ts#L68">workers/LdpParser.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L69">workers/LdpParser.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -164,7 +165,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/workers/LdpParser.ts#L72">workers/LdpParser.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L73">workers/LdpParser.ts:73</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>httpReq: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="determineifnonematch" class="tsd-anchor"></a>
+					<h3>determine<wbr>IfNone<wbr>Match</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">determine<wbr>IfNone<wbr>Match<span class="tsd-signature-symbol">(</span>httpReq<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L81">workers/LdpParser.ts:81</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -187,7 +211,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/workers/LdpParser.ts#L48">workers/LdpParser.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L49">workers/LdpParser.ts:49</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -227,7 +251,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/workers/LdpParser.ts#L76">workers/LdpParser.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L89">workers/LdpParser.ts:89</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -250,7 +274,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/workers/LdpParser.ts#L80">workers/LdpParser.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L93">workers/LdpParser.ts:93</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -273,7 +297,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/workers/LdpParser.ts#L64">workers/LdpParser.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L65">workers/LdpParser.ts:65</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -296,7 +320,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/workers/LdpParser.ts#L31">workers/LdpParser.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L32">workers/LdpParser.ts:32</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -328,7 +352,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/workers/LdpParser.ts#L11">workers/LdpParser.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L12">workers/LdpParser.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -358,7 +382,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/workers/LdpParser.ts#L24">workers/LdpParser.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L25">workers/LdpParser.ts:25</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -375,17 +399,17 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="handle" class="tsd-anchor"></a>
-					<h3>handle</h3>
+					<a name="process" class="tsd-anchor"></a>
+					<h3>process</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">handle<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_workers_ldpparser_.ldptask.html" class="tsd-signature-type">LdpTask</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">process<span class="tsd-signature-symbol">(</span>task<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_workers_ldpparser_.ldptask.html" class="tsd-signature-type">LdpTask</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/_workers_worker_.worker.html">Worker</a>.<a href="../interfaces/_workers_worker_.worker.html#handle">handle</a></p>
+								<p>Implementation of <a href="../interfaces/_workers_worker_.processor.html">Processor</a>.<a href="../interfaces/_workers_worker_.processor.html#process">process</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/workers/LdpParser.ts#L92">workers/LdpParser.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/workers/LdpParser.ts#L105">workers/LdpParser.ts:105</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -413,13 +437,13 @@
 						<a href="../modules/_atomictreeinmem_.html">"<wbr>Atomic<wbr>Tree<wbr>InMem"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_blob_.html">"<wbr>Blob"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_container_.html">"<wbr>Container"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_node_.html">"<wbr>Node"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_resource_.html">"<wbr>Resource"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_resourcedata_.html">"<wbr>Resource<wbr>Data"</a>
@@ -491,6 +515,9 @@
 								<a href="_workers_ldpparser_.ldpparser.html#determineifmatch" class="tsd-kind-icon">determine<wbr>IfMatch</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_workers_ldpparser_.ldpparser.html#determineifnonematch" class="tsd-kind-icon">determine<wbr>IfNone<wbr>Match</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_workers_ldpparser_.ldpparser.html#determineldpparserresultname" class="tsd-kind-icon">determine<wbr>Ldp<wbr>Parser<wbr>Result<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -512,7 +539,7 @@
 								<a href="_workers_ldpparser_.ldpparser.html#getglobtask" class="tsd-kind-icon">get<wbr>Glob<wbr>Task</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_workers_ldpparser_.ldpparser.html#handle" class="tsd-kind-icon">handle</a>
+								<a href="_workers_ldpparser_.ldpparser.html#process" class="tsd-kind-icon">process</a>
 							</li>
 						</ul>
 					</li>

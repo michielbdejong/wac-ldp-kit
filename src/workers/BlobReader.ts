@@ -19,9 +19,9 @@ export class BlobReader extends StorageWorker implements Processor {
     if (task.omitBody) {
       result.resultType = ResultType.OkayWithoutBody
     } else if (task.ifNoneMatch && task.ifNoneMatch.indexOf(result.resourceData.etag) !== -1) {
-        result.resultType = ResultType.NotModified
-      } else {
-        result.resultType = ResultType.OkayWithBody
+      result.resultType = ResultType.NotModified
+    } else {
+      result.resultType = ResultType.OkayWithBody
     }
     return result as LdpResponse
   }

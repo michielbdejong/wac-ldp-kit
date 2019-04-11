@@ -9,17 +9,17 @@ const debug = Debug('ResourceDeleter')
 export class BlobDeleter extends StorageWorker implements Processor {
   async process (task: LdpTask) {
     debug('LdpParserResult ResourceDeleter!')
-    const resource = await this.storage.getBlob(task.path)
+    const resource = this.storage.getBlob(task.path)
     // FIXME: duplicate code qith ResourceWriter. use inheritence with common ancestor?
-    if(task.ifMatch) {
+    if (task.ifMatch) {
       const resourceData = await resource.getData()
       if (resourceData.etag !== task.ifMatch) {
         return {
-          resultType: ResultType.PreconditionFailed,
+          resultType: ResultType.PreconditionFailed
         } as LdpResponse
       }
     }
-    resource.delete()
+    await resource.delete()
     return {
       resultType: ResultType.OkayWithoutBody
     } as LdpResponse

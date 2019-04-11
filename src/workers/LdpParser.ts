@@ -1,6 +1,7 @@
 import Debug from 'debug'
 import Processor from './Worker'
 import { LdpResponse, ResultType, ErrorResult } from './Responder'
+import { Path } from '../AtomicTree'
 
 const debug = Debug('LdpParser')
 
@@ -115,7 +116,7 @@ export class LdpParser implements Processor {
       asJsonLd: this.determineAsJsonLd(task.httpReq),
       ldpTaskName: this.determineLdpParserResultName(task.httpReq),
       requestBody: undefined,
-      path: task.httpReq.url
+      path: new Path(task.httpReq.url)
     } as LdpTask
     await new Promise(resolve => {
       parsedTask.requestBody = ''
@@ -152,6 +153,6 @@ export class LdpTask {
   contentType: string | undefined
   ifMatch: string | undefined
   ldpTaskName: string
-  path: string
+  path: Path
   requestBody: string
 }

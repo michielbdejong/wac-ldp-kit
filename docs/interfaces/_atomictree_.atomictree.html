@@ -84,10 +84,8 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_atomictree_.atomictree.html#getreadlockedcontainer" class="tsd-kind-icon">get<wbr>Read<wbr>Locked<wbr>Container</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_atomictree_.atomictree.html#getreadlockedresource" class="tsd-kind-icon">get<wbr>Read<wbr>Locked<wbr>Resource</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_atomictree_.atomictree.html#getreadwritelockedcontainer" class="tsd-kind-icon">get<wbr>Read<wbr>Write<wbr>Locked<wbr>Container</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_atomictree_.atomictree.html#getreadwritelockedresource" class="tsd-kind-icon">get<wbr>Read<wbr>Write<wbr>Locked<wbr>Resource</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_atomictree_.atomictree.html#getblob" class="tsd-kind-icon">get<wbr>Blob</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_atomictree_.atomictree.html#getcontainer" class="tsd-kind-icon">get<wbr>Container</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_atomictree_.atomictree.html#on" class="tsd-kind-icon">on</a></li>
 							</ul>
 						</section>
@@ -97,94 +95,48 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="getreadlockedcontainer" class="tsd-anchor"></a>
-					<h3>get<wbr>Read<wbr>Locked<wbr>Container</h3>
+					<a name="getblob" class="tsd-anchor"></a>
+					<h3>get<wbr>Blob</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Read<wbr>Locked<wbr>Container<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_container_.readlockedcontainer.html" class="tsd-signature-type">ReadLockedContainer</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Blob<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><a href="../classes/_atomictree_.path.html" class="tsd-signature-type">Path</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_blob_.blob.html" class="tsd-signature-type">Blob</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/AtomicTree.ts#L8">AtomicTree.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/AtomicTree.ts#L16">AtomicTree.ts:16</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>path: <span class="tsd-signature-type">string</span></h5>
+									<h5>path: <a href="../classes/_atomictree_.path.html" class="tsd-signature-type">Path</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_container_.readlockedcontainer.html" class="tsd-signature-type">ReadLockedContainer</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_blob_.blob.html" class="tsd-signature-type">Blob</a></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="getreadlockedresource" class="tsd-anchor"></a>
-					<h3>get<wbr>Read<wbr>Locked<wbr>Resource</h3>
+					<a name="getcontainer" class="tsd-anchor"></a>
+					<h3>get<wbr>Container</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Read<wbr>Locked<wbr>Resource<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_resource_.readlockedresource.html" class="tsd-signature-type">ReadLockedResource</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Container<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><a href="../classes/_atomictree_.path.html" class="tsd-signature-type">Path</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_container_.container.html" class="tsd-signature-type">Container</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/AtomicTree.ts#L10">AtomicTree.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/AtomicTree.ts#L15">AtomicTree.ts:15</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>path: <span class="tsd-signature-type">string</span></h5>
+									<h5>path: <a href="../classes/_atomictree_.path.html" class="tsd-signature-type">Path</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_resource_.readlockedresource.html" class="tsd-signature-type">ReadLockedResource</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="getreadwritelockedcontainer" class="tsd-anchor"></a>
-					<h3>get<wbr>Read<wbr>Write<wbr>Locked<wbr>Container</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Read<wbr>Write<wbr>Locked<wbr>Container<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_container_.readwritelockedcontainer.html" class="tsd-signature-type">ReadWriteLockedContainer</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/AtomicTree.ts#L9">AtomicTree.ts:9</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>path: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_container_.readwritelockedcontainer.html" class="tsd-signature-type">ReadWriteLockedContainer</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="getreadwritelockedresource" class="tsd-anchor"></a>
-					<h3>get<wbr>Read<wbr>Write<wbr>Locked<wbr>Resource</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Read<wbr>Write<wbr>Locked<wbr>Resource<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_resource_.readwritelockedresource.html" class="tsd-signature-type">ReadWriteLockedResource</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/AtomicTree.ts#L11">AtomicTree.ts:11</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>path: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_resource_.readwritelockedresource.html" class="tsd-signature-type">ReadWriteLockedResource</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_container_.container.html" class="tsd-signature-type">Container</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -198,7 +150,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/ef7c649/src/AtomicTree.ts#L12">AtomicTree.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/michielbdejong/wac-ldp-kit/blob/68e3485/src/AtomicTree.ts#L17">AtomicTree.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -247,13 +199,13 @@
 						<a href="../modules/_atomictreeinmem_.html">"<wbr>Atomic<wbr>Tree<wbr>InMem"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_blob_.html">"<wbr>Blob"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_container_.html">"<wbr>Container"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_node_.html">"<wbr>Node"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="../modules/_resource_.html">"<wbr>Resource"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_resourcedata_.html">"<wbr>Resource<wbr>Data"</a>
@@ -310,22 +262,19 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_atomictree_.path.html" class="tsd-kind-icon">Path</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="_atomictree_.atomictree.html" class="tsd-kind-icon">Atomic<wbr>Tree</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_atomictree_.atomictree.html#getreadlockedcontainer" class="tsd-kind-icon">get<wbr>Read<wbr>Locked<wbr>Container</a>
+								<a href="_atomictree_.atomictree.html#getblob" class="tsd-kind-icon">get<wbr>Blob</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_atomictree_.atomictree.html#getreadlockedresource" class="tsd-kind-icon">get<wbr>Read<wbr>Locked<wbr>Resource</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_atomictree_.atomictree.html#getreadwritelockedcontainer" class="tsd-kind-icon">get<wbr>Read<wbr>Write<wbr>Locked<wbr>Container</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_atomictree_.atomictree.html#getreadwritelockedresource" class="tsd-kind-icon">get<wbr>Read<wbr>Write<wbr>Locked<wbr>Resource</a>
+								<a href="_atomictree_.atomictree.html#getcontainer" class="tsd-kind-icon">get<wbr>Container</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-interface">
 								<a href="_atomictree_.atomictree.html#on" class="tsd-kind-icon">on</a>

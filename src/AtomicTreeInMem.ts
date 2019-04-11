@@ -2,29 +2,29 @@ import Debug from 'debug'
 import { Node } from './Node'
 import { Container } from './Container'
 import { Blob } from './Blob'
-import AtomicTree from './AtomicTree'
+import { AtomicTree, Path } from './AtomicTree'
 
 const debug = Debug('AtomicTreeInMem')
 
 class NodeInMem {
-  path: string
+  path: Path
   tree: AtomicTreeInMem
 
-  constructor (path: string, tree: AtomicTreeInMem) {
+  constructor (path: Path, tree: AtomicTreeInMem) {
     this.path = path
     this.tree = tree
     debug('constructed node', path, tree)
   }
   exists () {
-    debug('checking exists', this.path, Object.keys(this.tree.kv))
-    return (Object.keys(this.tree.kv).indexOf(this.path) !== -1)
+    debug('checking exists', this.path.toString(), Object.keys(this.tree.kv))
+    return (Object.keys(this.tree.kv).indexOf(this.path.toString()) !== -1)
   }
 }
 
 class ContainerInMem extends NodeInMem implements Container {
   getDescendents () {
     return Object.keys(this.tree.kv).filter(x => {
-      return (x.substr(0, this.path.length) === this.path)
+      return (x.substr(0, this.path.toString().length) === this.path.toString())
     })
   }
   getMembers () {
@@ -41,7 +41,7 @@ class ContainerInMem extends NodeInMem implements Container {
     return Promise.resolve()
   }
   reset () {
-    this.tree.kv[this.path + '.placeholder'] = undefined // basically same trick git uses for empty folders
+    this.tree.kv[this.path.toString() + '.placeholder'] = undefined // basically same trick git uses for empty folders
     return Promise.resolve()
   }
 }
@@ -49,19 +49,19 @@ class ContainerInMem extends NodeInMem implements Container {
 class BlobInMem extends NodeInMem implements Blob {
   getData () {
     debug('reading resource', this.path, this.tree.kv)
-    return Promise.resolve(this.tree.kv[this.path])
+    return Promise.resolve(this.tree.kv[this.path.toString()])
   }
   setData (data) {
-    this.tree.kv[this.path] = data
+    this.tree.kv[this.path.toString()] = data
     debug('this.tree.kv after setData', this.tree.kv)
     return Promise.resolve()
   }
   delete () {
-    delete this.tree.kv[this.path]
+    delete this.tree.kv[this.path.toString()]
     return Promise.resolve()
   }
   reset () {
-    this.tree.kv[this.path] = undefined
+    this.tree.kv[this.path.toString()] = undefined
     return Promise.resolve()
   }
 }
@@ -74,10 +74,10 @@ export default class AtomicTreeInMem {
     debug('constructed in-mem store', this.kv)
   }
 
-  getContainer (path: string) {
+  getContainer (path: Path) {
     return new ContainerInMem(path, this)
   }
-  getBlob (path: string) {
+  getBlob (path: Path) {
     return new BlobInMem(path, this)
   }
   on (eventName: string, eventHandler: (event: any) => void) {

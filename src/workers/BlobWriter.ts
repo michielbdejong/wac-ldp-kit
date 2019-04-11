@@ -11,11 +11,11 @@ export class BlobWriter extends StorageWorker implements Processor {
     debug('LdpParserResult ResourceWriter!')
     const resource = this.storage.getBlob(task.path)
     // FIXME: duplicate code qith ResourceWriter. use inheritence with common ancestor?
-    if(task.ifMatch) {
+    if (task.ifMatch) {
       const resourceData = await resource.getData()
       if (resourceData.etag !== task.ifMatch) {
         return {
-          resultType: ResultType.PreconditionFailed,
+          resultType: ResultType.PreconditionFailed
         } as LdpResponse
       }
     }

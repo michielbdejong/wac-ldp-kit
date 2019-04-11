@@ -2,7 +2,7 @@ import * as http from 'http'
 import Debug from 'debug'
 const debug = Debug('app')
 
-import AtomicTree from './AtomicTree'
+import { AtomicTree } from './AtomicTree'
 import { LdpParser, LdpTask } from './workers/LdpParser'
 
 import { ContainerReader } from './workers/ContainerReader'
